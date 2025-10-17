@@ -13,6 +13,7 @@ Table* createTable(const char* name) {
     t->columns = NULL;
     t->columnCount = 0;
     t->rows = NULL;
+    t->rowCount = 0;
 
     return t;
 }
@@ -65,3 +66,53 @@ void insertRow(Table* table, Field* fields) {
     }
     table->rowCount++;
 }
+
+void printTable(Table* table)
+{
+    printf("Table: %s\n", table->name);
+
+    for (int i = 0; i < table->columnCount; i++) {
+        printf("%s\t", table->columns[i].name);
+    }
+
+    printf("\n");
+
+    for (int i = 0; i < table->rowCount; i++) {
+        for (int j = 0; j < table->columnCount; j++) {
+
+            Field f = table->rows[i].fields[j];
+               
+            switch (f.type)
+            {
+            case INT: printf("%d\t", f.iVal); break;
+            case FLOAT: printf("%.2f\t", f.fVal); break;
+            case CHAR: printf("%s\t", f.sVal); break;
+            default:
+                break;
+            }
+           }
+        printf("\n");
+    }
+   
+
+}
+
+void freeTable(Table* table)
+{
+    if (!table) {
+        return;
+    }
+
+    for (int i = 0; i < table->rowCount; i++) {
+
+        free(table->rows[i].fields);
+
+    }
+
+    free(table->rows);
+    free(table->columns);
+    free(table);
+
+}
+
+

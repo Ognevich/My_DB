@@ -19,7 +19,7 @@ typedef struct {
 
 typedef struct {
 	FieldType type;
-	union data
+	union 
 	{
 		int iVal;
 		float fVal;
@@ -46,5 +46,6 @@ typedef struct {
 
 Table* createTable(const char* name);
 void addColumn(Table* table, const char* name, FieldType type, int size);
-//void insertRow(Table* table, Field* fields);
-//void printTable(Table* table);
+void insertRow(Table* table, Field* fields);
+void printTable(Table* table);
+void freeTable(Table * table);

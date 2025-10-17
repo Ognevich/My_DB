@@ -41,10 +41,22 @@
     <ClCompile Include="table.c">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="db_engine.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="File_Utils.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
       <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="File_Utils.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="db_engine.h">
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

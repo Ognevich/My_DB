@@ -128,10 +128,14 @@
     <Text Include="technical_task.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="db_engine.cpp" />
+    <ClCompile Include="File_Utils.cpp" />
     <ClCompile Include="main.c" />
     <ClCompile Include="table.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="db_engine.h" />
+    <ClInclude Include="File_Utils.h" />
     <ClInclude Include="table.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
