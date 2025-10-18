@@ -46,6 +46,10 @@ typedef struct {
 
 Table* createTable(const char* name);
 void addColumn(Table* table, const char* name, FieldType type, int size);
+
 void insertRow(Table* table, Field* fields);
+void deleteRow(Table* table, int rowIndex);
+void updateRow(Table* table, int rowIndex, Field newValues);
+
 void printTable(Table* table);
 void freeTable(Table * table);

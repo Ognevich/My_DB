@@ -67,6 +67,56 @@ void insertRow(Table* table, Field* fields) {
     table->rowCount++;
 }
 
+void deleteRow(Table* table, int rowIndex)
+{
+    if (rowIndex < 0 || rowIndex >= table->rowCount) {
+        perror("Index out of range");
+        return;
+    }
+
+    free(table->rows[rowIndex].fields);
+
+    for (int i = rowIndex; i < table->rowCount - 1; i++) {
+        table->rows[i] = table->rows[i + 1];
+    }
+
+    table->rowCount--;
+
+    if (table->rowCount > 0)
+        table->rows = (Row*)realloc(table->rows, sizeof(Row) * table->rowCount);
+    else {
+        free(table->rows);
+        table->rows = NULL;
+    }
+}
+
+void updateRow(Table* table, int rowIndex, Field* newValues)
+{
+    if (rowIndex < 0 || rowIndex >= table->rowCount) {
+        perror("Index out of range");
+        return;
+    }
+
+    for (int i = 0; i < table->columnCount; i++) {
+        switch (table->columns[i].type)
+        {
+        case INT:
+            table->rows[rowIndex].fields[i].iVal = newValues[i].iVal;
+            break;
+        case FLOAT:
+            table->rows[rowIndex].fields[i].fVal = newValues[i].fVal;
+            break;
+        case CHAR:
+            strncpy(table->rows[rowIndex].fields[i].sVal, newValues[i].sVal, sizeof(table->rows[rowIndex].fields[i].sVal) - 1);
+            table->rows[rowIndex].fields[i].sVal[sizeof(table->rows[rowIndex].fields[i].sVal) - 1] = '\0';
+            break;
+        default:
+            break;
+        }
+        table->rows[rowIndex].fields[i].type = table->columns[i].type; 
+    }
+}
+
 void printTable(Table* table)
 {
     printf("Table: %s\n", table->name);
