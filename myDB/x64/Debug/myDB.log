@@ -1,9 +1,4 @@
-﻿  db_engine.cpp
-D:\my_projects\C\myDB\myDB\db_engine.cpp(55,1): warning C4715: 'loadTableFromFile': not all control paths return a value
-  main.c
-D:\my_projects\C\myDB\myDB\main.c(22,42): warning C4305: '=': truncation from 'double' to 'float'
-  table.c
-  Generating Code...
+﻿  main.c
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

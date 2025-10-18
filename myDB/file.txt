@@ -1,0 +1,5 @@
+students
+ID;Name;Grade
+INT;CHAR;FLOAT
+1	;Alice	;89.50	
+2	;Bob	;76.30	

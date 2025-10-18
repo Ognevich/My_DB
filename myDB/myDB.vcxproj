@@ -128,8 +128,8 @@
     <Text Include="technical_task.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="db_engine.cpp" />
-    <ClCompile Include="File_Utils.cpp" />
+    <ClCompile Include="db_engine.c" />
+    <ClCompile Include="File_Utils.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="table.c" />
   </ItemGroup>

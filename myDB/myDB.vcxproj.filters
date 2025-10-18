@@ -41,10 +41,10 @@
     <ClCompile Include="table.c">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="db_engine.cpp">
+    <ClCompile Include="db_engine.c">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="File_Utils.cpp">
+    <ClCompile Include="File_Utils.c">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
