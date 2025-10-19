@@ -47,6 +47,9 @@
     <ClCompile Include="File_Utils.c">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="logger.c">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -57,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="db_engine.h">
       <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

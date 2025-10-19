@@ -130,12 +130,14 @@
   <ItemGroup>
     <ClCompile Include="db_engine.c" />
     <ClCompile Include="File_Utils.c" />
+    <ClCompile Include="logger.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="table.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="db_engine.h" />
     <ClInclude Include="File_Utils.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="table.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

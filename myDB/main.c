@@ -2,6 +2,7 @@
 #include "db_engine.h"
 #include <stdio.h>
 #include <string.h>
+#include "logger.h"
 
 int main(int argc, char * argv[]) {
 
@@ -26,7 +27,10 @@ int main(int argc, char * argv[]) {
 	Table* t = loadTableFromFile("file.txt");
 	printTable(t);
 
+	logMessage(LOG_ERROR, "some trouble");
+
     freeTable(t);
+	closeLogger();
 
 	return 0;
 }
