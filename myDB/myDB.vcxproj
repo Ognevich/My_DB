@@ -128,6 +128,7 @@
     <Text Include="technical_task.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="database.c" />
     <ClCompile Include="db_engine.c" />
     <ClCompile Include="File_Utils.c" />
     <ClCompile Include="logger.c" />
@@ -135,6 +136,7 @@
     <ClCompile Include="table.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="database.h" />
     <ClInclude Include="db_engine.h" />
     <ClInclude Include="File_Utils.h" />
     <ClInclude Include="logger.h" />

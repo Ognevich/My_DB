@@ -50,6 +50,9 @@
     <ClCompile Include="logger.c">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="database.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -63,6 +66,9 @@
     </ClInclude>
     <ClInclude Include="logger.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="database.h">
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
