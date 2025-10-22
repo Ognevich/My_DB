@@ -53,6 +53,12 @@
     <ClCompile Include="database.c">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="app.c">
+      <Filter>Source Files\Scr</Filter>
+    </ClCompile>
+    <ClCompile Include="programState.c">
+      <Filter>Source Files\Scr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -69,6 +75,12 @@
     </ClInclude>
     <ClInclude Include="database.h">
       <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="app.h">
+      <Filter>Source Files\Scr</Filter>
+    </ClInclude>
+    <ClInclude Include="programState.h">
+      <Filter>Source Files\Scr</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

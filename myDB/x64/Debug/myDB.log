@@ -1,12 +1,4 @@
-﻿  database.c
-  db_engine.c
-  File_Utils.c
-D:\my_projects\C\myDB\myDB\File_Utils.c(127,36): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  logger.c
-  main.c
-  table.c
-D:\my_projects\C\myDB\myDB\table.c(93,51): warning C4028: formal parameter 3 different from declaration
-  Generating Code...
+﻿  app.c
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
