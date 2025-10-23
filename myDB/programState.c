@@ -8,6 +8,9 @@ AppContext* initAppContext(void)
         return NULL;
 
     program->state = START_PROGRAM;
+    program->commandCount = 1;
+    //program->commands[0] = (Command){ "create", createTableCommand};
+
     return program;
 }
 

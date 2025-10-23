@@ -4,7 +4,7 @@
 
 typedef struct{
 	const char* name;
-	void (*handler)(AppContext* app, char** argv, int argc);
+	void (*handler)(char** argv, int argc);
 }Command;
 
 

@@ -56,3 +56,26 @@ int checkExit(AppContext* app, char** argv)
     }
     return 0;
 }
+
+void handleCommand(AppContext* app, char** argv, int argc) 
+{
+    if (argc == 0) {
+        return;
+    }
+
+    for (int i = 0; i < app->commandCount; i++) {
+        if (strcmp(argv[0], app->commands[i].name) == 0) {
+            app->commands[i].handler(argv, argc);
+            return;
+        }
+    }
+    printf("unknown command\n");
+};
+
+
+
+
+
+
+
+
