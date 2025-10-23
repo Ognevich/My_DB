@@ -1,4 +1,7 @@
 #include "table.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 Table* createTable(const char* name) {
     Table* t = malloc(sizeof(*t));

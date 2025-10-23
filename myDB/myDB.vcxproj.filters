@@ -59,6 +59,12 @@
     <ClCompile Include="programState.c">
       <Filter>Source Files\Scr</Filter>
     </ClCompile>
+    <ClCompile Include="parser.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="util.c">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -81,6 +87,12 @@
     </ClInclude>
     <ClInclude Include="programState.h">
       <Filter>Source Files\Scr</Filter>
+    </ClInclude>
+    <ClInclude Include="parser.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

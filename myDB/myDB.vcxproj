@@ -134,8 +134,10 @@
     <ClCompile Include="File_Utils.c" />
     <ClCompile Include="logger.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="parser.c" />
     <ClCompile Include="programState.c" />
     <ClCompile Include="table.c" />
+    <ClCompile Include="util.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h" />
@@ -143,8 +145,10 @@
     <ClInclude Include="db_engine.h" />
     <ClInclude Include="File_Utils.h" />
     <ClInclude Include="logger.h" />
+    <ClInclude Include="parser.h" />
     <ClInclude Include="programState.h" />
     <ClInclude Include="table.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

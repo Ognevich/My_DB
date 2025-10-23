@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "database.h"
+#include <stdio.h>
 
 Database* createDatabase(const char* name)
 {
@@ -97,6 +98,11 @@ void printDatabase(Database* db)
     }
 
     printf("=======================\n");
+}
+
+void freeDatabase(Database* db)
+{
+
 }
 
 

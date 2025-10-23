@@ -1,6 +1,5 @@
 #ifndef _DATABASE_H_
 #define _DATABASE_H_
-#include <stdio.h>
 #include "table.h"
 typedef struct {
 
@@ -15,6 +14,8 @@ void addTable(Database* db, Table* table);
 Table* findTable(Database* db, const char* tableName);
 void deleteTable(Database* db, const char * tableName);
 void printDatabase(Database* db);
+
+// ADD THIS FUNCTION
 void freeDatabase(Database* db);
 
 #endif

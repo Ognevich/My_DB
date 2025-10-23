@@ -1,9 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #ifndef _TABLE_H_
 #define _TABLE_H_
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 typedef enum 
 { 
 	INT, 

@@ -1,5 +1,8 @@
 #include "app.h"
 #include <stdio.h>
+#include "database.h"
+#include "table.h"
+#include "logger.h"
 
 void runDB(AppContext* app)
 {
@@ -12,10 +15,16 @@ void runDB(AppContext* app)
 
         input[strcspn(input, "\n")] = '\0';
 
-        if (strcmp(input, "exit") == 0)
+        
+
+        if (strcmp(input, "exit") == 0) {
             app->state = STOP_PROGRAM;
-        else
-            printf("Ви ввели: %s\n", input);
+            return;
+        }
+
+
+
+
     }
 
 }

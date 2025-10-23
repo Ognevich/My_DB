@@ -1,4 +1,5 @@
 #include "programState.h"
+#include <stdlib.h>
 
 AppContext* initAppContext(void)
 {
