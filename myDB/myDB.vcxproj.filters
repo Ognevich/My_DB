@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Scr">
       <UniqueIdentifier>{2917bbae-8268-4ad2-b3a2-89fa4ed72b81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Commands">
+      <UniqueIdentifier>{cac81d1f-12cb-4281-9daa-c15775f83cce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="technical_task.txt">
@@ -93,6 +96,9 @@
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="commandHandler.h">
+      <Filter>Source Files\Engine\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

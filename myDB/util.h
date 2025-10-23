@@ -2,6 +2,7 @@
 #define _UTIL_H_
 
 int countTokensInString(char * string);
+void freeTwoDimArray(void*** array, int rows);
 
 #endif
 

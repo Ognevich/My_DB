@@ -1,8 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "app.h"
 #include <stdio.h>
 #include "database.h"
 #include "table.h"
 #include "logger.h"
+#include "parser.h"
+#include "util.h"
+#include "string.h"
 
 void runDB(AppContext* app)
 {
@@ -10,27 +14,45 @@ void runDB(AppContext* app)
 
     while (app->state != STOP_PROGRAM) {
         printf("> ");
-        if (!fgets(input, sizeof(input), stdin))
-            break; 
 
-        input[strcspn(input, "\n")] = '\0';
+        if (!readInput(input, sizeof(input)))
+            continue;
 
-        
+        int argSize = 0;
+        char** argv = split(input, &argSize);
+        if (!argv)
+            continue;
 
-        if (strcmp(input, "exit") == 0) {
-            app->state = STOP_PROGRAM;
-            return;
+        if (checkExit(app, argv)) {
+            freeTwoDimArray(&argv, argSize);
+            break;
         }
 
 
-
-
+        freeTwoDimArray(&argv, argSize);
     }
-
 }
 
 void shutdownDB(AppContext* app)
 {
 	closeLogger();
 	freeAppContext(&app);
+}
+
+int readInput(char* buffer, size_t size)
+{
+    if (!fgets(buffer, size, stdin))
+        return 0;
+
+    buffer[strcspn(buffer, "\n")] = '\0';
+    return strlen(buffer) > 0;
+}
+
+int checkExit(AppContext* app, char** argv)
+{
+    if (argv[0] && strcmp(argv[0], "exit") == 0) {
+        app->state = STOP_PROGRAM;
+        return 1;
+    }
+    return 0;
 }
