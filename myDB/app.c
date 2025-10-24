@@ -28,6 +28,7 @@ void runDB(AppContext* app)
             break;
         }
 
+        handleCommand(app, argv, argSize);
 
         freeTwoDimArray(&argv, argSize);
     }
@@ -65,7 +66,7 @@ void handleCommand(AppContext* app, char** argv, int argc)
 
     for (int i = 0; i < app->commandCount; i++) {
         if (strcmp(argv[0], app->commands[i].name) == 0) {
-            app->commands[i].handler(argv, argc);
+            app->commands[i].handler(app, argv, argc);
             return;
         }
     }

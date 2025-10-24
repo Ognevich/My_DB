@@ -1,14 +1,26 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "database.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 Database* createDatabase(const char* name)
 {
-	Database* db = malloc(sizeof(Database)-1);
-	strcpy(db->name, name);
-	db->tables = NULL;
-	db->tableCount = 0;
-	return db;
+    if (!name) return NULL; 
+
+    Database* db = malloc(sizeof(Database));
+    if (!db) {
+        perror("malloc failed");
+        return NULL;
+    }
+
+    strncpy(db->name, name, sizeof(db->name) - 1);
+    db->name[sizeof(db->name) - 1] = '\0'; 
+
+    db->tables = NULL;
+    db->tableCount = 0;
+
+    return db;
 }
 
 void addTable(Database* db, Table* table) {

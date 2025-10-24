@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.c" />
+    <ClCompile Include="createCommand.c" />
     <ClCompile Include="database.c" />
     <ClCompile Include="db_engine.c" />
     <ClCompile Include="File_Utils.c" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="app.h" />
     <ClInclude Include="commandHandler.h" />
+    <ClInclude Include="createCommand.h" />
     <ClInclude Include="database.h" />
     <ClInclude Include="db_engine.h" />
     <ClInclude Include="File_Utils.h" />

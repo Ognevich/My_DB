@@ -1,6 +1,8 @@
 #ifndef _PROGRAM_STATE_H_
 #define _PROGRAM_STATE_H_
+
 #include "commandHandler.h"
+#include "database.h"
 
 #define MAX_COMMANDS 10
 
@@ -9,16 +11,16 @@ typedef enum {
     STOP_PROGRAM
 } ProgramState;
 
-typedef struct {
+typedef struct AppContext {
     ProgramState state;
     int commandCount;
+    Database** databases;
+    int databasesSize;
     Command commands[MAX_COMMANDS];
 } AppContext;
 
-
-
 AppContext* initAppContext();
-void freeAppContext(AppContext ** program);
-
+void initCommands(AppContext * app);
+void freeAppContext(AppContext** app);
 
 #endif
