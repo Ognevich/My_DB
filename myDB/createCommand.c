@@ -9,7 +9,7 @@
 void createCommand(AppContext* app, char** argv, int argc)
 {
 	if (argc < 3) {
-		logMessage(LOG_ERROR, "insufficient number of arguments");
+		logMessage(LOG_ERROR, "Usage: CREATE");
 		return;
 	}
 
