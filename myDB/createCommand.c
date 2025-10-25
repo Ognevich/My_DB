@@ -13,10 +13,6 @@ void createCommand(AppContext* app, char** argv, int argc)
 		return;
 	}
 
-	if (strcmp(argv[0], "CREATE") != 0) {
-		return;
-	}
-
 	if (strcmp(argv[1], "DATABASE") == 0) {
 		printf("CREATE DATABASE command is used\n");
 		createDatabaseCommand(app, argv[2]);
@@ -38,6 +34,6 @@ void createDatabaseCommand(AppContext* app, const char* name)
 	app->databases = temp;
 	app->databases[app->databasesSize] = db;
 	app->databasesSize++;
-	printf("Database %s created", db->name);
+	printf("Database %s created\n", db->name);
 
 }

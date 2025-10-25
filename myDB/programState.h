@@ -16,6 +16,7 @@ typedef struct AppContext {
     int commandCount;
     Database** databases;
     int databasesSize;
+    Database* currentDatabase;
     Command commands[MAX_COMMANDS];
 } AppContext;
 

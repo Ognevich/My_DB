@@ -138,6 +138,8 @@
     <ClCompile Include="parser.c" />
     <ClCompile Include="programState.c" />
     <ClCompile Include="table.c" />
+    <ClCompile Include="unuseCommand.c" />
+    <ClCompile Include="useCommand.c" />
     <ClCompile Include="util.c" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +153,8 @@
     <ClInclude Include="parser.h" />
     <ClInclude Include="programState.h" />
     <ClInclude Include="table.h" />
+    <ClInclude Include="unuseCommand.h" />
+    <ClInclude Include="useCommand.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

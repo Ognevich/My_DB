@@ -71,6 +71,12 @@
     <ClCompile Include="parser.c">
       <Filter>Source Files\Scr</Filter>
     </ClCompile>
+    <ClCompile Include="useCommand.c">
+      <Filter>Source Files\Engine\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="unuseCommand.c">
+      <Filter>Source Files\Engine\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -104,6 +110,12 @@
       <Filter>Source Files\Engine\Commands</Filter>
     </ClInclude>
     <ClInclude Include="createCommand.h">
+      <Filter>Source Files\Engine\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="useCommand.h">
+      <Filter>Source Files\Engine\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="unuseCommand.h">
       <Filter>Source Files\Engine\Commands</Filter>
     </ClInclude>
   </ItemGroup>

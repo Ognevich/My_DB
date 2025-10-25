@@ -13,7 +13,8 @@ void runDB(AppContext* app)
     char input[256];
 
     while (app->state != STOP_PROGRAM) {
-        printf("> ");
+        
+        printCurrentDbState(app);
 
         if (!readInput(input, sizeof(input)))
             continue;
@@ -38,6 +39,17 @@ void shutdownDB(AppContext* app)
 {
 	closeLogger();
 	freeAppContext(&app);
+}
+
+void printCurrentDbState(AppContext* app)
+{
+    if (app->currentDatabase) {
+        printf("%s>", app->currentDatabase->name);
+    }
+    else{
+        printf(">");
+    }
+
 }
 
 int readInput(char* buffer, size_t size)
