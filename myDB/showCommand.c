@@ -19,12 +19,22 @@ void showCommand(AppContext* app, char** argv, int argc)
 
 void showDatabaseCommand(AppContext* app)
 {
-	printf("+-------------------+\n");
-	printf("| Database |\n");
-	printf("+-------------------+\n");
-	for (int i = 0; i < app->databasesSize; i++) {
-		printf("| %s |\n", app->databases[i]->name);
+    const int width = 42; 
+    printf("+----------------------------------------+\n");
+    printf("| Database                               |\n");
+    printf("+----------------------------------------+\n");
 
-	}
-	printf("+-------------------+\n");
+    for (int i = 0; i < app->databasesSize; i++) {
+        const char* name = app->databases[i]->name;
+        int nameLen = strlen(name);
+
+        int spaces = width - 3 - nameLen; 
+
+        printf("| %s", name);
+        for (int j = 0; j < spaces; j++)
+            putchar(' ');
+        printf("|\n");
+    }
+
+    printf("+----------------------------------------+\n");
 }

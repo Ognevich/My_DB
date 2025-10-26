@@ -14,6 +14,7 @@ void createCommand(AppContext* app, char** argv, int argc)
 	}
 
 	if (strcmp(argv[1], "DATABASE") == 0) {
+		// FORBID ABILITY CREATE DATABASES WITH SAME NAMES
 		printf("CREATE DATABASE command is used\n");
 		createDatabaseCommand(app, argv[2]);
 	}
