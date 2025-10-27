@@ -114,7 +114,17 @@ void printDatabase(Database* db)
 
 void freeDatabase(Database* db)
 {
+    if (!db)
+        return;
+    for (int i = 0; i < db->tableCount; i++) {
+        if (db->tables[i]) {
+            freeTable(db->tables[i]);
+        }
+    }
+    free(db->tables);
+    db->tables = NULL;
 
+    free(db);
 }
 
 
