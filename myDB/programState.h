@@ -23,5 +23,6 @@ typedef struct AppContext {
 AppContext* initAppContext();
 void initCommands(AppContext * app);
 void freeAppContext(AppContext** app);
+int isDatabaseExists(AppContext *app,const char* name);
 
 #endif

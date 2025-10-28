@@ -4,6 +4,7 @@
 #include "useCommand.h"
 #include "unuseCommand.h"
 #include "showCommand.h"
+#include <string.h>
 
 AppContext* initAppContext(void)
 {
@@ -48,4 +49,14 @@ void freeAppContext(AppContext** program)
     free(ctx->currentDatabase);
     free(ctx);
     *program = NULL;
+}
+
+int isDatabaseExists(AppContext* app, const char* name)
+{
+    for (int i = 0; i < app->databasesSize; i++) {
+        if (strcmp(app->databases[i]->name, name) == 0) {
+            return 1;
+        }
+    }
+    return 0;
 }

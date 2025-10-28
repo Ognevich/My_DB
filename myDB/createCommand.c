@@ -14,14 +14,25 @@ void createCommand(AppContext* app, char** argv, int argc)
 	}
 
 	if (strcmp(argv[1], "DATABASE") == 0) {
-		// FORBID ABILITY CREATE DATABASES WITH SAME NAMES
 		printf("CREATE DATABASE command is used\n");
 		createDatabaseCommand(app, argv[2]);
+	}
+
+	if (strcmp(argv[1], "TABLE") == 0) {
+		printf("CREATE TABLE command is used\n");
+		createTableCommand(app, argv[2]);
 	}
 }
 
 void createDatabaseCommand(AppContext* app, const char* name)
 {
+	int isExists = isDatabaseExists(app, name);
+
+	if (isExists) {
+		printf("Database with this name already exists\n");
+		return;
+	}
+
 	Database* db = createDatabase(name);
 
 	Database **temp = realloc(app->databases, sizeof(Database*) * (app->databasesSize + 1));
@@ -38,3 +49,40 @@ void createDatabaseCommand(AppContext* app, const char* name)
 	printf("Database %s created\n", db->name);
 
 }
+
+void createTableCommand(AppContext* app, const char* name)
+{
+	if (!app || !name) {
+		logMessage(LOG_ERROR, "Invalid arguments to createTableCommand");
+		return;
+	}
+
+	if (app->currentDatabase == NULL) {
+		printf("You can't create table without connecting to a database\n");
+		return;
+	}
+
+	Table* table = createTable(name);
+	if (!table) {
+		logMessage(LOG_ERROR, "Failed to create table structure");
+		return;
+	}
+
+	Table** temp = realloc(
+		app->currentDatabase->tables,
+		sizeof(Table*) * (app->currentDatabase->tableCount + 1)
+	);
+
+	if (!temp) {
+		logMessage(LOG_ERROR, "Failed to allocate memory for new table");
+		free(table);
+		return;
+	}
+
+	app->currentDatabase->tables = temp;
+	app->currentDatabase->tables[app->currentDatabase->tableCount] = table;
+	app->currentDatabase->tableCount++;
+
+	printf("Table '%s' created successfully.\n", table->name);
+}
+

@@ -3,6 +3,7 @@
 
 int countTokensInString(char * string);
 void freeTwoDimArray(void*** array, int rows);
+void printHeader(const char* headerName);
 
 #endif
 

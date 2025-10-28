@@ -4,6 +4,7 @@
 
 void showCommand(AppContext* app, char** argv, int argc);
 void showDatabaseCommand(AppContext* app);
+void showTablesCommand(AppContext* app);
 
 
 #endif

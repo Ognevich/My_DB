@@ -5,6 +5,7 @@
 
 void createCommand(AppContext * app, char ** argv, int argc);
 void createDatabaseCommand(AppContext * app, const char * name);
+void createTableCommand(AppContext* app, const char* name);
 
 
 #endif

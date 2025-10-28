@@ -1,5 +1,6 @@
 #include "util.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 int countTokensInString(const char* string)
 {
@@ -23,12 +24,12 @@ int countTokensInString(const char* string)
     return tokens;
 }
 
-void freeTwoDimArray(char*** array, int rows)
+void freeTwoDimArray(void*** array, int rows)
 {
     if (array == NULL || *array == NULL)
         return;
 
-    char** arr = *array;  
+    char** arr = *array;
 
     for (int i = 0; i < rows; i++) {
         free(arr[i]);
@@ -37,4 +38,13 @@ void freeTwoDimArray(char*** array, int rows)
 
     free(arr);
     *array = NULL;
+}
+
+
+void printHeader(const char* headerName)
+{
+    printf("+----------------------------------------+\n");
+    printf("| %s                               |\n", headerName);
+    printf("+----------------------------------------+\n");
+
 }
