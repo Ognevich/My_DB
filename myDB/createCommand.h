@@ -4,8 +4,8 @@
 
 
 void createCommand(AppContext * app, char ** argv, int argc);
-void createDatabaseCommand(AppContext * app, const char * name);
-void createTableCommand(AppContext* app, const char* name);
+void createDatabaseCommand(AppContext * app, const char * name, int ifNotExists);
+void createTableCommand(AppContext* app, const char* name, int ifNotExists);
 
 
 #endif

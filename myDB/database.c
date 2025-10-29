@@ -112,6 +112,14 @@ void printDatabase(Database* db)
     printf("=======================\n");
 }
 
+int isTableExists(Database* db, const char* name)
+{
+    for (int i = 0; i < db->tableCount; i++)
+        if (strcmp(db->tables[i]->name, name) == 0)     return 1;
+
+    return 0;
+}
+
 void freeDatabase(Database* db)
 {
     if (!db)

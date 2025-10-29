@@ -35,3 +35,19 @@ char** split(char* input, int* argSize)
     parts[i] = NULL;
     return parts;
 }
+
+int isIfNotExistsUsed(char** argv, int argSize)
+{
+    if (argSize < 3) {
+        return 0;
+    }
+
+    for (int i = 0; i < argSize-2; i++) {
+        if (strcmp(argv[i], "IF") == 0 &&
+            strcmp(argv[i + 1], "NOT") == 0 &&
+            strcmp(argv[i + 2], "EXISTS") == 0) {
+            return 1; 
+        }
+    }
+    return 0; 
+}

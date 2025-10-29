@@ -15,6 +15,8 @@ Table* findTable(Database* db, const char* tableName);
 void deleteTable(Database* db, const char * tableName);
 void printDatabase(Database* db);
 
+int isTableExists(Database* db, const char* name);
+
 void freeDatabase(Database* db);
 
 #endif

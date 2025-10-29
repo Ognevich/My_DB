@@ -68,9 +68,6 @@
     <ClCompile Include="createCommand.c">
       <Filter>Source Files\Engine\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="parser.c">
-      <Filter>Source Files\Scr</Filter>
-    </ClCompile>
     <ClCompile Include="useCommand.c">
       <Filter>Source Files\Engine\Commands</Filter>
     </ClCompile>
@@ -79,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="showCommand.c">
       <Filter>Source Files\Engine\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="parser.c">
+      <Filter>Source Files\Parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

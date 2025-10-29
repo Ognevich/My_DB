@@ -1,4 +1,15 @@
-﻿  createCommand.c
+﻿  app.c
+D:\my_projects\C\myDB\myDB\app.c(57,24): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+  createCommand.c
+  database.c
+  main.c
+  programState.c
+  showCommand.c
+D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  unuseCommand.c
+  useCommand.c
+  Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

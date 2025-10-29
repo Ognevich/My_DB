@@ -53,10 +53,7 @@ void freeAppContext(AppContext** program)
 
 int isDatabaseExists(AppContext* app, const char* name)
 {
-    for (int i = 0; i < app->databasesSize; i++) {
-        if (strcmp(app->databases[i]->name, name) == 0) {
-            return 1;
-        }
-    }
+    for (int i = 0; i < app->databasesSize; i++)
+        if (strcmp(app->databases[i]->name, name) == 0)     return 1;
     return 0;
 }
