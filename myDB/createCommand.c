@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "createCommand.h"
+#include "commandHandler.h"
 #include "logger.h"
 #include "database.h"
 #include "parser.h"
@@ -15,12 +16,19 @@ void createCommand(AppContext* app, char** argv, int argc)
 	}
 
 	int ifNotExists = isIfNotExistsUsed(argv, argc);
+	const char* objectType = argv[1];
+	char* name = extractName(argv,argc,ifNotExists);
 
-	if (strcmp(argv[1], "DATABASE") == 0)
-		createDatabaseCommand(app, argv[argc-1], ifNotExists);
+	if (!name) {
+		printf("Invalid CREATE syntax\n");
+		return;
+	}
 
-	if (strcmp(argv[1], "TABLE") == 0) 
-		createTableCommand(app, argv[argc-1], ifNotExists);
+	if (strcmp(objectType, "DATABASE") == 0)
+		createDatabaseCommand(app, name, ifNotExists);
+
+	if (strcmp(objectType, "TABLE") == 0)
+		createTableCommand(app, name, ifNotExists);
 
 }
 
