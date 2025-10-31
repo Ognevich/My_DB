@@ -13,36 +13,48 @@ static const char* reservedWords[] = {
 };
 static const int reservedWordsCount = sizeof(reservedWords) / sizeof(reservedWords[0]);
 
-char** split(char* input, int* argSize)
-{
-    if (!input)
-        return NULL;
+char** tokenize(const char* input, int* count) {
+    char** tokens = malloc(64 * sizeof(char*));
+    *count = 0;
 
-    int numTokens = countTokensInString(input);
-    if (numTokens == 0)
-        return NULL;
+    const char* p = input;
+    char buffer[128];
+    int bi = 0;
 
-    char** parts = malloc(sizeof(char*) * (numTokens + 1));
-    if (!parts)
-        return NULL;
-
-    *argSize = numTokens;
-
-    int i = 0;
-    char* token = strtok(input, " ");
-    while (token != NULL) {
-        parts[i] = malloc(strlen(token) + 1);
-        if (!parts[i]) {
-            for (int j = 0; j < i; j++) free(parts[j]);
-            free(parts);
-            return NULL;
+    while (*p) {
+        if (isspace((unsigned char)*p)) {
+            if (bi > 0) {
+                buffer[bi] = '\0';
+                tokens[*count] = _strdup(buffer);
+                (*count)++;
+                bi = 0;
+            }
+            p++;
         }
-        strcpy(parts[i], token);
-        i++;
-        token = strtok(NULL, " ");
+        else if (strchr("(),;", *p)) {
+            if (bi > 0) {
+                buffer[bi] = '\0';
+                tokens[*count] = _strdup(buffer);
+                (*count)++;
+                bi = 0;
+            }
+            char sym[2] = { *p, '\0' };
+            tokens[*count] = _strdup(sym);
+            (*count)++;
+            p++;
+        }
+        else {
+            buffer[bi++] = *p++;
+        }
     }
-    parts[i] = NULL;
-    return parts;
+
+    if (bi > 0) {
+        buffer[bi] = '\0';
+        tokens[*count] = _strdup(buffer);
+        (*count)++;
+    }
+
+    return tokens;
 }
 
 int isIfNotExistsUsed(char** argv, int argSize)
@@ -77,25 +89,5 @@ int isReservedWord(const char* word)
         if (strcmp(reservedWords[i], word) == 0)
             return 1;
     }
-    return 0;
-}
-
-int isSemicolon(const char* word)
-{
-    if (word == NULL)
-        return 0;
-
-    int len = strlen(word);
-    if (len == 0)
-        return 0;
-
-    while (len > 0 && isspace((unsigned char)word[len - 1])) {
-        len--;
-    }
-
-    if (len > 0 && word[len - 1] == ';') {
-        return 1;
-    }
-
     return 0;
 }

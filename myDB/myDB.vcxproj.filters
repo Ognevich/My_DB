@@ -124,5 +124,8 @@
     <ClInclude Include="showCommand.h">
       <Filter>Source Files\Engine\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,27 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int countTokensInString(const char* string)
-{
-    if (string == NULL || *string == '\0')
-        return 0;
-
-    int tokens = 0;
-    int inToken = 0;
-
-    while (*string != '\0') {
-        if (*string != ' ' && !inToken) {
-            tokens++;
-            inToken = 1;
-        }
-        else if (*string == ' ') {
-            inToken = 0;
-        }
-        string++;
-    }
-
-    return tokens;
-}
 
 void freeTwoDimArray(void*** array, int rows)
 {

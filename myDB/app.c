@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "app.h"
 #include <stdio.h>
+#include "config.h"
 #include "database.h"
 #include "table.h"
 #include "logger.h"
@@ -10,7 +11,7 @@
 
 void runDB(AppContext* app)
 {
-    char input[256];
+    char input[BUFFER_SIZE];
 
     while (app->state != STOP_PROGRAM) {
         
@@ -20,7 +21,7 @@ void runDB(AppContext* app)
             continue;
 
         int argSize = 0;
-        char** argv = split(input, &argSize);
+        char** argv = tokenize(input, &argSize);
         if (!argv)
             continue;
 
@@ -56,7 +57,7 @@ int readInput(char* buffer, int size)
 {
     buffer[0] = '\0';
 
-    char line[256];
+    char line[BUFFER_SIZE];
 
     while (1) {
         if (!fgets(line, sizeof(line), stdin))
