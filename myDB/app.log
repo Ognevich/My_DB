@@ -13,3 +13,8 @@
 [13:14:11] [ERROR] Usage: USE <database_name>
 [13:42:50] [ERROR] Usage: UNUSE
 [15:45:40] [ERROR] Invalid CREATE syntax
+[18:56:50] [ERROR] Usage: CREATE
+[18:57:47] [ERROR] Usage: CREATE
+[18:58:42] [ERROR] Usage: CREATE
+[18:59:43] [ERROR] Usage: CREATE
+[19:02:16] [ERROR] Usage: CREATE

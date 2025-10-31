@@ -52,12 +52,41 @@ void printCurrentDbState(AppContext* app)
 
 }
 
-int readInput(char* buffer, size_t size)
+int readInput(char* buffer, int size)
 {
-    if (!fgets(buffer, size, stdin))
-        return 0;
+    buffer[0] = '\0';
 
-    buffer[strcspn(buffer, "\n")] = '\0';
+    char line[256];
+
+    while (1) {
+        if (!fgets(line, sizeof(line), stdin))
+            return 0;
+
+        line[strcspn(line, "\n")] = '\0';
+
+        if (buffer[0] != '\0') {
+            strcat(buffer, " ");
+        }
+
+        if (strlen(buffer) + strlen(line) + 1 >= size) {
+            printf("Input too long.\n");
+            return 0;
+        }
+
+        strcat(buffer, line);
+
+        int len = strlen(buffer);
+        while (len > 0 && isspace((unsigned char)buffer[len - 1])) {
+            buffer[--len] = '\0';
+        }
+
+        if (len > 0 && buffer[len - 1] == ';') {
+            buffer[len - 1] = '\0';
+            break;
+        }
+        printf(" -> ");
+    }
+
     return strlen(buffer) > 0;
 }
 

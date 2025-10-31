@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "util.h"
 #include <string.h>
+#include <ctype.h>
+
 
 static const char* reservedWords[] = {
     "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE"
@@ -75,5 +77,25 @@ int isReservedWord(const char* word)
         if (strcmp(reservedWords[i], word) == 0)
             return 1;
     }
+    return 0;
+}
+
+int isSemicolon(const char* word)
+{
+    if (word == NULL)
+        return 0;
+
+    int len = strlen(word);
+    if (len == 0)
+        return 0;
+
+    while (len > 0 && isspace((unsigned char)word[len - 1])) {
+        len--;
+    }
+
+    if (len > 0 && word[len - 1] == ';') {
+        return 1;
+    }
+
     return 0;
 }
