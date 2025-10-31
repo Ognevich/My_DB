@@ -2,6 +2,6 @@
 #define _CONFIG_H
 
 #define BUFFER_SIZE 512
-
+#define FORBIDEN_SYMBOLS ",./';:][{}()!@#$%^&*-=+`~?|<>\"\\"
 
 #endif
