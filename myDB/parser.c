@@ -24,28 +24,13 @@ char** tokenize(const char* input, int* count) {
 
     while (*p) {
         if (isspace((unsigned char)*p)) {
-            if (bi > 0) {
-                buffer[bi] = '\0';
-                tokens[*count] = _strdup(buffer);
-                (*count)++;
-                bi = 0;
-            }
-            p++;
+            spaceTokenize(&bi, buffer, &tokens, &p, count);
         }
         else if (strchr("(),;", *p)) {
-            if (bi > 0) {
-                buffer[bi] = '\0';
-                tokens[*count] = _strdup(buffer);
-                (*count)++;
-                bi = 0;
-            }
-            char sym[2] = { *p, '\0' };
-            tokens[*count] = _strdup(sym);
-            (*count)++;
-            p++;
+            specialSymbolTokenize(&bi, buffer, &tokens, &p, count);
         }
         else {
-            buffer[bi++] = *p++;
+            symbolTokenize(&bi, buffer, &p);
         }
     }
 
@@ -57,6 +42,39 @@ char** tokenize(const char* input, int* count) {
 
     return tokens;
 }
+
+void spaceTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
+{
+    if (*bi > 0) {
+        buffer[*bi] = '\0';
+        (*tokens)[*count] = _strdup(buffer);
+        (*count)++;
+        *bi = 0;
+    }
+    (*p)++;
+}
+
+void specialSymbolTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
+{
+    if (*bi > 0) {
+        buffer[*bi] = '\0';
+        (*tokens)[*count] = _strdup(buffer);
+        (*count)++;
+        *bi = 0;
+    }
+
+    char sym[2] = { **p, '\0' };
+    (*tokens)[*count] = _strdup(sym);
+    (*count)++;
+    (*p)++;
+}
+
+void symbolTokenize(int* bi, char* buffer, const char** p)
+{
+    buffer[(*bi)++] = **p; 
+    (*p)++;                 
+}
+
 
 int isIfNotExistsUsed(char** argv, int argSize)
 {
@@ -95,11 +113,25 @@ int isReservedWord(const char* word)
 
 int isValidName(const char* word)
 {
-    while (*word != "\0")
+    while (*word != '\0')
     {
         if (strchr(FORBIDEN_SYMBOLS, *word))
             return 0;
         word++;
     }
+    return 1;
+}
+
+int isBracketsExists(const char** argv, int argc, int ifNotExists)
+{
+    int tableNameIndex = ifNotExists ? 5 : 2;
+
+    if (tableNameIndex + 1 >= argc) return 0;
+    if (!strchr(argv[tableNameIndex + 1], '('))
+        return 0;
+
+    if (!strchr(argv[argc - 1], ')'))
+        return 0;
+
     return 1;
 }
