@@ -136,50 +136,59 @@ int isBracketsExists(const char** argv, int argc, int ifNotExists)
     return 1;
 }
 
-char** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
+char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
     if (!argv || argc <= 0 || !innerArgs) return NULL;
 
-    char** new_argv = malloc(sizeof(char*));
-    if (!new_argv) return NULL;
-
     int isOpenBracket = 0;
-    int counter = 0;
-    int arraySize = 1; 
+    int counter = 0;         
+    int arraySize = 4;       
+    char*** result = malloc(arraySize * sizeof(char**));
+
+    if (!result) return NULL;
+
+    char* currentName = NULL;
+    char* currentType = NULL;
 
     for (int i = 0; i < argc; i++) {
         if (!isOpenBracket) {
-            if (strchr(argv[i], '(')) {
+            if (strcmp(argv[i], "(") == 0) {
                 isOpenBracket = 1;
-                continue; 
             }
+            continue;
         }
-        else {
-            if (strchr(argv[i], ')')) {
-                break;
-            }
 
-            new_argv[counter] = malloc(strlen(argv[i]) + 1);
-            if (!new_argv[counter]) {
-                for (int j = 0; j < counter; j++) free(new_argv[j]);
-                free(new_argv);
-                return NULL;
-            }
-            strcpy(new_argv[counter], argv[i]);
-            counter++;
+        if (strcmp(argv[i], ")") == 0)
+            break;
+
+        if (strcmp(argv[i], ",") == 0)
+            continue;
+
+        if (!currentName) {
+            currentName = (char*)argv[i];
+        }
+        else if (!currentType) {
+            currentType = (char*)argv[i];
+
+            char** pair = malloc(3 * sizeof(char*));
+            pair[0] = _strdup(currentName);
+            pair[1] = _strdup(currentType);
+            pair[2] = NULL;
+
+            result[counter++] = pair;
+
+            currentName = NULL;
+            currentType = NULL;
 
             if (counter >= arraySize) {
-                if (!increaseTwoDimCharArray(&new_argv, arraySize * 2)) {
-                    for (int j = 0; j < counter; j++) free(new_argv[j]);
-                    free(new_argv);
-                    return NULL;
-                }
                 arraySize *= 2;
+                result = realloc(result, arraySize * sizeof(char**));
+                if (!result) return NULL;
             }
         }
     }
 
     *innerArgs = counter;
-    return new_argv;
+    return result;
 }
 
 

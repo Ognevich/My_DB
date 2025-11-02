@@ -24,5 +24,6 @@ AppContext* initAppContext();
 void initCommands(AppContext * app);
 void freeAppContext(AppContext** app);
 int isDatabaseExists(AppContext *app,const char* name);
+int registerTableInDatabase(AppContext* app, Table* table);
 
 #endif

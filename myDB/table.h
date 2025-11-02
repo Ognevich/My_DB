@@ -5,7 +5,8 @@ typedef enum
 { 
 	INT, 
 	FLOAT ,
-	CHAR
+	CHAR,
+	NONE
 } FieldType;
 
 typedef struct {
@@ -42,7 +43,10 @@ typedef struct {
 
 
 Table* createTable(const char* name);
+Table* initNewTable(const char* name);
+
 void addColumn(Table* table, const char* name, FieldType type, int size);
+int fillTableColumns(Table* table, char*** innerArgs, int innerSize);
 
 void insertRow(Table* table, Field* fields);
 void deleteRow(Table* table, int rowIndex);

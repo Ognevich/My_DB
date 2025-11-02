@@ -4,6 +4,8 @@
 #include "logger.h"
 #include "database.h"
 #include "parser.h"
+#include "util.h"
+#include "commandValidators.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -71,56 +73,36 @@ void processCreateTableCommand(AppContext* app, char** argv, int argc, const cha
 	}
 
 	int innerArgs = 0;
-	const char** innerBracketsArgv = extractInnerArgs(argv,argc, &innerArgs);
+	const char*** innerBracketsArgv = extractInnerArgs(argv,argc, &innerArgs);
 
 	for (int i = 0; i < innerArgs; i++) {
-		printf("%s", innerBracketsArgv[i]);
+		printf("Field %d: ", i);
+		for (int j = 0; innerBracketsArgv[i][j] != NULL; j++) {
+			printf("%s ", innerBracketsArgv[i][j]);
+		}
+		printf("\n");
 	}
 
-	createTableCommand(app, name, ifNotExists);
+	createTableCommand(app, name, innerBracketsArgv,innerArgs,ifNotExists);
+
+	freeThreeDimArray(&innerBracketsArgv, innerArgs);
 }
 
-void createTableCommand(AppContext* app, const char* name, int ifNotExists)
-{
+void createTableCommand(AppContext* app, const char* name, char*** innerArgs, int innerSize, int ifNotExists) {
+	if (!checkDatabaseConnection(app)) return;
 
-	if (app->currentDatabase == NULL) {
-		printf("You can't create table without connecting to a database\n");
-		return;
-	}
+	int check = checkTableExists(app, name, ifNotExists);
+	if (check <= 0) return;
 
-	if (isTableExists(app->currentDatabase, name)) {
-		if (ifNotExists) {
-			return;
-		}
-		else {
-			printf("Error: Database '%s' already exists.\n", name);
-			return;
-		}
-	}
+	Table* table = initNewTable(name);
+	if (!table) return;
 
-	Table* table = createTable(name);
-	if (!table) {
-		logMessage(LOG_ERROR, "Failed to create table structure");
-		return;
-	}
-
-	Table** temp = realloc(
-		app->currentDatabase->tables,
-		sizeof(Table*) * (app->currentDatabase->tableCount + 1)
-	);
-
-	if (!temp) {
-		logMessage(LOG_ERROR, "Failed to allocate memory for new table");
+	if (!fillTableColumns(table, innerArgs, innerSize)) {
 		free(table);
 		return;
 	}
 
-	app->currentDatabase->tables = temp;
-	app->currentDatabase->tables[app->currentDatabase->tableCount] = table;
-	app->currentDatabase->tableCount++;
+	if (!registerTableInDatabase(app, table)) return;
 
 	printf("Table '%s' created successfully.\n", table->name);
 }
-
-
-

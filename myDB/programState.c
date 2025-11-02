@@ -4,6 +4,7 @@
 #include "useCommand.h"
 #include "unuseCommand.h"
 #include "showCommand.h"
+#include "logger.h"
 #include <string.h>
 
 AppContext* initAppContext(void)
@@ -56,4 +57,23 @@ int isDatabaseExists(AppContext* app, const char* name)
     for (int i = 0; i < app->databasesSize; i++)
         if (strcmp(app->databases[i]->name, name) == 0)     return 1;
     return 0;
+}
+
+
+int registerTableInDatabase(AppContext* app, Table* table) {
+    Table** temp = realloc(
+        app->currentDatabase->tables,
+        sizeof(Table*) * (app->currentDatabase->tableCount + 1)
+    );
+
+    if (!temp) {
+        logMessage(LOG_ERROR, "Failed to allocate memory for new table");
+        free(table);
+        return 0;
+    }
+
+    app->currentDatabase->tables = temp;
+    app->currentDatabase->tables[app->currentDatabase->tableCount] = table;
+    app->currentDatabase->tableCount++;
+    return 1;
 }

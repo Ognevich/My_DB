@@ -28,8 +28,11 @@
     <Filter Include="Source Files\Scr">
       <UniqueIdentifier>{2917bbae-8268-4ad2-b3a2-89fa4ed72b81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Commands">
+    <Filter Include="Source Files\Engine\CommandHandler">
       <UniqueIdentifier>{cac81d1f-12cb-4281-9daa-c15775f83cce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\CommandHandler\Commands">
+      <UniqueIdentifier>{0e7ea794-3631-4cba-accd-8892d92bd2c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -65,20 +68,23 @@
     <ClCompile Include="util.c">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="createCommand.c">
-      <Filter>Source Files\Engine\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="useCommand.c">
-      <Filter>Source Files\Engine\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="unuseCommand.c">
-      <Filter>Source Files\Engine\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="showCommand.c">
-      <Filter>Source Files\Engine\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="parser.c">
       <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="useCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="unuseCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="showCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="createCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="commandValidators.c">
+      <Filter>Source Files\Engine\CommandHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,22 +116,25 @@
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="commandHandler.h">
-      <Filter>Source Files\Engine\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="createCommand.h">
-      <Filter>Source Files\Engine\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="useCommand.h">
-      <Filter>Source Files\Engine\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="unuseCommand.h">
-      <Filter>Source Files\Engine\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="showCommand.h">
-      <Filter>Source Files\Engine\Commands</Filter>
+      <Filter>Source Files\Engine\CommandHandler</Filter>
     </ClInclude>
     <ClInclude Include="config.h">
       <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="useCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="unuseCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="showCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="createCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="commandValidators.h">
+      <Filter>Source Files\Engine\CommandHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

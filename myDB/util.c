@@ -1,4 +1,5 @@
 #include "util.h"
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -29,6 +30,24 @@ void freeTwoDimArray(void*** array, int rows)
     *array = NULL;
 }
 
+void freeThreeDimArray(char**** array, int rows) {
+    if (!array || !*array) return;
+
+    char*** arr = *array;
+
+    for (int i = 0; i < rows; i++) {
+        if (!arr[i]) continue;
+
+        for (int j = 0; arr[i][j] != NULL; j++) {
+            free(arr[i][j]);
+        }
+
+        free(arr[i]);
+    }
+
+    free(arr);
+    *array = NULL;
+}
 
 
 void printHeader(const char* headerName)
@@ -37,4 +56,43 @@ void printHeader(const char* headerName)
     printf("| %s                               |\n", headerName);
     printf("+----------------------------------------+\n");
 
+}
+
+FieldType StrToField(char* filedType)
+{
+    
+    if (strcmp(filedType, "INT") == 0) {
+        return INT;
+    }
+    if(strcmp(filedType, "CHAR") == 0) {
+        return CHAR;
+    }
+    if (strcmp(filedType, "FLOAT") == 0) {
+        return FLOAT;
+    }
+    return NONE;
+}
+
+int defineColumnSize(FieldType type);
+
+int defineColumnSize(FieldType type)
+{
+    int value;
+
+    switch (type)
+    {
+    case INT:
+        value = sizeof(int);
+        break;
+    case CHAR:
+        value = 50;
+        break;
+    case FLOAT:
+        value = sizeof(float);
+        break;
+    default:
+        break;
+    }
+
+    return value;
 }

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "logger.h"
 
 Table* createTable(const char* name) {
     Table* t = malloc(sizeof(*t));
@@ -21,6 +22,30 @@ Table* createTable(const char* name) {
     return t;
 }
 
+Table* initNewTable(const char* name) {
+    Table* table = createTable(name);
+    if (!table) {
+        logMessage(LOG_ERROR, "Failed to create table structure");
+    }
+    return table;
+}
+
+int fillTableColumns(Table* table, char*** innerArgs, int innerSize) {
+    for (int i = 0; i < innerSize; i++) {
+        char* columnName = innerArgs[i][0];
+        FieldType type = StrToField(innerArgs[i][1]);
+
+        if (type == NONE) {
+            printf("Error: Incorrect data type '%s'\n", innerArgs[i][1]);
+            return 0;
+        }
+
+        int columnSize = defineColumnSize(type);
+        addColumn(table, columnName, type, columnSize);
+    }
+    return 1;
+
+}
 
 void addColumn(Table* table, const char* name, FieldType type, int size) {
     if (!table) {
