@@ -11,27 +11,29 @@
 void createCommand(AppContext* app, char** argv, int argc)
 {
 	if (argc < 3) {
-		logMessage(LOG_ERROR, "Usage: CREATE");
+		logMessage(LOG_ERROR, "Usage: CREATE DATABASE|TABLE <name> [IF NOT EXISTS]");
 		return;
 	}
 
-	int ifNotExists = isIfNotExistsUsed(argv, argc);
 	const char* objectType = argv[1];
-	char* name = extractName(argv,argc,ifNotExists);
+	int ifNotExists = isIfNotExistsUsed(argv, argc);
+	char* name = extractName(argv, argc, ifNotExists);
 
 	if (!name) {
-		printf("Invalid CREATE syntax\n");
+		logMessage(LOG_ERROR, "Invalid CREATE syntax");
 		return;
 	}
 
-	if (strcmp(objectType, "DATABASE") == 0)
+	if (strcmp(objectType, "DATABASE") == 0) {
 		createDatabaseCommand(app, name, ifNotExists);
-
-	if (strcmp(objectType, "TABLE") == 0)
-		createTableCommand(app, name, ifNotExists);
-
+	}
+	else if (strcmp(objectType, "TABLE") == 0) {
+		processCreateTableCommand(app, argv, argc, name, ifNotExists);
+	}
+	else {
+		logMessage(LOG_ERROR, "Unknown object type: %s", objectType);
+	}
 }
-
 void createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 {
 	if (isDatabaseExists(app,name)) {
@@ -61,6 +63,23 @@ void createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 
 }
 
+void processCreateTableCommand(AppContext* app, char** argv, int argc, const char* name, int ifNotExists)
+{
+	if (!isBracketsExists(argv, argc, ifNotExists)) {
+		printf("Error: Incorrect brackets type\n");
+		return;
+	}
+
+	int innerArgs = 0;
+	const char** innerBracketsArgv = extractInnerArgs(argv,argc, &innerArgs);
+
+	for (int i = 0; i < innerArgs; i++) {
+		printf("%s", innerBracketsArgv[i]);
+	}
+
+	createTableCommand(app, name, ifNotExists);
+}
+
 void createTableCommand(AppContext* app, const char* name, int ifNotExists)
 {
 
@@ -78,7 +97,6 @@ void createTableCommand(AppContext* app, const char* name, int ifNotExists)
 			return;
 		}
 	}
-
 
 	Table* table = createTable(name);
 	if (!table) {
@@ -103,4 +121,6 @@ void createTableCommand(AppContext* app, const char* name, int ifNotExists)
 
 	printf("Table '%s' created successfully.\n", table->name);
 }
+
+
 

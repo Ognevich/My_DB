@@ -12,5 +12,7 @@ int isReservedWord(const char* word);
 int isValidName(const char* word);
 int isBracketsExists(const char ** argv, int argc, int ifNotExists);
 
+char ** extractInnerArgs(const char ** argv,int argc,int *innerArgs);
+
 #endif
 

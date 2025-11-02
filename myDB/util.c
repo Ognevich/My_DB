@@ -3,6 +3,16 @@
 #include <stdio.h>
 
 
+int increaseTwoDimCharArray(char*** array, int size)
+{
+    char** temp = realloc(*array, size * sizeof(char*));
+    if (!temp)
+        return 0;
+
+    *array = temp;
+    return 1;
+}
+
 void freeTwoDimArray(void*** array, int rows)
 {
     if (array == NULL || *array == NULL)
@@ -18,6 +28,7 @@ void freeTwoDimArray(void*** array, int rows)
     free(arr);
     *array = NULL;
 }
+
 
 
 void printHeader(const char* headerName)

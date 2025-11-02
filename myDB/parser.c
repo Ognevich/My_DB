@@ -135,3 +135,58 @@ int isBracketsExists(const char** argv, int argc, int ifNotExists)
 
     return 1;
 }
+
+char** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
+    if (!argv || argc <= 0 || !innerArgs) return NULL;
+
+    char** new_argv = malloc(sizeof(char*));
+    if (!new_argv) return NULL;
+
+    int isOpenBracket = 0;
+    int counter = 0;
+    int arraySize = 1; 
+
+    for (int i = 0; i < argc; i++) {
+        if (!isOpenBracket) {
+            if (strchr(argv[i], '(')) {
+                isOpenBracket = 1;
+                continue; 
+            }
+        }
+        else {
+            if (strchr(argv[i], ')')) {
+                break;
+            }
+
+            new_argv[counter] = malloc(strlen(argv[i]) + 1);
+            if (!new_argv[counter]) {
+                for (int j = 0; j < counter; j++) free(new_argv[j]);
+                free(new_argv);
+                return NULL;
+            }
+            strcpy(new_argv[counter], argv[i]);
+            counter++;
+
+            if (counter >= arraySize) {
+                if (!increaseTwoDimCharArray(&new_argv, arraySize * 2)) {
+                    for (int j = 0; j < counter; j++) free(new_argv[j]);
+                    free(new_argv);
+                    return NULL;
+                }
+                arraySize *= 2;
+            }
+        }
+    }
+
+    *innerArgs = counter;
+    return new_argv;
+}
+
+
+
+
+
+
+
+
+
