@@ -4,7 +4,7 @@
 
 int checkDatabaseConnection(AppContext* app) {
     if (app->currentDatabase == NULL) {
-        printf("You can't create table without connecting to a database\n");
+        printf("You can't perform this operation without connecting to a database.\n");
         return 0;
     }
     return 1;
@@ -62,6 +62,18 @@ int checkUnuseCommandValidation(AppContext* app, int argc)
         printf("No database is currently in use.\n");
         return 0;
     }
+    return 1;
+}
+
+int checkSelectCommandValidation(AppContext* app, int argc)
+{
+    if (argc < 4) {
+        printf("Usage: USE <database_name>\n");
+        return 0;
+    }
+
+    if (!checkDatabaseConnection(app))
+        return 0;
     return 1;
 }
 

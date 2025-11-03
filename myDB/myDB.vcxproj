@@ -138,6 +138,7 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="parser.c" />
     <ClCompile Include="programState.c" />
+    <ClCompile Include="selectCommand.c" />
     <ClCompile Include="showCommand.c" />
     <ClCompile Include="table.c" />
     <ClCompile Include="unuseCommand.c" />
@@ -156,6 +157,7 @@
     <ClInclude Include="logger.h" />
     <ClInclude Include="parser.h" />
     <ClInclude Include="programState.h" />
+    <ClInclude Include="selectCommand.h" />
     <ClInclude Include="showCommand.h" />
     <ClInclude Include="table.h" />
     <ClInclude Include="unuseCommand.h" />

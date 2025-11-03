@@ -191,6 +191,58 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
     return result;
 }
 
+char** extractSelectList(const char** argv, int argc, int* listArgs)
+{
+    int argsCount = 0;
+    int arraySize = 4;
+    char** selectList = malloc(arraySize * sizeof(char*));
+
+    if (!selectList)
+        return NULL;
+
+    int isKeyWord = 0;
+
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "FROM") == 0) {
+            isKeyWord = 1;
+            break;
+        }
+
+        if (argsCount >= arraySize) {
+            arraySize *= 2;
+            char** tmp = realloc(selectList, arraySize * sizeof(char*));
+            if (!tmp) {
+
+                for (int j = 0; j < argsCount; j++)
+                    free(selectList[j]);
+                free(selectList);
+                return NULL;
+            }
+            selectList = tmp;
+        }
+        selectList[argsCount] = malloc(strlen(argv[i]) + 1);
+        if (!selectList[argsCount]) {
+            for (int j = 0; j < argsCount; j++)
+                free(selectList[j]);
+            free(selectList);
+            return NULL;
+        }
+
+        strcpy(selectList[argsCount], argv[i]);
+        argsCount++;
+    }
+
+    if (!isKeyWord) {
+        for (int i = 0; i < argsCount; i++)
+            free(selectList[i]);
+        free(selectList);
+        return NULL;
+    }
+
+    *listArgs = argsCount;
+    return selectList;
+}
+
 
 
 

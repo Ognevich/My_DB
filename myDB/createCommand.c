@@ -39,7 +39,7 @@ void createCommand(AppContext* app, char** argv, int argc)
 void createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 {
 	int check = checkDatabaseExists(app, name, ifNotExists);
-	if (check >= 0)
+	if (check <= 0)
 		return;
 	
 	Database* db = createDatabase(name);
@@ -68,14 +68,6 @@ void processCreateTableCommand(AppContext* app, char** argv, int argc, const cha
 
 	int innerArgs = 0;
 	const char*** innerBracketsArgv = extractInnerArgs(argv,argc, &innerArgs);
-
-	//for (int i = 0; i < innerArgs; i++) {
-//	printf("Field %d: ", i);
-//	for (int j = 0; innerBracketsArgv[i][j] != NULL; j++) {
-//		printf("%s ", innerBracketsArgv[i][j]);
-//	}
-//	printf("\n");
-//}
 
 	createTableCommand(app, name, innerBracketsArgv,innerArgs,ifNotExists);
 

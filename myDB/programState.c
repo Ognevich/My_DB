@@ -4,6 +4,7 @@
 #include "useCommand.h"
 #include "unuseCommand.h"
 #include "showCommand.h"
+#include "selectCommand.h"
 #include "logger.h"
 #include <string.h>
 
@@ -14,7 +15,7 @@ AppContext* initAppContext(void)
         return NULL;
 
     program->state = START_PROGRAM;
-    program->commandCount = 4;
+    program->commandCount = 5;
     initCommands(program);
     program->databases = NULL;
     program->databasesSize = 0;
@@ -29,6 +30,7 @@ void initCommands(AppContext* app)
     app->commands[1] = (Command){ "USE", useCommand };
     app->commands[2] = (Command){ "UNUSE", unuseCommand };
     app->commands[3] = (Command){ "SHOW", showCommand };
+    app->commands[4] = (Command){ "SELECT", selectCommand };
 }
 
 void freeAppContext(AppContext** program)

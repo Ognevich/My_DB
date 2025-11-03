@@ -86,6 +86,9 @@
     <ClCompile Include="commandValidators.c">
       <Filter>Source Files\Engine\CommandHandler</Filter>
     </ClCompile>
+    <ClCompile Include="selectCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -135,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="commandValidators.h">
       <Filter>Source Files\Engine\CommandHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="selectCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
