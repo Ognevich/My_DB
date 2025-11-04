@@ -1,5 +1,6 @@
 #include "commandValidators.h"
 #include "logger.h"
+#include "parser.h"
 #include <stdio.h>
 
 int checkDatabaseConnection(AppContext* app) {
@@ -76,4 +77,24 @@ int checkSelectCommandValidation(AppContext* app, int argc)
         return 0;
     return 1;
 }
+
+int checkSelectCommandArgsValidation(const char** argv, int argc)
+{
+
+    if (argc == 0)
+    {
+        printf("Error: insufficient number of parameters\n");
+        return 0;
+    }
+    if (!argv) {
+        printf("Error: expected keyword\n");
+        return 0;
+    }
+    if (isKeyWordInArray(argv, argc)) {
+        printf("Error: incorrect use of keyword\n");
+        return 0;
+    }
+    return 1;
+}
+
 

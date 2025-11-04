@@ -15,6 +15,8 @@ int isBracketsExists(const char ** argv, int argc, int ifNotExists);
 char *** extractInnerArgs(const char ** argv,int argc,int *innerArgs);
 
 char** extractSelectList(const char** argv, int argc, int *listArgs);
+int isKeyWordInArray(const char ** argv, int argc);
+
 
 #endif
 

@@ -243,6 +243,21 @@ char** extractSelectList(const char** argv, int argc, int* listArgs)
     return selectList;
 }
 
+int isKeyWordInArray(const char** argv, int argc)
+{
+    for (int i = 0; i < argc; i++) {
+
+        for (int k = 0; k < reservedWordsCount; k++) {
+
+            if (strcmp(argv[i], reservedWords[k]) == 0) {
+                return 1;
+            }
+        }
+
+    }
+    return 0;
+}
+
 
 
 

@@ -10,5 +10,6 @@ int checkDatabaseExists(AppContext* app, const char* name, int ifNotExists);
 int checkUseCommandValidation(AppContext* app, int argc);
 int checkUnuseCommandValidation(AppContext* app, int argc);
 int checkSelectCommandValidation(AppContext* app, int argc);
+int checkSelectCommandArgsValidation(const char ** argv, int argc);
 #endif
 
