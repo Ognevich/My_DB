@@ -4,6 +4,8 @@
 #include "util.h"
 #include <stdio.h>
 
+// FIX PROBLEM WITH HEAP !!!!
+
 void selectCommand(AppContext* app, const char** argv, int argc)
 {
 

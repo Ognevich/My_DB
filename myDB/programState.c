@@ -48,12 +48,11 @@ void freeAppContext(AppContext** program)
         }
         free(ctx->databases);
     }
+    ctx->currentDatabase = NULL;
 
-    free(ctx->currentDatabase);
     free(ctx);
     *program = NULL;
 }
-
 int isDatabaseExists(AppContext* app, const char* name)
 {
     for (int i = 0; i < app->databasesSize; i++)
