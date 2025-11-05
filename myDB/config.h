@@ -4,4 +4,6 @@
 #define BUFFER_SIZE 512
 #define FORBIDEN_SYMBOLS ",./';:][{}()!@#$%^&*-=+`~?|<>\"\\"
 
+#define TABLE_NAME_SIZE 50
+
 #endif

@@ -4,8 +4,6 @@
 #include "util.h"
 #include <stdio.h>
 
-// FIX PROBLEM WITH HEAP !!!!
-
 void selectCommand(AppContext* app, const char** argv, int argc)
 {
 
@@ -19,10 +17,13 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 		return;
 
 
-	for (int i = 0; i < selectArraySize; i++) {
-
-		printf("%s\n", selectArray[i]);
+	char tableName[TABLE_NAME_SIZE];
+	if (!extractTableName(argv, argc, tableName, TABLE_NAME_SIZE)) {
+		printf("Error: Table name not found\n");
+		return;
 	}
+
+	printf("%s\n", tableName);
 
 	freeTwoDimArray(&selectArray, selectArraySize);
 

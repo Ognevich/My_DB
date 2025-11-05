@@ -258,6 +258,26 @@ int isKeyWordInArray(const char** argv, int argc)
     return 0;
 }
 
+int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize)
+{
+    int foundFrom = 0;
+
+    for (int i = 0; i < argc; i++) {
+        if (strcmp(argv[i], "FROM") == 0) {
+            foundFrom = 1;
+            continue;
+        }
+
+        if (foundFrom) {
+            strncpy(outBuffer, argv[i], bufSize - 1);
+            outBuffer[bufSize - 1] = '\0';
+            return 1; 
+        }
+    }
+
+    return 0; 
+}
+
 
 
 

@@ -17,6 +17,7 @@ char *** extractInnerArgs(const char ** argv,int argc,int *innerArgs);
 char** extractSelectList(const char** argv, int argc, int *listArgs);
 int isKeyWordInArray(const char ** argv, int argc);
 
+int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize);
 
 #endif
 

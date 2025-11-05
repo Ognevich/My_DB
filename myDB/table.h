@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #ifndef _TABLE_H_
 #define _TABLE_H_
+#include "config.h"
+
 typedef enum 
 { 
 	INT, 
@@ -30,7 +32,7 @@ typedef struct {
 }Row;
 
 typedef struct {
-	char name[50];
+	char name[TABLE_NAME_SIZE];
 	Column* columns;
 	int columnCount;
 	Row* rows;
