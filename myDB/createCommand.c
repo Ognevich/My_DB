@@ -21,8 +21,8 @@ void createCommand(AppContext* app, char** argv, int argc)
 	int ifNotExists = isIfNotExistsUsed(argv, argc);
 	char* name = extractName(argv, argc, ifNotExists);
 
-	if (!name) {
-		logMessage(LOG_ERROR, "Invalid CREATE syntax");
+	if (name == NULL) {
+		printf("Error: Invalid CREATE syntax");
 		return;
 	}
 
@@ -59,6 +59,8 @@ void createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 
 }
 
+//FIX BUG WITH INCORRECT COLUMNS CREATIONS
+
 void processCreateTableCommand(AppContext* app, char** argv, int argc, const char* name, int ifNotExists)
 {
 	if (!isBracketsExists(argv, argc, ifNotExists)) {
@@ -68,6 +70,11 @@ void processCreateTableCommand(AppContext* app, char** argv, int argc, const cha
 
 	int innerArgs = 0;
 	const char*** innerBracketsArgv = extractInnerArgs(argv,argc, &innerArgs);
+
+	if (innerBracketsArgv == NULL) {
+		printf("Error: Incorrect args\n");
+		return;
+	}
 
 	createTableCommand(app, name, innerBracketsArgv,innerArgs,ifNotExists);
 

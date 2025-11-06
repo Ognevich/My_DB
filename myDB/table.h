@@ -52,7 +52,9 @@ int fillTableColumns(Table* table, char*** innerArgs, int innerSize);
 
 void insertRow(Table* table, Field* fields);
 void deleteRow(Table* table, int rowIndex);
-void updateRow(Table* table, int rowIndex, Field newValues);
+void updateRow(Table* table, int rowIndex, Field* newValues);
 
 void printTable(Table* table);
 void freeTable(Table * table);
+
+int isColumnsExists(const char** selectArray, int selectArraySize, Table* table, int* isAsterisk);

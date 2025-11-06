@@ -174,6 +174,9 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
             pair[1] = _strdup(currentType);
             pair[2] = NULL;
 
+            if (pair[i] == NULL)
+                return NULL;
+
             result[counter++] = pair;
 
             currentName = NULL;

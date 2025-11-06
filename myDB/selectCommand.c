@@ -27,7 +27,25 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 		return;
 	}
 
-	printf("%s\n", tableName);
+	// FIND OUT IF THE TABLE NEEDS TO BE CLEARED
+	Table* table = findTable(app->currentDatabase, tableName);
+	if (!table) {
+		printf("Error: Table %s don't exists\n", tableName);
+		return;
+	}
+
+	int isAsterisk = 0;
+	if (!isColumnsExists(selectArray, selectArraySize, table, &isAsterisk)) {
+		printf("Error: Wrong select args\n");
+		return;
+	}
+
+	if (isAsterisk) {
+		printTable(table);
+	}
+	else {
+
+	}
 
 	freeTwoDimArray(&selectArray, selectArraySize);
 

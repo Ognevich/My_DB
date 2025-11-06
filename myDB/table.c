@@ -193,4 +193,26 @@ void freeTable(Table* table)
 
 }
 
+int isColumnsExists(const char** selectArray, int selectArraySize, Table* table, int* isAsterisk)
+{
+    if (strcmp(selectArray[0], "*") == 0)
+    {
+        *isAsterisk = 1;
+        return 1;
+    }
+
+    for (int i = 0; i < selectArraySize; i++) {
+        int isColumn = 0;  
+        for (int j = 0; j < table->columnCount; j++) {
+            if (strcmp(selectArray[i], table->columns[j].name) == 0) {
+                isColumn = 1;
+                break;
+            }
+        }
+        if (!isColumn) {
+            return 0; 
+        }
+    }
+    return 1; 
+}
 
