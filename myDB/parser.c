@@ -253,55 +253,89 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
 
 char** extractSelectList(const char** argv, int argc, int* listArgs)
 {
-    int argsCount = 0;
-    int arraySize = 4;
-    char** selectList = malloc(arraySize * sizeof(char*));
-
+    int columnCount = 0;
+    int capacity = 4;
+    char** selectList = malloc(capacity * sizeof(char*));
     if (!selectList)
         return NULL;
 
-    int isKeyWord = 0;
+    int expectComma = 0;      
+    int foundFromKeyword = 0; 
+    int isValidSyntax = 1;    
 
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "FROM") == 0) {
-            isKeyWord = 1;
+    for (int i = 1; i < argc && isValidSyntax; i++) {
+        const char* token = argv[i];
+
+        if (strcmp(token, "FROM") == 0) {
+            if (!expectComma && columnCount > 0) {
+                fprintf(stderr, "Syntax error: unexpected 'FROM' after comma.\n");
+                isValidSyntax = 0;
+                break;
+            }
+            foundFromKeyword = 1;
             break;
         }
 
-        if (argsCount >= arraySize) {
-            arraySize *= 2;
-            char** tmp = realloc(selectList, arraySize * sizeof(char*));
-            if (!tmp) {
+        if (strcmp(token, ",") == 0) {
+            if (!expectComma) {
+                fprintf(stderr, "Syntax error: unexpected comma ',' before '%s'.\n",
+                    argv[i + 1] ? argv[i + 1] : "end of input");
+                isValidSyntax = 0;
+                break;
+            }
+            expectComma = 0; 
+            continue;
+        }
 
-                for (int j = 0; j < argsCount; j++)
-                    free(selectList[j]);
-                free(selectList);
-                return NULL;
+        if (expectComma) {
+            fprintf(stderr, "Syntax error: expected ',' before '%s'.\n", token);
+            isValidSyntax = 0;
+            break;
+        }
+
+        if (columnCount >= capacity) {
+            capacity *= 2;
+            char** tmp = realloc(selectList, capacity * sizeof(char*));
+            if (!tmp) {
+                isValidSyntax = 0;
+                break;
             }
             selectList = tmp;
         }
-        selectList[argsCount] = malloc(strlen(argv[i]) + 1);
-        if (!selectList[argsCount]) {
-            for (int j = 0; j < argsCount; j++)
-                free(selectList[j]);
-            free(selectList);
-            return NULL;
-        }
 
-        strcpy(selectList[argsCount], argv[i]);
-        argsCount++;
+        selectList[columnCount] = malloc(strlen(token) + 1);
+        if (!selectList[columnCount]) {
+            isValidSyntax = 0;
+            break;
+        }
+        strcpy(selectList[columnCount], token);
+        columnCount++;
+
+        expectComma = 1; 
     }
 
-    if (!isKeyWord) {
-        for (int i = 0; i < argsCount; i++)
+    if (isValidSyntax) {
+        if (!foundFromKeyword) {
+            fprintf(stderr, "Syntax error: missing 'FROM' keyword.\n");
+            isValidSyntax = 0;
+        }
+        else if (!expectComma && columnCount > 0) {
+            fprintf(stderr, "Syntax error: dangling comma at end of SELECT list.\n");
+            isValidSyntax = 0;
+        }
+    }
+
+    if (!isValidSyntax) {
+        for (int i = 0; i < columnCount; i++)
             free(selectList[i]);
         free(selectList);
         return NULL;
     }
 
-    *listArgs = argsCount;
+    *listArgs = columnCount;
     return selectList;
 }
+
 
 int isKeyWordInArray(const char** argv, int argc)
 {

@@ -177,15 +177,58 @@ void printTable(Table* table)
 
 void printSelectedColumns(Table* table, const char** columns, int columnsCount)
 {
-
-    printf("Table %s\n", table->name);
-
-    for (int i = 0; i < columnsCount; i++) {
-        printf("%s\t", columns[i]);
+    if (!table || !columns || columnsCount <= 0) {
+        fprintf(stderr, "Error: invalid arguments to printSelectedColumns.\n");
+        return;
     }
 
+    int* selectedIndices = malloc(columnsCount * sizeof(int));
+    if (!selectedIndices) {
+        fprintf(stderr, "Memory allocation failed for selectedIndices.\n");
+        return;
+    }
+
+    printf("Table: %s\n", table->name);
+
+    for (int i = 0; i < columnsCount; i++) {
+        int found = 0;
+        for (int j = 0; j < table->columnCount; j++) {
+            if (strcmp(columns[i], table->columns[j].name) == 0) {
+                selectedIndices[i] = j;
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            fprintf(stderr, "Warning: column '%s' not found in table '%s'.\n",
+                columns[i], table->name);
+            selectedIndices[i] = -1;
+        }
+    }
+
+    for (int i = 0; i < columnsCount; i++) {
+        if (selectedIndices[i] != -1)
+            printf("%s\t", columns[i]);
+    }
     printf("\n");
 
+    for (int i = 0; i < table->rowCount; i++) {
+        for (int j = 0; j < columnsCount; j++) {
+            int colIdx = selectedIndices[j];
+            if (colIdx == -1) continue;
+
+            Field f = table->rows[i].fields[colIdx];
+            switch (f.type) {
+            case INT:   printf("%d\t", f.iVal); break;
+            case FLOAT: printf("%.2f\t", f.fVal); break;
+            case CHAR:  printf("%s\t", f.sVal); break;
+            default:    printf("?\t"); break;
+            }
+        }
+        printf("\n");
+    }
+
+    free(selectedIndices);
 }
 
 void freeTable(Table* table)
