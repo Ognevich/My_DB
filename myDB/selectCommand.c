@@ -44,7 +44,7 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 		printTable(table);
 	}
 	else {
-
+		printSelectedColumns(table, selectArray, selectArraySize);
 	}
 
 	freeTwoDimArray(&selectArray, selectArraySize);

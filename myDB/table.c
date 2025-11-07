@@ -175,6 +175,19 @@ void printTable(Table* table)
 
 }
 
+void printSelectedColumns(Table* table, const char** columns, int columnsCount)
+{
+
+    printf("Table %s\n", table->name);
+
+    for (int i = 0; i < columnsCount; i++) {
+        printf("%s\t", columns[i]);
+    }
+
+    printf("\n");
+
+}
+
 void freeTable(Table* table)
 {
     if (!table) {

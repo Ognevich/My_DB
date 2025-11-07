@@ -3,6 +3,7 @@
 #include "logger.h"
 #include "commandHandler.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include "util.h"
 #include "config.h"
 #include <string.h>
@@ -136,58 +137,114 @@ int isBracketsExists(const char** argv, int argc, int ifNotExists)
     return 1;
 }
 
+static void freeInnerArgs(char*** result, int count) {
+    if (!result) return;
+    for (int i = 0; i < count; i++) {
+        free(result[i][0]);
+        free(result[i][1]);
+        free(result[i]);
+    }
+    free(result);
+}
+
+static int addPair(char**** resultPtr, int* count, int* capacity, const char* name, const char* type) {
+    char*** result = *resultPtr;
+
+    if (*count >= *capacity) {
+        *capacity *= 2;
+        char*** tmp = realloc(result, (*capacity) * sizeof(char**));
+        if (!tmp) return 0;
+        result = tmp;
+        *resultPtr = result;
+    }
+
+    char** pair = malloc(3 * sizeof(char*));
+    if (!pair) return 0;
+
+    pair[0] = _strdup(name);
+    pair[1] = _strdup(type);
+    pair[2] = NULL;
+
+    if (!pair[0] || !pair[1]) {
+        free(pair[0]);
+        free(pair[1]);
+        free(pair);
+        return 0;
+    }
+
+    result[*count] = pair;
+    (*count)++;
+    return 1;
+}
+
 char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
     if (!argv || argc <= 0 || !innerArgs) return NULL;
 
     int isOpenBracket = 0;
-    int counter = 0;         
-    int arraySize = 4;       
+    int counter = 0;
+    int arraySize = 4;
     char*** result = malloc(arraySize * sizeof(char**));
-
     if (!result) return NULL;
 
     char* currentName = NULL;
     char* currentType = NULL;
+    int expectComma = 0;
 
     for (int i = 0; i < argc; i++) {
+        const char* token = argv[i];
+
         if (!isOpenBracket) {
-            if (strcmp(argv[i], "(") == 0) {
+            if (strcmp(token, "(") == 0)
                 isOpenBracket = 1;
-            }
             continue;
         }
 
-        if (strcmp(argv[i], ")") == 0)
-            break;
-
-        if (strcmp(argv[i], ",") == 0)
-            continue;
-
-        if (!currentName) {
-            currentName = (char*)argv[i];
-        }
-        else if (!currentType) {
-            currentType = (char*)argv[i];
-
-            char** pair = malloc(3 * sizeof(char*));
-            pair[0] = _strdup(currentName);
-            pair[1] = _strdup(currentType);
-            pair[2] = NULL;
-
-            if (pair[i] == NULL)
+        if (strcmp(token, ")") == 0) {
+            if (currentName && !currentType) {
+                fprintf(stderr, "Error: column '%s' has no data type.\n", currentName);
+                freeInnerArgs(result, counter);
                 return NULL;
+            }
+            break;
+        }
 
-            result[counter++] = pair;
+        if (strcmp(token, ",") == 0) {
+            if (!expectComma) {
+                fprintf(stderr, "Syntax error: unexpected ',' near '%s'.\n", token);
+                freeInnerArgs(result, counter);
+                return NULL;
+            }
+            expectComma = 0;
+            continue;
+        }
 
-            currentName = NULL;
-            currentType = NULL;
+        if (!expectComma) {
+            if (!currentName)
+                currentName = (char*)token;
+            else if (!currentType) {
+                currentType = (char*)token;
 
-            if (counter >= arraySize) {
-                arraySize *= 2;
-                result = realloc(result, arraySize * sizeof(char**));
-                if (!result) return NULL;
+                if (!addPair(&result, &counter, &arraySize, currentName, currentType)) {
+                    freeInnerArgs(result, counter);
+                    return NULL;
+                }
+
+                currentName = NULL;
+                currentType = NULL;
+                expectComma = 1;
             }
         }
+        else {
+            fprintf(stderr, "Syntax error: expected ',' or ')' before '%s'.\n", token);
+            freeInnerArgs(result, counter);
+            return NULL;
+        }
+    }
+
+    if (!expectComma && currentName && !currentType) {
+        fprintf(stderr, "Error: column '%s' has no data type.\n", currentName);
+        freeInnerArgs(result, counter);
+        return NULL;
     }
 
     *innerArgs = counter;
