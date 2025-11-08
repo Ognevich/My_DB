@@ -89,6 +89,9 @@
     <ClCompile Include="selectCommand.c">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="insertCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -140,6 +143,9 @@
       <Filter>Source Files\Engine\CommandHandler</Filter>
     </ClInclude>
     <ClInclude Include="selectCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="insertCommand.h">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClInclude>
   </ItemGroup>

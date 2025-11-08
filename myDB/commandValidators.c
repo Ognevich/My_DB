@@ -69,7 +69,7 @@ int checkUnuseCommandValidation(AppContext* app, int argc)
 int checkSelectCommandValidation(AppContext* app, int argc)
 {
     if (argc < 4) {
-        printf("Usage: USE <database_name>\n");
+        printf("Usage: SELECT <database_name>\n");
         return 0;
     }
 
@@ -94,6 +94,18 @@ int checkSelectCommandArgsValidation(const char** argv, int argc)
         printf("Error: incorrect use of keyword\n");
         return 0;
     }
+    return 1;
+}
+
+int checkInsertCommandValidation(AppContext* app, int argc)
+{
+    if (argc < 7) {
+        printf("Error: insufficient number of parameters\n");
+        return 0;
+    }
+
+    if (!checkDatabaseConnection(app))
+        return 0;
     return 1;
 }
 

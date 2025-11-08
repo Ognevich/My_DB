@@ -4,6 +4,7 @@ D:\my_projects\C\myDB\myDB\createCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\
 D:\my_projects\C\myDB\myDB\database.c;D:\my_projects\C\myDB\myDB\x64\Debug\database.obj
 D:\my_projects\C\myDB\myDB\db_engine.c;D:\my_projects\C\myDB\myDB\x64\Debug\db_engine.obj
 D:\my_projects\C\myDB\myDB\File_Utils.c;D:\my_projects\C\myDB\myDB\x64\Debug\File_Utils.obj
+D:\my_projects\C\myDB\myDB\insertCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\insertCommand.obj
 D:\my_projects\C\myDB\myDB\logger.c;D:\my_projects\C\myDB\myDB\x64\Debug\logger.obj
 D:\my_projects\C\myDB\myDB\main.c;D:\my_projects\C\myDB\myDB\x64\Debug\main.obj
 D:\my_projects\C\myDB\myDB\parser.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser.obj

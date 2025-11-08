@@ -134,6 +134,7 @@
     <ClCompile Include="database.c" />
     <ClCompile Include="db_engine.c" />
     <ClCompile Include="File_Utils.c" />
+    <ClCompile Include="insertCommand.c" />
     <ClCompile Include="logger.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="parser.c" />
@@ -154,6 +155,7 @@
     <ClInclude Include="database.h" />
     <ClInclude Include="db_engine.h" />
     <ClInclude Include="File_Utils.h" />
+    <ClInclude Include="insertCommand.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="parser.h" />
     <ClInclude Include="programState.h" />
