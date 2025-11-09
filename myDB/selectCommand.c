@@ -16,6 +16,7 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 	if (checkSelectCommandArgsValidation(selectArray, selectArraySize) <= 0)
 		return;
 
+
 	char tableName[TABLE_NAME_SIZE];
 	if (!extractTableName(argv, argc, tableName, TABLE_NAME_SIZE)) {
 		printf("Error: Table argument is empty\n");

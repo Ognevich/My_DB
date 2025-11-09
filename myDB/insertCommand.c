@@ -18,4 +18,14 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 		return;
 	}
 
+	if (argv[3] == "(") {
+
+	}
+	else if (argv[3] == "VALUES") {
+
+	}
+	else {
+		printf("ERROR: incorrect argument\n");
+	}
+
 }

@@ -2,6 +2,7 @@
 #include "parser.h"
 #include "logger.h"
 #include "commandHandler.h"
+#include "commandValidators.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include "util.h"
@@ -98,7 +99,7 @@ char* extractName(char** argv, int argc, int ifNotExists) {
     if (ifNotExists && argc >= 6) name = argv[5];
     else if (!ifNotExists && argc >= 3) name = argv[2];
 
-    if (!name || isReservedWord(name) || !isValidName(name))
+    if (!name || isReservedWord(name) || hasForbiddenSymbol(name))
         return NULL;
     return name;
 }
@@ -110,17 +111,6 @@ int isReservedWord(const char* word)
             return 1;
     }
     return 0;
-}
-
-int isValidName(const char* word)
-{
-    while (*word != '\0')
-    {
-        if (strchr(FORBIDEN_SYMBOLS, *word))
-            return 0;
-        word++;
-    }
-    return 1;
 }
 
 int isBracketsExists(const char** argv, int argc, int ifNotExists)
@@ -246,7 +236,6 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
         freeInnerArgs(result, counter);
         return NULL;
     }
-
     *innerArgs = counter;
     return result;
 }
@@ -371,12 +360,3 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
 
     return 0; 
 }
-
-
-
-
-
-
-
-
-

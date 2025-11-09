@@ -1,9 +1,5 @@
 ﻿  commandValidators.c
-  createCommand.c
-  insertCommand.c
   selectCommand.c
-  unuseCommand.c
-  useCommand.c
   Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,

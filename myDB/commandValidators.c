@@ -1,7 +1,10 @@
 #include "commandValidators.h"
+#include "string.h"
+#include "config.h"
 #include "logger.h"
 #include "parser.h"
 #include <stdio.h>
+#include <ctype.h>
 
 int checkDatabaseConnection(AppContext* app) {
     if (app->currentDatabase == NULL) {
@@ -35,6 +38,22 @@ int checkDatabaseExists(AppContext* app, const char* name, int ifNotExists)
             return -1;
         }
     }
+    return 1;
+}
+
+int checkCreateTableArguments(const char*** argv, int argc)
+{
+    if (argv == NULL) {
+        printf("Error: Incorrect args\n");
+        return 0;
+    }
+
+    for (int i = 0; i < argc; i++)
+    {
+        if (!isValidArgs(argv[i], COLUMN_ARGUMENTS))
+            return 0;
+    }
+
     return 1;
 }
 
@@ -94,6 +113,9 @@ int checkSelectCommandArgsValidation(const char** argv, int argc)
         printf("Error: incorrect use of keyword\n");
         return 0;
     }
+    if (!isValidArgs(argv, argc))
+        return 0;
+
     return 1;
 }
 
@@ -107,6 +129,45 @@ int checkInsertCommandValidation(AppContext* app, int argc)
     if (!checkDatabaseConnection(app))
         return 0;
     return 1;
+}
+
+int isValidArgs(const char** args, int argc)
+{
+    for (int i = 0; i < argc; i++) {
+        if (hasForbiddenSymbol(args[i])) {
+            printf("Error: argument %s has forbidden symbol\n", args[i]);
+            return 0;
+        }
+        if (startsWithNumber(args[i])) {
+            printf("Error: argument %s start with number\n", args[i]);
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int hasForbiddenSymbol(const char* word)
+{
+    while (*word != '\0') {
+
+        if (strchr(FORBIDEN_SYMBOLS, *word))
+            return 1;
+
+        word++;
+    }
+    return 0;
+}
+
+int startsWithNumber(const char* word)
+{
+    if (word == NULL || *word == '\0') {
+        return 0;
+    }
+    if (isdigit((unsigned char)*word)) {
+        return 1;
+    }
+    return 0;
 }
 
 

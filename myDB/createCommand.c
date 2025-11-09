@@ -22,7 +22,7 @@ void createCommand(AppContext* app, char** argv, int argc)
 	char* name = extractName(argv, argc, ifNotExists);
 
 	if (name == NULL) {
-		printf("Error: Invalid CREATE syntax");
+		printf("Error: Invalid CREATE syntax\n");
 		return;
 	}
 
@@ -38,9 +38,10 @@ void createCommand(AppContext* app, char** argv, int argc)
 }
 void createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 {
-	int check = checkDatabaseExists(app, name, ifNotExists);
-	if (check <= 0)
+	if (checkDatabaseExists(app, name, ifNotExists) <= 0) {
+		printf("Database %s already exists\n", name);
 		return;
+	}
 	
 	Database* db = createDatabase(name);
 
@@ -59,8 +60,6 @@ void createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 
 }
 
-//FIX BUG WITH INCORRECT COLUMNS CREATIONS
-
 void processCreateTableCommand(AppContext* app, char** argv, int argc, const char* name, int ifNotExists)
 {
 	if (!isBracketsExists(argv, argc, ifNotExists)) {
@@ -71,11 +70,9 @@ void processCreateTableCommand(AppContext* app, char** argv, int argc, const cha
 	int innerArgs = 0;
 	const char*** innerBracketsArgv = extractInnerArgs(argv,argc, &innerArgs);
 
-	if (innerBracketsArgv == NULL) {
-		printf("Error: Incorrect args\n");
+	if (checkCreateTableArguments(innerBracketsArgv, innerArgs) <= 0) 
 		return;
-	}
-
+	
 	createTableCommand(app, name, innerBracketsArgv,innerArgs,ifNotExists);
 
 	freeThreeDimArray(&innerBracketsArgv, innerArgs);

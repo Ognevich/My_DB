@@ -5,10 +5,19 @@
 int checkDatabaseConnection(AppContext* app);
 int checkTableExists(AppContext* app, const char* name, int ifNotExists);
 int checkDatabaseExists(AppContext* app, const char* name, int ifNotExists);
+
+int checkCreateTableArguments(const char *** argv, int argc);
+
 int checkUseCommandValidation(AppContext* app, int argc);
 int checkUnuseCommandValidation(AppContext* app, int argc);
 int checkSelectCommandValidation(AppContext* app, int argc);
 int checkSelectCommandArgsValidation(const char ** argv, int argc);
 int checkInsertCommandValidation(AppContext* app, int argc);
+
+int isValidArgs(const char ** args, int argc);
+int hasForbiddenSymbol(const char* word);
+int startsWithNumber(const char* word);
+
+
 #endif
 
