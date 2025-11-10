@@ -144,6 +144,8 @@ int isValidArgs(const char** args, int argc)
         }
     }
 
+    
+
     return 1;
 }
 
