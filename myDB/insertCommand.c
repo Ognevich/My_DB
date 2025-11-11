@@ -18,11 +18,16 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 		return;
 	}
 
-	if (argv[3] == "(") {
+	const char** extractedColumns = NULL;
+	const char*** extractedValues = NULL;
+	int columnsSize = 0;
+	int valuesSize = 0;
 
+	if (strcmp(argv[3], "(") == 0) {
+		extractedColumns = extractColumnsToInsert(argv, argc, &columnsSize);
 	}
-	else if (argv[3] == "VALUES") {
-
+	else if (strcmp(argv[3],"VALUES") == 0) {
+		extractedValues = extractedValuesToInsert(argv, argc, &valuesSize);
 	}
 	else {
 		printf("ERROR: incorrect argument\n");
