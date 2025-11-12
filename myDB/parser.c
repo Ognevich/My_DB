@@ -360,3 +360,26 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
 
     return 0; 
 }
+
+char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* columnsSize)
+{
+    
+    int currentSize = 0;
+    int maxSize = 4;
+    char** extractColumns = malloc(sizeof(char*) * maxSize);
+
+    if (!extractColumns)
+        return;
+
+    for (int i = 0; i < argc; i++) {
+
+        
+
+    }
+
+}
+
+char*** extractedValuesToInsert(const char** argv, int argc, int* valuesSize)
+{
+    
+}

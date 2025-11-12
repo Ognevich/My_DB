@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "insertCommand.h"
 #include "commandValidators.h"
+#include "parser.h"
 
 void insertCommand(AppContext* app, const char** argv, int argc)
 {
@@ -24,10 +25,10 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 	int valuesSize = 0;
 
 	if (strcmp(argv[3], "(") == 0) {
-		extractedColumns = extractColumnsToInsert(argv, argc, &columnsSize);
+		extractedColumns = extractColumnsToInsert(argv, argc, 4, &columnsSize);
 	}
 	else if (strcmp(argv[3],"VALUES") == 0) {
-		extractedValues = extractedValuesToInsert(argv, argc, &valuesSize);
+		extractedValues = extractedValuesToInsert(argv, argc, 4,&valuesSize);
 	}
 	else {
 		printf("ERROR: incorrect argument\n");
