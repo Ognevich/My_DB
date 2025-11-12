@@ -12,7 +12,7 @@ int checkUseCommandValidation(AppContext* app, int argc);
 int checkUnuseCommandValidation(AppContext* app, int argc);
 int checkSelectCommandValidation(AppContext* app, int argc);
 int checkSelectCommandArgsValidation(const char ** argv, int argc);
-int checkInsertCommandValidation(AppContext* app, int argc);
+int checkInsertCommandValidation(AppContext* app, const char ** argv,int argc);
 
 int isValidArgs(const char ** args, int argc);
 int hasForbiddenSymbol(const char* word);

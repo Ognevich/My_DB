@@ -363,23 +363,49 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
 
 char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* columnsSize)
 {
-    
     int currentSize = 0;
     int maxSize = 4;
-    char** extractColumns = malloc(sizeof(char*) * maxSize);
+    char** extractedColumns = malloc(sizeof(char*) * maxSize);
+    if (!extractedColumns)
+        return NULL;
 
-    if (!extractColumns)
-        return;
+    int i = startPos;
+    for (; i < argc; i++) {
+        if (strcmp(argv[i], ")") == 0) {
+            break;
+        }
 
-    for (int i = 0; i < argc; i++) {
+        if (strcmp(argv[i], ",") == 0)
+            continue;
 
-        
+        if (currentSize >= maxSize) {
+            maxSize *= 2;
+            extractedColumns = realloc(extractedColumns, sizeof(char*) * maxSize);
+            if (!extractedColumns)
+                return NULL;
+        }
 
+        extractedColumns[currentSize] = _strdup(argv[i]);
+        currentSize++;
     }
 
+    if (i >= argc || strcmp(argv[i], ")") != 0) {
+        printf("ERROR: missing closing parenthesis ')'\n");
+        free(extractedColumns);
+        return NULL;
+    }
+
+    if (i + 1 >= argc || strcmp(argv[i + 1], "VALUES") != 0) {
+        printf("ERROR: expected keyword 'VALUES' after closing parenthesis\n");
+        free(extractedColumns);
+        return NULL;
+    }
+
+    *columnsSize = currentSize;
+    return extractedColumns;
 }
 
-char*** extractedValuesToInsert(const char** argv, int argc, int* valuesSize)
+char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize)
 {
     
 }

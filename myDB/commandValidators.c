@@ -119,7 +119,7 @@ int checkSelectCommandArgsValidation(const char** argv, int argc)
     return 1;
 }
 
-int checkInsertCommandValidation(AppContext* app, int argc)
+int checkInsertCommandValidation(AppContext* app, const char** argv, int argc)
 {
     if (argc < 7) {
         printf("Error: insufficient number of parameters\n");
@@ -128,6 +128,17 @@ int checkInsertCommandValidation(AppContext* app, int argc)
 
     if (!checkDatabaseConnection(app))
         return 0;
+
+    if (strcmp(argv[1], "INTO") != 0) {
+        printf("Error: missed keyword 'INTO'\n");
+        return 0;
+    }
+
+    if (checkTableExists(app, argv[2], 1) == 1) {
+        printf("Table %s don't exists\n", argv[2]);
+        return 0;
+    }
+
     return 1;
 }
 
