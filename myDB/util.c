@@ -16,10 +16,9 @@ int increaseTwoDimCharArray(char*** array, int size)
 
 void freeTwoDimArray(void*** array, int rows)
 {
-    if (array == NULL || *array == NULL)
-        return;
+    if (!array || !*array) return;
 
-    char** arr = *array;
+    void** arr = *array;
 
     for (int i = 0; i < rows; i++) {
         free(arr[i]);
@@ -30,7 +29,7 @@ void freeTwoDimArray(void*** array, int rows)
     *array = NULL;
 }
 
-void freeThreeDimArray(char**** array, int rows) {
+void freeThreeDimArray(void**** array, int rows) {
     if (!array || !*array) return;
 
     char*** arr = *array;

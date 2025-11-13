@@ -113,8 +113,6 @@ int checkSelectCommandArgsValidation(const char** argv, int argc)
         printf("Error: incorrect use of keyword\n");
         return 0;
     }
-    if (!isValidArgs(argv, argc))
-        return 0;
 
     return 1;
 }

@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "insertCommand.h"
+#include "util.h"
 #include "commandValidators.h"
 #include "parser.h"
 
@@ -8,6 +9,8 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 {
 	if (checkInsertCommandValidation(app,argv, argc) <= 0)
 		return;
+
+	Table* table = findTable(app->currentDatabase, argv[2]);
 
 	const char** extractedColumns = NULL;
 	const char*** extractedValues = NULL;
@@ -20,8 +23,11 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 			return;
 		}
 
-		for (int i = 0; i < columnsSize; i++) {
-			printf("%s\n", extractedColumns[i]);
+		int isAsterics = 0;
+		if (isColumnsExists(extractedColumns, columnsSize, table, &isAsterics))
+		{
+			printf("ERROR: Columns didn't exists\n");
+			return;
 		}
 
 		if (!isValidArgs(extractedColumns, columnsSize)) {
@@ -36,4 +42,6 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 		printf("ERROR: incorrect argument\n");
 	}
 
+	freeTwoDimArray(extractedColumns, columnsSize);
+	freeThreeDimArray(extractedValues, valuesSize);
 }

@@ -427,5 +427,18 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
 
 char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize)
 {
-    
+    int currentSize = 0;
+    int maxSize = 4;
+    int expectColumn = 1;
+    char extractedValues = malloc(sizeof(char**) * maxSize);
+    if (!extractedValues)
+        return;
+
+    int i = 0;
+    while (argv[i] != NULL) {
+
+
+    }
+
+
 }

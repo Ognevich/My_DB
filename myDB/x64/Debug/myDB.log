@@ -1,7 +1,4 @@
-﻿  insertCommand.c
-  parser.c
-  Generating Code...
-D:\my_projects\C\myDB\myDB\parser.c(431,1): warning C4716: 'extractedValuesToInsert': must return a value
+﻿  commandValidators.c
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
