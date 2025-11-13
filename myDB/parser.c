@@ -365,44 +365,64 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
 {
     int currentSize = 0;
     int maxSize = 4;
+    int expectColumn = 1; 
     char** extractedColumns = malloc(sizeof(char*) * maxSize);
     if (!extractedColumns)
         return NULL;
 
-    int i = startPos;
-    for (; i < argc; i++) {
+    for (int i = startPos; i < argc; i++) {
         if (strcmp(argv[i], ")") == 0) {
+            if (expectColumn && currentSize > 0) {
+                printf("Error: trailing comma before ')'\n");
+                break;
+            }
+
+            if (i + 1 >= argc || strcmp(argv[i + 1], "VALUES") != 0) {
+                printf("ERROR: expected keyword 'VALUES' after closing parenthesis\n");
+                break;
+            }
+
+            *columnsSize = currentSize;
+            return extractedColumns;
+        }
+
+        if (strcmp(argv[i], ",") == 0) {
+            if (expectColumn) {
+                printf("Error: unexpected comma\n");
+                break;
+            }
+            expectColumn = 1;
+            continue;
+        }
+
+        if (expectColumn) {
+            if (currentSize >= maxSize) {
+                maxSize *= 2;
+                char** temp = realloc(extractedColumns, sizeof(char*) * maxSize);
+                if (!temp) {
+                    printf("Error: memory allocation failed\n");
+                    break;
+                }
+                extractedColumns = temp;
+            }
+
+            extractedColumns[currentSize] = _strdup(argv[i]);
+            if (!extractedColumns[currentSize]) {
+                printf("Error: strdup failed\n");
+                break;
+            }
+            currentSize++;
+            expectColumn = 0;
+        }
+        else {
+            printf("Error: missing comma before '%s'\n", argv[i]);
             break;
         }
-
-        if (strcmp(argv[i], ",") == 0)
-            continue;
-
-        if (currentSize >= maxSize) {
-            maxSize *= 2;
-            extractedColumns = realloc(extractedColumns, sizeof(char*) * maxSize);
-            if (!extractedColumns)
-                return NULL;
-        }
-
-        extractedColumns[currentSize] = _strdup(argv[i]);
-        currentSize++;
     }
-
-    if (i >= argc || strcmp(argv[i], ")") != 0) {
-        printf("ERROR: missing closing parenthesis ')'\n");
-        free(extractedColumns);
-        return NULL;
-    }
-
-    if (i + 1 >= argc || strcmp(argv[i + 1], "VALUES") != 0) {
-        printf("ERROR: expected keyword 'VALUES' after closing parenthesis\n");
-        free(extractedColumns);
-        return NULL;
-    }
-
-    *columnsSize = currentSize;
-    return extractedColumns;
+    for (int j = 0; j < currentSize; j++)
+        free(extractedColumns[j]);
+    free(extractedColumns);
+    return NULL;
 }
 
 char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize)

@@ -16,19 +16,19 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
 	if (strcmp(argv[3], "(") == 0) {
 		extractedColumns = extractColumnsToInsert(argv, argc, 4, &columnsSize);
-	}
+		if (extractedColumns == NULL) {
+			return;
+		}
 
-	if (extractedColumns == NULL) {
-		return;
-	}
-	for (int i = 0; i < columnsSize; i++) {
-		printf("%s\n", extractedColumns[i]);
-	}
+		for (int i = 0; i < columnsSize; i++) {
+			printf("%s\n", extractedColumns[i]);
+		}
 
-	if (!isValidArgs(extractedColumns, columnsSize)) {
-		return;
-	}
+		if (!isValidArgs(extractedColumns, columnsSize)) {
+			return;
+		}
 
+	}
 	else if (strcmp(argv[3],"VALUES") == 0) {
 		extractedValues = extractedValuesToInsert(argv, argc, 4,&valuesSize);
 	}
