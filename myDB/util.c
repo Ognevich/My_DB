@@ -72,6 +72,13 @@ FieldType StrToField(char* filedType)
     return NONE;
 }
 
+void printTokens(const char** tokens, int tokensSize)
+{
+    for (int i = 0; i < tokensSize; i++) {
+        printf("%s\n", tokens[i]);
+    }
+}
+
 int defineColumnSize(FieldType type);
 
 int defineColumnSize(FieldType type)

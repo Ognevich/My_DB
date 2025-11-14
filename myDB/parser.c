@@ -434,10 +434,29 @@ char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* 
     if (!extractedValues)
         return;
 
-    int i = 0;
-    while (argv[i] != NULL) {
+    int i = startPos;
+    int inParentheses = 0;
+    char currentValue[256] = { 0 };
+    int valueIndex = 0;
+    int rowIndex = 0;
+    int maxColumns = 0;
 
+    char** currentRow = NULL;
+    int currentRowSize = 0;
+    int currentRowMaxSize = 0;
 
+    while (i < argc) {
+        const char* token = argv[i];
+
+        if (strcmp(token, "VALUES") == 0) {
+            i++;
+            continue;
+        }
+
+        if (strcmp(token, "(")){
+            inParentheses = 1;
+            continue;
+        }
     }
 
 

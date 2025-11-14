@@ -1,4 +1,21 @@
-﻿  commandValidators.c
+﻿  app.c
+  createCommand.c
+D:\my_projects\C\myDB\myDB\app.c(82,27): warning C4013: 'isspace' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\app.c(81,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  insertCommand.c
+D:\my_projects\C\myDB\myDB\insertCommand.c(47,18): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\insertCommand.c(48,20): warning C4090: 'function': different 'const' qualifiers
+  parser.c
+D:\my_projects\C\myDB\myDB\parser.c(435,9): warning C4033: 'extractedValuesToInsert' must return a value
+D:\my_projects\C\myDB\myDB\parser.c(433,10): warning C4047: 'initializing': 'char' differs in levels of indirection from 'void *'
+  selectCommand.c
+  showCommand.c
+D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  util.c
+D:\my_projects\C\myDB\myDB\util.c(35,13): warning C4133: 'initializing': incompatible types - from 'void ***' to 'char ***'
+  Generating Code...
+D:\my_projects\C\myDB\myDB\parser.c(460,1): warning C4716: 'extractedValuesToInsert': must return a value
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

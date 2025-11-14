@@ -37,6 +37,8 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 	}
 	else if (strcmp(argv[3],"VALUES") == 0) {
 		extractedValues = extractedValuesToInsert(argv, argc, 4,&valuesSize);
+		if (!extractedValues)
+			return;
 	}
 	else {
 		printf("ERROR: incorrect argument\n");

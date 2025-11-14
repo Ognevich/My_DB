@@ -10,6 +10,7 @@ int defineColumnSize(FieldType type);
 
 FieldType StrToField(char * filedType);
 
+void printTokens(const char** tokens, int tokensSize);
 
 #endif
 
