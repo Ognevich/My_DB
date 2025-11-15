@@ -425,39 +425,64 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
     return NULL;
 }
 
-char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize)
-{
-    int currentSize = 0;
-    int maxSize = 4;
-    int expectColumn = 1;
-    char extractedValues = malloc(sizeof(char**) * maxSize);
-    if (!extractedValues)
-        return;
-
-    int i = startPos;
-    int inParentheses = 0;
-    char currentValue[256] = { 0 };
-    int valueIndex = 0;
-    int rowIndex = 0;
-    int maxColumns = 0;
-
-    char** currentRow = NULL;
-    int currentRowSize = 0;
-    int currentRowMaxSize = 0;
-
-    while (i < argc) {
-        const char* token = argv[i];
-
-        if (strcmp(token, "VALUES") == 0) {
-            i++;
-            continue;
-        }
-
-        if (strcmp(token, "(")){
-            inParentheses = 1;
-            continue;
-        }
+char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize) {
+    if (startPos >= argc || argv == NULL) {
+        *valuesSize = 0;
+        return NULL;
     }
 
+    int maxSize = 10;
+    char*** extractedValues = malloc(sizeof(char**) * maxSize);
+    if (!extractedValues) {
+        *valuesSize = 0;
+        return NULL;
+    }
+    int currentSize = 0;
 
+    int i = startPos;
+
+    while (i < argc) {
+        if (strcmp(argv[i], "(") == 0) {
+            i++; 
+
+            int rowSize = 0;
+            int rowMaxSize = 10;
+            char** row = malloc(sizeof(char*) * rowMaxSize);
+
+            while (i < argc && strcmp(argv[i], ")") != 0) {
+                if (strcmp(argv[i], ",") == 0) {
+                    i++;
+                    continue;
+                }
+
+                if (rowSize >= rowMaxSize) {
+                    rowMaxSize *= 2;
+                    row = realloc(row, sizeof(char*) * rowMaxSize);
+                }
+                row[rowSize] = malloc(strlen(argv[i]) + 1);
+                strcpy(row[rowSize], argv[i]);
+                rowSize++;
+                i++;
+            }
+
+            char** finalRow = malloc(sizeof(char*) * (rowSize + 1));
+            for (int j = 0; j < rowSize; j++) {
+                finalRow[j] = malloc(strlen(row[j]) + 1);
+                strcpy(finalRow[j], row[j]);
+                free(row[j]);
+            }
+            finalRow[rowSize] = NULL;
+            free(row);
+
+            if (currentSize >= maxSize) {
+                maxSize *= 2;
+                extractedValues = realloc(extractedValues, sizeof(char**) * maxSize);
+            }
+            extractedValues[currentSize++] = finalRow;
+        }
+        i++;
+    }
+
+    *valuesSize = currentSize;
+    return extractedValues;
 }

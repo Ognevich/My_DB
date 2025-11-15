@@ -11,6 +11,7 @@ int defineColumnSize(FieldType type);
 FieldType StrToField(char * filedType);
 
 void printTokens(const char** tokens, int tokensSize);
+void printParsedValues(char *** values,int valuesSize );
 
 #endif
 

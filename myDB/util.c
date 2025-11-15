@@ -79,6 +79,22 @@ void printTokens(const char** tokens, int tokensSize)
     }
 }
 
+void printParsedValues(char*** values, int valuesSize) {
+    printf("Parsed %d value groups:\n", valuesSize);
+    for (int i = 0; i < valuesSize; i++) {
+        printf("Row %d: ", i + 1);
+        if (values[i] != NULL) {
+            for (int j = 0; values[i][j] != NULL; j++) {
+                printf("'%s'", values[i][j]);
+                if (values[i][j + 1] != NULL) {
+                    printf(", ");
+                }
+            }
+        }
+        printf("\n");
+    }
+}
+
 int defineColumnSize(FieldType type);
 
 int defineColumnSize(FieldType type)

@@ -5,6 +5,7 @@ d:\my_projects\c\mydb\mydb\x64\debug\usecommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\unusecommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\table.obj
 d:\my_projects\c\mydb\mydb\x64\debug\showcommand.obj
+d:\my_projects\c\mydb\mydb\x64\debug\selectcommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\programstate.obj
 d:\my_projects\c\mydb\mydb\x64\debug\parser.obj
 d:\my_projects\c\mydb\mydb\x64\debug\main.obj
@@ -15,7 +16,7 @@ d:\my_projects\c\mydb\mydb\x64\debug\database.obj
 d:\my_projects\c\mydb\mydb\x64\debug\createcommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\commandvalidators.obj
 d:\my_projects\c\mydb\mydb\x64\debug\app.obj
-d:\my_projects\c\mydb\mydb\x64\debug\selectcommand.obj
+d:\my_projects\c\mydb\mydb\x64\debug\insertcommand.obj
 d:\my_projects\c\mydb\x64\debug\mydb.exe
 d:\my_projects\c\mydb\x64\debug\mydb.pdb
 d:\my_projects\c\mydb\mydb\x64\debug\mydb.ilk
