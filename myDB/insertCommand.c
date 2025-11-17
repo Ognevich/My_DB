@@ -38,6 +38,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 	else if (strcmp(argv[3],"VALUES") == 0) {
 		extractedValues = extractedValuesToInsert(argv, argc, 4,&valuesSize);
 
+		printParsedValues(extractedValues, valuesSize);
 
 		if (!extractedValues)
 			return;
@@ -47,5 +48,5 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 	}
 
 	freeTwoDimArray(extractedColumns, columnsSize);
-	freeThreeDimArray(extractedValues, valuesSize);
+	freeParsedValues(extractedValues, valuesSize);
 }

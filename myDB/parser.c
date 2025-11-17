@@ -425,62 +425,149 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
     return NULL;
 }
 
-char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize) {
-    if (startPos >= argc || argv == NULL) {
-        *valuesSize = 0;
-        return NULL;
-    }
-
-    int maxSize = 10;
-    char*** extractedValues = malloc(sizeof(char**) * maxSize);
-    if (!extractedValues) {
-        *valuesSize = 0;
-        return NULL;
-    }
-    int currentSize = 0;
-
-    int i = startPos;
-
-    while (i < argc) {
-        if (strcmp(argv[i], "(") == 0) {
-            i++; 
-
-            int rowSize = 0;
-            int rowMaxSize = 10;
-            char** row = malloc(sizeof(char*) * rowMaxSize);
-
-            while (i < argc && strcmp(argv[i], ")") != 0) {
-                if (strcmp(argv[i], ",") == 0) {
-                    i++;
-                    continue;
-                }
-
-                if (rowSize >= rowMaxSize) {
-                    rowMaxSize *= 2;
-                    row = realloc(row, sizeof(char*) * rowMaxSize);
-                }
-                row[rowSize] = malloc(strlen(argv[i]) + 1);
-                strcpy(row[rowSize], argv[i]);
-                rowSize++;
-                i++;
-            }
-
-            char** finalRow = malloc(sizeof(char*) * (rowSize + 1));
-            for (int j = 0; j < rowSize; j++) {
-                finalRow[j] = malloc(strlen(row[j]) + 1);
-                strcpy(finalRow[j], row[j]);
+static void freeExtractedValues(char*** values, int size) {
+    if (!values) return;
+    for (int i = 0; i < size; i++) {
+        char** row = values[i];
+        if (row) {
+            for (int j = 0; row[j]; j++) {
                 free(row[j]);
             }
-            finalRow[rowSize] = NULL;
             free(row);
+        }
+    }
+    free(values);
+}
+
+static char** parseRow(const char** argv, int argc, int* index) {
+    if (strcmp(argv[*index], "(") != 0) {
+        printf("Syntax error: expected '('\n");
+        return NULL;
+    }
+    (*index)++; 
+
+    int rowSize = 0, rowMaxSize = 10;
+    char** row = malloc(sizeof(char*) * rowMaxSize);
+    if (!row) return NULL;
+
+    int expectValue = 1;
+    while (*index < argc && strcmp(argv[*index], ")") != 0) {
+        if (strcmp(argv[*index], ",") == 0) {
+            if (expectValue) {
+                printf("Syntax error: unexpected ','\n");
+                for (int j = 0; j < rowSize; j++) free(row[j]);
+                free(row);
+                return NULL;
+            }
+            expectValue = 1;
+            (*index)++;
+            continue;
+        }
+
+        if (!expectValue) {
+            printf("Syntax error: missing ',' between values\n");
+            for (int j = 0; j < rowSize; j++) free(row[j]);
+            free(row);
+            return NULL;
+        }
+
+        if (rowSize >= rowMaxSize) {
+            rowMaxSize *= 2;
+            char** tmp = realloc(row, sizeof(char*) * rowMaxSize);
+            if (!tmp) {
+                for (int j = 0; j < rowSize; j++) free(row[j]);
+                free(row);
+                return NULL;
+            }
+            row = tmp;
+        }
+
+        row[rowSize] = malloc(strlen(argv[*index]) + 1);
+        if (!row[rowSize]) {
+            for (int j = 0; j < rowSize; j++) free(row[j]);
+            free(row);
+            return NULL;
+        }
+        strcpy(row[rowSize], argv[*index]);
+        rowSize++;
+        expectValue = 0;
+        (*index)++;
+    }
+
+    if (*index >= argc || strcmp(argv[*index], ")") != 0) {
+        printf("Syntax error: missing closing ')'\n");
+        for (int j = 0; j < rowSize; j++) free(row[j]);
+        free(row);
+        return NULL;
+    }
+
+    (*index)++; 
+
+    char** finalRow = malloc(sizeof(char*) * (rowSize + 1));
+    if (!finalRow) {
+        for (int j = 0; j < rowSize; j++) free(row[j]);
+        free(row);
+        return NULL;
+    }
+
+    for (int j = 0; j < rowSize; j++) finalRow[j] = row[j];
+    finalRow[rowSize] = NULL;
+    free(row);
+
+    return finalRow;
+}
+
+char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize) {
+    *valuesSize = 0;
+    if (!argv || startPos >= argc) return NULL;
+
+    int maxSize = 10, currentSize = 0;
+    char*** extractedValues = malloc(sizeof(char**) * maxSize);
+    if (!extractedValues) return NULL;
+
+    int i = startPos;
+    int expectBlock = 1;
+
+    while (i < argc) {
+        if (expectBlock) {
+            char** row = parseRow(argv, argc, &i);
+            if (!row) {
+                freeExtractedValues(extractedValues, currentSize);
+                return NULL;
+            }
 
             if (currentSize >= maxSize) {
                 maxSize *= 2;
-                extractedValues = realloc(extractedValues, sizeof(char**) * maxSize);
+                char*** tmp = realloc(extractedValues, sizeof(char**) * maxSize);
+                if (!tmp) {
+                    freeExtractedValues(extractedValues, currentSize);
+                    for (int j = 0; row[j]; j++) free(row[j]);
+                    free(row);
+                    return NULL;
+                }
+                extractedValues = tmp;
             }
-            extractedValues[currentSize++] = finalRow;
+
+            extractedValues[currentSize++] = row;
+            expectBlock = 0;
         }
-        i++;
+        else {
+            if (strcmp(argv[i], ",") == 0) {
+                expectBlock = 1;
+                i++;
+            }
+            else {
+                printf("Syntax error: expected ',' between blocks but found '%s'\n", argv[i]);
+                freeExtractedValues(extractedValues, currentSize);
+                return NULL;
+            }
+        }
+    }
+
+    if (expectBlock && currentSize > 0) {
+        printf("Syntax error: dangling ',' at the end\n");
+        freeExtractedValues(extractedValues, currentSize);
+        return NULL;
     }
 
     *valuesSize = currentSize;

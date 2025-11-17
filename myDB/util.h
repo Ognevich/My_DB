@@ -5,6 +5,7 @@
 int increaseTwoDimCharArray(char*** array, int size);
 void freeTwoDimArray(void*** array, int rows);
 void freeThreeDimArray(void**** array, int rows);
+void freeParsedValues(char*** values, int valuesSize);
 void printHeader(const char* headerName);
 int defineColumnSize(FieldType type);
 
