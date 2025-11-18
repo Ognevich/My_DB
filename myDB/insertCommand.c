@@ -34,11 +34,11 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 			return;
 		}
 
+		
+
 	}
 	else if (strcmp(argv[3],"VALUES") == 0) {
 		extractedValues = extractedValuesToInsert(argv, argc, 4,&valuesSize);
-
-		printParsedValues(extractedValues, valuesSize);
 
 		if (!extractedValues)
 			return;
