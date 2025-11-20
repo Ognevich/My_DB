@@ -6,6 +6,7 @@
 #include "showCommand.h"
 #include "selectCommand.h"
 #include "insertCommand.h"
+#include "specialCommnad.h"
 #include "logger.h"
 #include <string.h>
 
@@ -16,8 +17,13 @@ AppContext* initAppContext(void)
         return NULL;
 
     program->state = START_PROGRAM;
+
     program->commandCount = 6;
+    program->specialCommandCount = 1;
+
     initCommands(program);
+    initSpecialCommands(program);
+
     program->databases = NULL;
     program->databasesSize = 0;
     program->currentDatabase = NULL;
@@ -33,6 +39,11 @@ void initCommands(AppContext* app)
     app->commands[3] = (Command){ "SHOW", showCommand };
     app->commands[4] = (Command){ "SELECT", selectCommand };
     app->commands[5] = (Command){ "INSERT", insertCommand };
+}
+
+void initSpecialCommands(AppContext* app)
+{
+    app->specialCommands[0] = (SpecialCommand){ "sp", specialCommand };
 }
 
 void freeAppContext(AppContext** program)

@@ -5,6 +5,7 @@
 #include "database.h"
 
 #define MAX_COMMANDS 10
+#define MAX_SPECIAL_COMMANDS 5
 
 typedef enum {
     START_PROGRAM,
@@ -13,15 +14,21 @@ typedef enum {
 
 typedef struct AppContext {
     ProgramState state;
+
     int commandCount;
+    int specialCommandCount;
+
     Database** databases;
     int databasesSize;
     Database* currentDatabase;
+
+    SpecialCommand specialCommands[MAX_SPECIAL_COMMANDS];
     Command commands[MAX_COMMANDS];
 } AppContext;
 
 AppContext* initAppContext();
 void initCommands(AppContext * app);
+void initSpecialCommands(AppContext* app);
 void freeAppContext(AppContext** app);
 int isDatabaseExists(AppContext *app,const char* name);
 int registerTableInDatabase(AppContext* app, Table* table);

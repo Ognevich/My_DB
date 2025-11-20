@@ -32,6 +32,7 @@ void runDB(AppContext* app)
             break;
         }
 
+        handleSpecialCommand(app, argv, argSize);
         handleCommand(app, argv, argSize);
 
         freeTwoDimArray(&argv, argSize);
@@ -102,7 +103,22 @@ int checkExit(AppContext* app, char** argv)
     return 0;
 }
 
-void handleCommand(AppContext* app, char** argv, int argc) 
+void handleSpecialCommand(AppContext* app, char** argv, int argc)
+{
+    if (argc == 0) {
+        return;
+    }
+
+    for (int i = 0; i < app->specialCommandCount; i++) {
+        if (strcmp(argv[0], app->specialCommands[i].name) == 0) {
+            app->specialCommands[i].handler(app, argv, argc);
+            printf("special command is used\n");
+            return;
+        }
+    }
+}
+
+void handleCommand(AppContext* app, char** argv, int argc)
 {
     if (argc == 0) {
         return;

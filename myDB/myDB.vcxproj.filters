@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Engine\CommandHandler\Commands">
       <UniqueIdentifier>{0e7ea794-3631-4cba-accd-8892d92bd2c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\CommandHandler\SpecialCommand">
+      <UniqueIdentifier>{3228a6f1-376f-48fa-8323-63d1c96ef5ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="technical_task.txt">
@@ -92,6 +95,9 @@
     <ClCompile Include="insertCommand.c">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="specialCommnad.c">
+      <Filter>Source Files\Engine\CommandHandler\SpecialCommand</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -147,6 +153,9 @@
     </ClInclude>
     <ClInclude Include="insertCommand.h">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="specialCommnad.h">
+      <Filter>Source Files\Engine\CommandHandler\SpecialCommand</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
