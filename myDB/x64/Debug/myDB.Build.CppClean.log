@@ -10,13 +10,14 @@ d:\my_projects\c\mydb\mydb\x64\debug\programstate.obj
 d:\my_projects\c\mydb\mydb\x64\debug\parser.obj
 d:\my_projects\c\mydb\mydb\x64\debug\main.obj
 d:\my_projects\c\mydb\mydb\x64\debug\logger.obj
+d:\my_projects\c\mydb\mydb\x64\debug\insertcommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\file_utils.obj
 d:\my_projects\c\mydb\mydb\x64\debug\db_engine.obj
 d:\my_projects\c\mydb\mydb\x64\debug\database.obj
 d:\my_projects\c\mydb\mydb\x64\debug\createcommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\commandvalidators.obj
 d:\my_projects\c\mydb\mydb\x64\debug\app.obj
-d:\my_projects\c\mydb\mydb\x64\debug\insertcommand.obj
+d:\my_projects\c\mydb\mydb\x64\debug\specialcommnad.obj
 d:\my_projects\c\mydb\x64\debug\mydb.exe
 d:\my_projects\c\mydb\x64\debug\mydb.pdb
 d:\my_projects\c\mydb\mydb\x64\debug\mydb.ilk
