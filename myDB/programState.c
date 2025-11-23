@@ -18,7 +18,7 @@ AppContext* initAppContext(void)
 
     program->state = START_PROGRAM;
 
-    program->commandCount = 6;
+    program->commandCount = 7;
     program->specialCommandCount = 1;
 
     initCommands(program);
@@ -39,11 +39,12 @@ void initCommands(AppContext* app)
     app->commands[3] = (Command){ "SHOW", showCommand };
     app->commands[4] = (Command){ "SELECT", selectCommand };
     app->commands[5] = (Command){ "INSERT", insertCommand };
+    app->commands[6] = (Command){ "sp", specialCommand };
 }
 
 void initSpecialCommands(AppContext* app)
 {
-    app->specialCommands[0] = (SpecialCommand){ "sp", specialCommand };
+    app->specialCommands[0] = (SpecialCommand){"duti" , dutiCommand};
 }
 
 void freeAppContext(AppContext** program)

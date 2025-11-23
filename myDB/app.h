@@ -8,7 +8,6 @@ void printCurrentDbState(AppContext * app);
 int readInput(char *buffer, int size);
 int checkExit(AppContext* app, char** argv);
 
-void handleSpecialCommand(AppContext* app, char** argv, int argc);
 void handleCommand(AppContext* app, char** argv, int argc);
 
 

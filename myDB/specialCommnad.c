@@ -1,28 +1,39 @@
 #include "specialCommnad.h"
 #include "stdio.h"
+#include "parser.h"
+#include <stdlib.h>
 #include <string.h>
 
-#define commandListSize 5
-const char commandCombination[][commandListSize] = { "duti", "abc" };
 
 
 void specialCommand(AppContext* app, const char** argv, int argc)
 {
-	if (argc < 2)
-	{
-		printf("Error: insufficient number of parameters\n");
-		return;
-	}
+    if (argc < 2)
+    {
+        printf("Error: insufficient number of parameters\n");
+        return;
+    }
 
+    char* argCommand = detokenize(argv, argc);
 
-	for (int i = 0; i < argc; i++) {
-		int counter = 1;
-		for (int j = 0; j < commandListSize; j++) {
-			counter++;
-			if (strcmp(argv[counter], commandCombination[i][j]) == 0) {
+    handleSpecialCommand(app, argv, argCommand, argc);
 
-			}
-		}
-	}
+    free(argCommand);
+}
 
+void handleSpecialCommand(AppContext* app, const char** argv, const char* detokenizeArg, int argc)
+{
+    for (int i = 0; i < app->specialCommandCount; i++) {
+        if (strcmp(detokenizeArg, app->specialCommands[i].name) == 0) {
+            app->specialCommands[i].handler(app, argv, argc);
+            return;
+        }
+    }
+    printf("unknown command\n");
+
+}
+
+void dutiCommand(AppContext* app, const char** argv, int argc)
+{
+    printf("duti used\n");
 }

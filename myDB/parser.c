@@ -45,6 +45,25 @@ char** tokenize(const char* input, int* count) {
     return tokens;
 }
 
+char* detokenize(const char** input, int count) {
+    int totalLength = 0;
+    for (int i = 1; i < count; i++) {
+        totalLength += strlen(input[i]);
+    }
+
+    char* result = malloc(totalLength + 1); 
+    if (!result) return NULL; 
+
+    result[0] = '\0'; 
+
+    for (int i = 1; i < count; i++) {
+        strcat(result, input[i]);
+    }
+
+    return result;
+
+}
+
 void spaceTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
 {
     if (*bi > 0) {
