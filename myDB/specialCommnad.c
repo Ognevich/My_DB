@@ -35,5 +35,11 @@ void handleSpecialCommand(AppContext* app, const char** argv, const char* detoke
 
 void dutiCommand(AppContext* app, const char** argv, int argc)
 {
-    printf("duti used\n");
+    Database* db = createDatabase("test");
+    app->currentDatabase = db;
+    Table* tb = createTable("t");
+    addColumn(tb, "id", INT, sizeof(int));
+    addColumn(tb, "name", CHAR, 50);
+    addTable(db, tb);
+
 }
