@@ -24,7 +24,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
     if (index < argc && strcmp(argv[index], "(") == 0)
     {
-        extractedColumns = extractColumnsToInsert(argv, argc, &index, &columnsSize);
+        extractedColumns = extractColumnsToInsert(argv, argc, ++index, &columnsSize);
         if (!extractedColumns)
             success = 0;
 
@@ -42,7 +42,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         if (success && !isValidArgs(extractedColumns, columnsSize))
             success = 0;
 
-        index += 1; 
+        index = index + columnsSize + (columnsSize-1) + 1; 
     }
 
     if (success)

@@ -1,20 +1,4 @@
-﻿  app.c
-  commandValidators.c
-  createCommand.c
-D:\my_projects\C\myDB\myDB\app.c(82,27): warning C4013: 'isspace' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\app.c(81,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  insertCommand.c
-D:\my_projects\C\myDB\myDB\insertCommand.c(27,63): warning C4047: 'function': 'int' differs in levels of indirection from 'int *'
-D:\my_projects\C\myDB\myDB\insertCommand.c(27,63): warning C4024: 'extractColumnsToInsert': different types for formal and actual parameter 3
-D:\my_projects\C\myDB\myDB\insertCommand.c(61,63): warning C4047: 'function': 'int *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\insertCommand.c(61,63): warning C4024: 'extractedValuesToInsert': different types for formal and actual parameter 3
-  parser.c
-D:\my_projects\C\myDB\myDB\parser.c(51,24): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
-D:\my_projects\C\myDB\myDB\parser.c(383,65): warning C4028: formal parameter 3 different from declaration
-D:\my_projects\C\myDB\myDB\parser.c(550,66): warning C4028: formal parameter 3 different from declaration
-  selectCommand.c
-  specialCommnad.c
-  Generating Code...
+﻿  insertCommand.c
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

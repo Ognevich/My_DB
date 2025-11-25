@@ -380,7 +380,7 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
     return 0; 
 }
 
-char** extractColumnsToInsert(const char** argv, int argc, int *startPos, int* columnsSize)
+char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* columnsSize)
 {
     int currentSize = 0;
     int maxSize = 4;
@@ -389,7 +389,7 @@ char** extractColumnsToInsert(const char** argv, int argc, int *startPos, int* c
     if (!extractedColumns)
         return NULL;
 
-    for (int i = (*startPos); i < argc; i++) {
+    for (int i = startPos; i < argc; i++) {
         if (strcmp(argv[i], ")") == 0) {
             if (expectColumn && currentSize > 0) {
                 printf("Error: trailing comma before ')'\n");
@@ -401,7 +401,6 @@ char** extractColumnsToInsert(const char** argv, int argc, int *startPos, int* c
                 break;
             }
 
-            *startPos = *startPos + currentSize;
             *columnsSize = currentSize;
             return extractedColumns;
         }
