@@ -458,13 +458,36 @@ static void freeExtractedValues(char*** values, int size) {
     free(values);
 }
 
-static char** parseRow(const char** argv, int argc, int* index, int columnCount) {
-    if (strcmp(argv[*index], "(") != 0) {
-        printf("Syntax error: expected '('\n");
-        return NULL;
-    }
-    (*index)++;
+// Prase Row Block
 
+void freeRow(char** row, int size) {
+    for (int i = 0; i < size; i++) free(row[i]);
+    free(row);
+}
+
+char* copyString(const char* src) {
+    char* dst = malloc(strlen(src) + 1);
+    if (dst) strcpy(dst, src);
+    return dst;
+}
+
+char** resizeRow(char** row, int* capacity) {
+    int newCapacity = (*capacity) * 2;
+    char** tmp = realloc(row, sizeof(char*) * newCapacity);
+    if (!tmp) return NULL;
+    *capacity = newCapacity;
+    return tmp;
+}
+
+int expectChar(const char** argv, int argc, int index, const char* expected) {
+    if (index >= argc || strcmp(argv[index], expected) != 0) {
+        printf("Syntax error: expected '%s'\n", expected);
+        return 0;
+    }
+    return 1;
+}
+
+char** parseValues(const char** argv, int argc, int* index, int columnCount) {
     int rowSize = 0, rowMaxSize = 10;
     char** row = malloc(sizeof(char*) * rowMaxSize);
     if (!row) return NULL;
@@ -476,8 +499,7 @@ static char** parseRow(const char** argv, int argc, int* index, int columnCount)
         if (strcmp(argv[*index], ",") == 0) {
             if (expectValue) {
                 printf("Syntax error: unexpected ','\n");
-                for (int j = 0; j < rowSize; j++) free(row[j]);
-                free(row);
+                freeRow(row, rowSize);
                 return NULL;
             }
             expectValue = 1;
@@ -487,64 +509,66 @@ static char** parseRow(const char** argv, int argc, int* index, int columnCount)
 
         if (!expectValue) {
             printf("Syntax error: missing ',' between values\n");
-            for (int j = 0; j < rowSize; j++) free(row[j]);
-            free(row);
+            freeRow(row, rowSize);
             return NULL;
         }
 
         if (rowSize >= rowMaxSize) {
-            rowMaxSize *= 2;
-            char** tmp = realloc(row, sizeof(char*) * rowMaxSize);
+            char** tmp = resizeRow(row, &rowMaxSize);
             if (!tmp) {
-                for (int j = 0; j < rowSize; j++) free(row[j]);
-                free(row);
+                freeRow(row, rowSize);
                 return NULL;
             }
             row = tmp;
         }
 
-        row[rowSize] = malloc(strlen(argv[*index]) + 1);
+        row[rowSize] = copyString(argv[*index]);
         if (!row[rowSize]) {
-            for (int j = 0; j < rowSize; j++) free(row[j]);
-            free(row);
+            freeRow(row, rowSize);
             return NULL;
         }
-        strcpy(row[rowSize], argv[*index]);
 
         rowSize++;
         expectValue = 0;
         (*index)++;
     }
 
-    if (*index >= argc || strcmp(argv[*index], ")") != 0) {
-        printf("Syntax error: missing closing ')'\n");
-        for (int j = 0; j < rowSize; j++) free(row[j]);
-        free(row);
+    if (rowSize != columnCount) {
+        printf("ERROR: too many values in row (expected %d, got %d)\n", columnCount, rowSize);
+        freeRow(row, rowSize);
         return NULL;
     }
 
+    return row;
+}
+
+char** parseRow(const char** argv, int argc, int* index, int columnCount) {
+    if (!expectChar(argv, argc, *index, "(")) return NULL;
     (*index)++;
 
-    if (rowSize > columnCount) {
-        printf("ERROR: too many values in row (expected %d, got %d)\n", columnCount, rowSize);
-        for (int j = 0; j < rowSize; j++) free(row[j]);
-        free(row);
+    char** row = parseValues(argv, argc, index, columnCount);
+    if (!row) return NULL;
+
+    if (!expectChar(argv, argc, *index, ")")) {
+        freeRow(row, columnCount);
         return NULL;
     }
+    (*index)++;
 
-    char** finalRow = malloc(sizeof(char*) * (rowSize + 1));
+    char** finalRow = malloc(sizeof(char*) * (columnCount + 1));
     if (!finalRow) {
-        for (int j = 0; j < rowSize; j++) free(row[j]);
-        free(row);
+        freeRow(row, columnCount);
         return NULL;
     }
 
-    for (int j = 0; j < rowSize; j++) finalRow[j] = row[j];
-    finalRow[rowSize] = NULL;
-
+    for (int i = 0; i < columnCount; i++) finalRow[i] = row[i];
+    finalRow[columnCount] = NULL;
     free(row);
+
     return finalRow;
 }
+
+// Parse Row End Block
 
 char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize, int columnCount) {
     *valuesSize = 0;

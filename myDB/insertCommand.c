@@ -28,7 +28,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         if (!extractedColumns)
             success = 0;
 
-        if (success && columnsSize != table->columnCount) {
+        if (success && columnsSize > table->columnCount) {
             printf("ERROR: wrong number of parameters\n");
             success = 0;
         }
@@ -56,16 +56,26 @@ void insertCommand(AppContext* app, const char** argv, int argc)
     if (success)
         index++;
 
+    int columnCount = 0;
+
     if (success)
     {
-        extractedValues = extractedValuesToInsert(argv, argc, index, &valuesSize, table->columnCount);
+
+        if (columnsSize)
+            columnCount = columnsSize;
+        else
+            columnCount = table->columnCount;
+
+        extractedValues = extractedValuesToInsert(argv, argc, index, &valuesSize, columnCount);
         if (!extractedValues)
             success = 0;
     }
 
     if (success)
     {
-        printf("OK INSERTED\n");
+        for (int i = 0; i < columnCount; i++) {
+
+        }
     }
 
     freeTwoDimArray((void***)&extractedColumns, columnsSize);
