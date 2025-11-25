@@ -5,7 +5,7 @@
 void specialCommand(AppContext* app, const char** argv, int argc);
 void handleSpecialCommand(AppContext* app, const char** argv, const char* detokenizeArg, int argc);
 
-void dutiCommand(AppContext* app, const char** argv, int argc);
+void dutCommand(AppContext* app, const char** argv, int argc);
 
 
 #endif

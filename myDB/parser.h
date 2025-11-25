@@ -21,7 +21,7 @@ int isKeyWordInArray(const char ** argv, int argc);
 int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize);
 
 char ** extractColumnsToInsert(const char** argv, int argc, int startPos, int* columnsSize);
-char *** extractedValuesToInsert(const char ** argv,int argc, int startPos, int *valuesSize);
+char *** extractedValuesToInsert(const char ** argv,int argc, int *startPos, int *valuesSize, int columnCount);
 
 #endif
 

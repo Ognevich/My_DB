@@ -44,7 +44,7 @@ void initCommands(AppContext* app)
 
 void initSpecialCommands(AppContext* app)
 {
-    app->specialCommands[0] = (SpecialCommand){"duti" , dutiCommand};
+    app->specialCommands[0] = (SpecialCommand){"dut" , dutCommand};
 }
 
 void freeAppContext(AppContext** program)

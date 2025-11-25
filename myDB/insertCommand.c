@@ -7,46 +7,68 @@
 
 void insertCommand(AppContext* app, const char** argv, int argc)
 {
-	if (checkInsertCommandValidation(app,argv, argc) <= 0)
-		return;
+    if (checkInsertCommandValidation(app, argv, argc) <= 0)
+        return;
 
-	Table* table = findTable(app->currentDatabase, argv[2]);
+    Table* table = findTable(app->currentDatabase, argv[2]);
 
-	const char** extractedColumns = NULL;
-	const char*** extractedValues = NULL;
-	int columnsSize = 0;
-	int valuesSize = 0;
+    const char** extractedColumns = NULL;
+    const char*** extractedValues = NULL;
 
-	if (strcmp(argv[3], "(") == 0) {
-		extractedColumns = extractColumnsToInsert(argv, argc, 4, &columnsSize);
-		if (extractedColumns == NULL) {
-			return;
-		}
+    int columnsSize = 0;
+    int valuesSize = 0;
 
-		int isAsterics = 0;
-		if (isColumnsExists(extractedColumns, columnsSize, table, &isAsterics))
-		{
-			printf("ERROR: Columns didn't exists\n");
-			return;
-		}
+    int success = 1;
+    int index = 3;
 
-		if (!isValidArgs(extractedColumns, columnsSize)) {
-			return;
-		}
 
-		
+    if (index < argc && strcmp(argv[index], "(") == 0)
+    {
+        extractedColumns = extractColumnsToInsert(argv, argc, &index, &columnsSize);
+        if (!extractedColumns)
+            success = 0;
 
-	}
-	else if (strcmp(argv[3],"VALUES") == 0) {
-		extractedValues = extractedValuesToInsert(argv, argc, 4,&valuesSize);
+        if (success && columnsSize != table->columnCount) {
+            printf("ERROR: wrong number of parameters\n");
+            success = 0;
+        }
 
-		if (!extractedValues)
-			return;
-	}
-	else {
-		printf("ERROR: incorrect argument\n");
-	}
+        int isAsterics = 0;
+        if (success && !isColumnsExists(extractedColumns, columnsSize, table, &isAsterics)) {
+            printf("ERROR: columns didn't exists\n");
+            success = 0;
+        }
 
-	freeTwoDimArray(extractedColumns, columnsSize);
-	freeParsedValues(extractedValues, valuesSize);
+        if (success && !isValidArgs(extractedColumns, columnsSize))
+            success = 0;
+
+        index += 1; 
+    }
+
+    if (success)
+    {
+        if (index >= argc || strcmp(argv[index], "VALUES") != 0) {
+            printf("ERROR: missing VALUES\n");
+            success = 0;
+        }
+    }
+
+    if (success)
+        index++;
+
+    if (success)
+    {
+        extractedValues = extractedValuesToInsert(argv, argc, index, &valuesSize, table->columnCount);
+        if (!extractedValues)
+            success = 0;
+    }
+
+    if (success)
+    {
+        printf("OK INSERTED\n");
+    }
+
+    freeTwoDimArray((void***)&extractedColumns, columnsSize);
+    freeParsedValues(extractedValues, valuesSize);
 }
+

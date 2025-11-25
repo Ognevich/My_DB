@@ -33,7 +33,7 @@ void handleSpecialCommand(AppContext* app, const char** argv, const char* detoke
 
 }
 
-void dutiCommand(AppContext* app, const char** argv, int argc)
+void dutCommand(AppContext* app, const char** argv, int argc)
 {
     Database* db = createDatabase("test");
     app->currentDatabase = db;

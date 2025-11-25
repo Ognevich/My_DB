@@ -380,7 +380,7 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
     return 0; 
 }
 
-char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* columnsSize)
+char** extractColumnsToInsert(const char** argv, int argc, int *startPos, int* columnsSize)
 {
     int currentSize = 0;
     int maxSize = 4;
@@ -389,7 +389,7 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
     if (!extractedColumns)
         return NULL;
 
-    for (int i = startPos; i < argc; i++) {
+    for (int i = (*startPos); i < argc; i++) {
         if (strcmp(argv[i], ")") == 0) {
             if (expectColumn && currentSize > 0) {
                 printf("Error: trailing comma before ')'\n");
@@ -401,6 +401,7 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
                 break;
             }
 
+            *startPos = *startPos + currentSize;
             *columnsSize = currentSize;
             return extractedColumns;
         }
@@ -458,19 +459,21 @@ static void freeExtractedValues(char*** values, int size) {
     free(values);
 }
 
-static char** parseRow(const char** argv, int argc, int* index) {
+static char** parseRow(const char** argv, int argc, int* index, int columnCount) {
     if (strcmp(argv[*index], "(") != 0) {
         printf("Syntax error: expected '('\n");
         return NULL;
     }
-    (*index)++; 
+    (*index)++;
 
     int rowSize = 0, rowMaxSize = 10;
     char** row = malloc(sizeof(char*) * rowMaxSize);
     if (!row) return NULL;
 
     int expectValue = 1;
+
     while (*index < argc && strcmp(argv[*index], ")") != 0) {
+
         if (strcmp(argv[*index], ",") == 0) {
             if (expectValue) {
                 printf("Syntax error: unexpected ','\n");
@@ -508,6 +511,7 @@ static char** parseRow(const char** argv, int argc, int* index) {
             return NULL;
         }
         strcpy(row[rowSize], argv[*index]);
+
         rowSize++;
         expectValue = 0;
         (*index)++;
@@ -520,7 +524,14 @@ static char** parseRow(const char** argv, int argc, int* index) {
         return NULL;
     }
 
-    (*index)++; 
+    (*index)++;
+
+    if (rowSize > columnCount) {
+        printf("ERROR: too many values in row (expected %d, got %d)\n", columnCount, rowSize);
+        for (int j = 0; j < rowSize; j++) free(row[j]);
+        free(row);
+        return NULL;
+    }
 
     char** finalRow = malloc(sizeof(char*) * (rowSize + 1));
     if (!finalRow) {
@@ -531,12 +542,12 @@ static char** parseRow(const char** argv, int argc, int* index) {
 
     for (int j = 0; j < rowSize; j++) finalRow[j] = row[j];
     finalRow[rowSize] = NULL;
-    free(row);
 
+    free(row);
     return finalRow;
 }
 
-char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize) {
+char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize, int columnCount) {
     *valuesSize = 0;
     if (!argv || startPos >= argc) return NULL;
 
@@ -549,7 +560,7 @@ char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* 
 
     while (i < argc) {
         if (expectBlock) {
-            char** row = parseRow(argv, argc, &i);
+            char** row = parseRow(argv, argc, &i, columnCount);
             if (!row) {
                 freeExtractedValues(extractedValues, currentSize);
                 return NULL;
