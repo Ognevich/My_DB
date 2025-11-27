@@ -1,5 +1,10 @@
-﻿  parser.c
-D:\my_projects\C\myDB\myDB\parser.c(51,24): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+﻿  parse_util.c
+D:\my_projects\C\myDB\myDB\parse_util.c(15,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(16,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(23,19): warning C4090: 'function': different 'const' qualifiers
+  parser.c
+D:\my_projects\C\myDB\myDB\parser.c(52,24): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

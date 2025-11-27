@@ -9,7 +9,8 @@
 #include "config.h"
 #include <string.h>
 #include <ctype.h>
-
+#include "parse_util.h"
+#include "tokenizer.h"
 
 static const char* reservedWords[] = {
     "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE"
@@ -146,16 +147,6 @@ int isBracketsExists(const char** argv, int argc, int ifNotExists)
     return 1;
 }
 
-static void freeInnerArgs(char*** result, int count) {
-    if (!result) return;
-    for (int i = 0; i < count; i++) {
-        free(result[i][0]);
-        free(result[i][1]);
-        free(result[i]);
-    }
-    free(result);
-}
-
 static int addPair(char**** resultPtr, int* count, int* capacity, const char* name, const char* type) {
     char*** result = *resultPtr;
 
@@ -175,9 +166,7 @@ static int addPair(char**** resultPtr, int* count, int* capacity, const char* na
     pair[2] = NULL;
 
     if (!pair[0] || !pair[1]) {
-        free(pair[0]);
-        free(pair[1]);
-        free(pair);
+        freePair(pair);
         return 0;
     }
 
@@ -334,9 +323,7 @@ char** extractSelectList(const char** argv, int argc, int* listArgs)
     }
 
     if (!isValidSyntax) {
-        for (int i = 0; i < columnCount; i++)
-            free(selectList[i]);
-        free(selectList);
+        freeCharArr(selectList, columnCount);
         return NULL;
     }
 

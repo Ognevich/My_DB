@@ -98,6 +98,12 @@
     <ClCompile Include="specialCommnad.c">
       <Filter>Source Files\Engine\CommandHandler\SpecialCommand</Filter>
     </ClCompile>
+    <ClCompile Include="tokenizer.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parse_util.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -156,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="specialCommnad.h">
       <Filter>Source Files\Engine\CommandHandler\SpecialCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="tokenizer.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parse_util.h">
+      <Filter>Source Files\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

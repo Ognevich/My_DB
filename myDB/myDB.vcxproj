@@ -133,6 +133,7 @@
     <ClCompile Include="createCommand.c" />
     <ClCompile Include="database.c" />
     <ClCompile Include="db_engine.c" />
+    <ClCompile Include="parse_util.c" />
     <ClCompile Include="specialCommnad.c" />
     <ClCompile Include="File_Utils.c" />
     <ClCompile Include="insertCommand.c" />
@@ -143,6 +144,7 @@
     <ClCompile Include="selectCommand.c" />
     <ClCompile Include="showCommand.c" />
     <ClCompile Include="table.c" />
+    <ClCompile Include="tokenizer.c" />
     <ClCompile Include="unuseCommand.c" />
     <ClCompile Include="useCommand.c" />
     <ClCompile Include="util.c" />
@@ -155,6 +157,7 @@
     <ClInclude Include="createCommand.h" />
     <ClInclude Include="database.h" />
     <ClInclude Include="db_engine.h" />
+    <ClInclude Include="parse_util.h" />
     <ClInclude Include="specialCommnad.h" />
     <ClInclude Include="File_Utils.h" />
     <ClInclude Include="insertCommand.h" />
@@ -164,6 +167,7 @@
     <ClInclude Include="selectCommand.h" />
     <ClInclude Include="showCommand.h" />
     <ClInclude Include="table.h" />
+    <ClInclude Include="tokenizer.h" />
     <ClInclude Include="unuseCommand.h" />
     <ClInclude Include="useCommand.h" />
     <ClInclude Include="util.h" />
