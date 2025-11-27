@@ -18,7 +18,7 @@ static const char* reservedWords[] = {
 static const int reservedWordsCount = sizeof(reservedWords) / sizeof(reservedWords[0]);
 
 char** tokenize(const char* input, int* count) {
-    char** tokens = malloc(64 * sizeof(char*));
+    char** tokens = safe_malloc(64 * sizeof(char*));
     *count = 0;
 
     const char* p = input;
@@ -52,8 +52,7 @@ char* detokenize(const char** input, int count) {
         totalLength += strlen(input[i]);
     }
 
-    char* result = malloc(totalLength + 1); 
-    if (!result) return NULL; 
+    char* result = safe_malloc(totalLength + 1); 
 
     result[0] = '\0'; 
 
@@ -152,14 +151,12 @@ static int addPair(char**** resultPtr, int* count, int* capacity, const char* na
 
     if (*count >= *capacity) {
         *capacity *= 2;
-        char*** tmp = realloc(result, (*capacity) * sizeof(char**));
-        if (!tmp) return 0;
+        char*** tmp = safe_realloc(result, (*capacity) * sizeof(char**));
         result = tmp;
         *resultPtr = result;
     }
 
-    char** pair = malloc(3 * sizeof(char*));
-    if (!pair) return 0;
+    char** pair = safe_malloc(3 * sizeof(char*));
 
     pair[0] = _strdup(name);
     pair[1] = _strdup(type);
@@ -181,8 +178,7 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
     int isOpenBracket = 0;
     int counter = 0;
     int arraySize = 4;
-    char*** result = malloc(arraySize * sizeof(char**));
-    if (!result) return NULL;
+    char*** result = safe_malloc(arraySize * sizeof(char**));
 
     char* currentName = NULL;
     char* currentType = NULL;
@@ -252,9 +248,7 @@ char** extractSelectList(const char** argv, int argc, int* listArgs)
 {
     int columnCount = 0;
     int capacity = 4;
-    char** selectList = malloc(capacity * sizeof(char*));
-    if (!selectList)
-        return NULL;
+    char** selectList = safe_malloc(capacity * sizeof(char*));
 
     int expectComma = 0;      
     int foundFromKeyword = 0; 
@@ -292,7 +286,7 @@ char** extractSelectList(const char** argv, int argc, int* listArgs)
 
         if (columnCount >= capacity) {
             capacity *= 2;
-            char** tmp = realloc(selectList, capacity * sizeof(char*));
+            char** tmp = safe_realloc(selectList, capacity * sizeof(char*));
             if (!tmp) {
                 isValidSyntax = 0;
                 break;
@@ -300,7 +294,7 @@ char** extractSelectList(const char** argv, int argc, int* listArgs)
             selectList = tmp;
         }
 
-        selectList[columnCount] = malloc(strlen(token) + 1);
+        selectList[columnCount] = safe_malloc(strlen(token) + 1);
         if (!selectList[columnCount]) {
             isValidSyntax = 0;
             break;
@@ -372,9 +366,7 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
     int currentSize = 0;
     int maxSize = 4;
     int expectColumn = 1; 
-    char** extractedColumns = malloc(sizeof(char*) * maxSize);
-    if (!extractedColumns)
-        return NULL;
+    char** extractedColumns = safe_malloc(sizeof(char*) * maxSize);
 
     for (int i = startPos; i < argc; i++) {
         if (strcmp(argv[i], ")") == 0) {
@@ -404,11 +396,8 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
         if (expectColumn) {
             if (currentSize >= maxSize) {
                 maxSize *= 2;
-                char** temp = realloc(extractedColumns, sizeof(char*) * maxSize);
-                if (!temp) {
-                    printf("Error: memory allocation failed\n");
-                    break;
-                }
+                char** temp = safe_realloc(extractedColumns, sizeof(char*) * maxSize);
+
                 extractedColumns = temp;
             }
 
@@ -426,7 +415,7 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
         }
     }
     for (int j = 0; j < currentSize; j++)
-        free(extractedColumns[j]);
+        free(extractedColumns[j]); //ADD TO UTIL
     free(extractedColumns);
     return NULL;
 }
@@ -436,7 +425,7 @@ static void freeExtractedValues(char*** values, int size) {
     for (int i = 0; i < size; i++) {
         char** row = values[i];
         if (row) {
-            for (int j = 0; row[j]; j++) {
+            for (int j = 0; row[j]; j++) { //ADD TO UTIL
                 free(row[j]);
             }
             free(row);
@@ -447,21 +436,15 @@ static void freeExtractedValues(char*** values, int size) {
 
 // Prase Row Block
 
-void freeRow(char** row, int size) {
-    for (int i = 0; i < size; i++) free(row[i]);
-    free(row);
-}
-
 char* copyString(const char* src) {
-    char* dst = malloc(strlen(src) + 1);
+    char* dst = safe_malloc(strlen(src) + 1);
     if (dst) strcpy(dst, src);
     return dst;
 }
 
 char** resizeRow(char** row, int* capacity) {
     int newCapacity = (*capacity) * 2;
-    char** tmp = realloc(row, sizeof(char*) * newCapacity);
-    if (!tmp) return NULL;
+    char** tmp = safe_realloc(row, sizeof(char*) * newCapacity);
     *capacity = newCapacity;
     return tmp;
 }
@@ -476,8 +459,7 @@ int expectChar(const char** argv, int argc, int index, const char* expected) {
 
 char** parseValues(const char** argv, int argc, int* index, int columnCount) {
     int rowSize = 0, rowMaxSize = 10;
-    char** row = malloc(sizeof(char*) * rowMaxSize);
-    if (!row) return NULL;
+    char** row = safe_malloc(sizeof(char*) * rowMaxSize);
 
     int expectValue = 1;
 
@@ -486,7 +468,7 @@ char** parseValues(const char** argv, int argc, int* index, int columnCount) {
         if (strcmp(argv[*index], ",") == 0) {
             if (expectValue) {
                 printf("Syntax error: unexpected ','\n");
-                freeRow(row, rowSize);
+                freeCharArr(row, rowSize);
                 return NULL;
             }
             expectValue = 1;
@@ -496,14 +478,14 @@ char** parseValues(const char** argv, int argc, int* index, int columnCount) {
 
         if (!expectValue) {
             printf("Syntax error: missing ',' between values\n");
-            freeRow(row, rowSize);
+            freeCharArr(row, rowSize);
             return NULL;
         }
 
         if (rowSize >= rowMaxSize) {
             char** tmp = resizeRow(row, &rowMaxSize);
             if (!tmp) {
-                freeRow(row, rowSize);
+                freeCharArr(row, rowSize);
                 return NULL;
             }
             row = tmp;
@@ -511,7 +493,7 @@ char** parseValues(const char** argv, int argc, int* index, int columnCount) {
 
         row[rowSize] = copyString(argv[*index]);
         if (!row[rowSize]) {
-            freeRow(row, rowSize);
+            freeCharArr(row, rowSize);
             return NULL;
         }
 
@@ -522,7 +504,7 @@ char** parseValues(const char** argv, int argc, int* index, int columnCount) {
 
     if (rowSize != columnCount) {
         printf("ERROR: too many values in row (expected %d, got %d)\n", columnCount, rowSize);
-        freeRow(row, rowSize);
+        freeCharArr(row, rowSize);
         return NULL;
     }
 
@@ -537,14 +519,14 @@ char** parseRow(const char** argv, int argc, int* index, int columnCount) {
     if (!row) return NULL;
 
     if (!expectChar(argv, argc, *index, ")")) {
-        freeRow(row, columnCount);
+        freeCharArr(row, columnCount);
         return NULL;
     }
     (*index)++;
 
-    char** finalRow = malloc(sizeof(char*) * (columnCount + 1));
+    char** finalRow = safe_malloc(sizeof(char*) * (columnCount + 1));
     if (!finalRow) {
-        freeRow(row, columnCount);
+        freeCharArr(row, columnCount);
         return NULL;
     }
 
@@ -562,8 +544,7 @@ char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* 
     if (!argv || startPos >= argc) return NULL;
 
     int maxSize = 10, currentSize = 0;
-    char*** extractedValues = malloc(sizeof(char**) * maxSize);
-    if (!extractedValues) return NULL;
+    char*** extractedValues = safe_malloc(sizeof(char**) * maxSize);
 
     int i = startPos;
     int expectBlock = 1;
@@ -578,9 +559,9 @@ char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* 
 
             if (currentSize >= maxSize) {
                 maxSize *= 2;
-                char*** tmp = realloc(extractedValues, sizeof(char**) * maxSize);
+                char*** tmp = safe_realloc(extractedValues, sizeof(char**) * maxSize);
                 if (!tmp) {
-                    freeExtractedValues(extractedValues, currentSize);
+                    freeExtractedValues(extractedValues, currentSize); // ADD TO PARSE_UTIL
                     for (int j = 0; row[j]; j++) free(row[j]);
                     free(row);
                     return NULL;
