@@ -10,7 +10,6 @@
 #include <string.h>
 #include <ctype.h>
 #include "parse_util.h"
-#include "tokenizer.h"
 
 static const char* reservedWords[] = {
     "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE"
@@ -63,39 +62,6 @@ char* detokenize(const char** input, int count) {
     return result;
 
 }
-
-void spaceTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
-{
-    if (*bi > 0) {
-        buffer[*bi] = '\0';
-        (*tokens)[*count] = _strdup(buffer);
-        (*count)++;
-        *bi = 0;
-    }
-    (*p)++;
-}
-
-void specialSymbolTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
-{
-    if (*bi > 0) {
-        buffer[*bi] = '\0';
-        (*tokens)[*count] = _strdup(buffer);
-        (*count)++;
-        *bi = 0;
-    }
-
-    char sym[2] = { **p, '\0' };
-    (*tokens)[*count] = _strdup(sym);
-    (*count)++;
-    (*p)++;
-}
-
-void symbolTokenize(int* bi, char* buffer, const char** p)
-{
-    buffer[(*bi)++] = **p; 
-    (*p)++;                 
-}
-
 
 int isIfNotExistsUsed(char** argv, int argSize)
 {
@@ -414,24 +380,8 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
             break;
         }
     }
-    for (int j = 0; j < currentSize; j++)
-        free(extractedColumns[j]); //ADD TO UTIL
-    free(extractedColumns);
+    freeCharArr(extractedColumns, currentSize);
     return NULL;
-}
-
-static void freeExtractedValues(char*** values, int size) {
-    if (!values) return;
-    for (int i = 0; i < size; i++) {
-        char** row = values[i];
-        if (row) {
-            for (int j = 0; row[j]; j++) { //ADD TO UTIL
-                free(row[j]);
-            }
-            free(row);
-        }
-    }
-    free(values);
 }
 
 // Prase Row Block
@@ -561,8 +511,9 @@ char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* 
                 maxSize *= 2;
                 char*** tmp = safe_realloc(extractedValues, sizeof(char**) * maxSize);
                 if (!tmp) {
-                    freeExtractedValues(extractedValues, currentSize); // ADD TO PARSE_UTIL
-                    for (int j = 0; row[j]; j++) free(row[j]);
+                    freeExtractedValues(extractedValues, currentSize); 
+                    for (int j = 0; row[j]; j++) 
+                        free(row[j]);
                     free(row);
                     return NULL;
                 }

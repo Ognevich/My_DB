@@ -144,7 +144,6 @@
     <ClCompile Include="selectCommand.c" />
     <ClCompile Include="showCommand.c" />
     <ClCompile Include="table.c" />
-    <ClCompile Include="tokenizer.c" />
     <ClCompile Include="unuseCommand.c" />
     <ClCompile Include="useCommand.c" />
     <ClCompile Include="util.c" />
@@ -167,7 +166,6 @@
     <ClInclude Include="selectCommand.h" />
     <ClInclude Include="showCommand.h" />
     <ClInclude Include="table.h" />
-    <ClInclude Include="tokenizer.h" />
     <ClInclude Include="unuseCommand.h" />
     <ClInclude Include="useCommand.h" />
     <ClInclude Include="util.h" />

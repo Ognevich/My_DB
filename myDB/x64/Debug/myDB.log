@@ -1,9 +1,17 @@
-﻿  parse_util.c
-  parser.c
-D:\my_projects\C\myDB\myDB\parse_util.c(16,14): warning C4090: 'function': different 'const' qualifiers
+﻿  app.c
+  commandValidators.c
+  createCommand.c
+D:\my_projects\C\myDB\myDB\app.c(82,27): warning C4013: 'isspace' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\app.c(81,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  insertCommand.c
+  parse_util.c
 D:\my_projects\C\myDB\myDB\parse_util.c(17,14): warning C4090: 'function': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\parse_util.c(24,19): warning C4090: 'function': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\parser.c(52,24): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\parse_util.c(18,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(25,19): warning C4090: 'function': different 'const' qualifiers
+  parser.c
+D:\my_projects\C\myDB\myDB\parser.c(51,24): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+  selectCommand.c
+  specialCommnad.c
   Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,

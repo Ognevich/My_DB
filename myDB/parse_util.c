@@ -1,6 +1,7 @@
 #include "parse_util.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 void freeInnerArgs(char*** result, int count) {
     if (!result) return;
@@ -41,4 +42,51 @@ void* safe_realloc(void* p, size_t s) {
         exit(EXIT_FAILURE);
     }
     return tmp;
+}
+
+void freeExtractedValues(char*** values, int size) {
+    if (!values) return;
+    for (int i = 0; i < size; i++) {
+        char** row = values[i];
+        if (row) {
+            for (int j = 0; row[j]; j++) {
+                free(row[j]);
+            }
+            free(row);
+        }
+    }
+    free(values);
+}
+
+
+void spaceTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
+{
+    if (*bi > 0) {
+        buffer[*bi] = '\0';
+        (*tokens)[*count] = _strdup(buffer);
+        (*count)++;
+        *bi = 0;
+    }
+    (*p)++;
+}
+
+void specialSymbolTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
+{
+    if (*bi > 0) {
+        buffer[*bi] = '\0';
+        (*tokens)[*count] = _strdup(buffer);
+        (*count)++;
+        *bi = 0;
+    }
+
+    char sym[2] = { **p, '\0' };
+    (*tokens)[*count] = _strdup(sym);
+    (*count)++;
+    (*p)++;
+}
+
+void symbolTokenize(int* bi, char* buffer, const char** p)
+{
+    buffer[(*bi)++] = **p;
+    (*p)++;
 }

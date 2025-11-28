@@ -14,7 +14,6 @@ D:\my_projects\C\myDB\myDB\programState.c;D:\my_projects\C\myDB\myDB\x64\Debug\p
 D:\my_projects\C\myDB\myDB\selectCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\selectCommand.obj
 D:\my_projects\C\myDB\myDB\showCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\showCommand.obj
 D:\my_projects\C\myDB\myDB\table.c;D:\my_projects\C\myDB\myDB\x64\Debug\table.obj
-D:\my_projects\C\myDB\myDB\tokenizer.c;D:\my_projects\C\myDB\myDB\x64\Debug\tokenizer.obj
 D:\my_projects\C\myDB\myDB\unuseCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\unuseCommand.obj
 D:\my_projects\C\myDB\myDB\useCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\useCommand.obj
 D:\my_projects\C\myDB\myDB\util.c;D:\my_projects\C\myDB\myDB\x64\Debug\util.obj
