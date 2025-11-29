@@ -11,10 +11,8 @@
 #include <ctype.h>
 #include "parse_util.h"
 
-static const char* reservedWords[] = {
-    "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE"
-};
-static const int reservedWordsCount = sizeof(reservedWords) / sizeof(reservedWords[0]);
+extern const char* reservedWords[];
+extern const int reservedWordsCount;
 
 char** tokenize(const char* input, int* count) {
     char** tokens = safe_malloc(64 * sizeof(char*));
@@ -89,15 +87,6 @@ char* extractName(char** argv, int argc, int ifNotExists) {
     return name;
 }
 
-int isReservedWord(const char* word)
-{
-    for (int i = 0; i < reservedWordsCount; i++) {
-        if (strcmp(reservedWords[i], word) == 0)
-            return 1;
-    }
-    return 0;
-}
-
 int isBracketsExists(const char** argv, int argc, int ifNotExists)
 {
     int tableNameIndex = ifNotExists ? 5 : 2;
@@ -109,32 +98,6 @@ int isBracketsExists(const char** argv, int argc, int ifNotExists)
     if (!strchr(argv[argc - 1], ')'))
         return 0;
 
-    return 1;
-}
-
-static int addPair(char**** resultPtr, int* count, int* capacity, const char* name, const char* type) {
-    char*** result = *resultPtr;
-
-    if (*count >= *capacity) {
-        *capacity *= 2;
-        char*** tmp = safe_realloc(result, (*capacity) * sizeof(char**));
-        result = tmp;
-        *resultPtr = result;
-    }
-
-    char** pair = safe_malloc(3 * sizeof(char*));
-
-    pair[0] = _strdup(name);
-    pair[1] = _strdup(type);
-    pair[2] = NULL;
-
-    if (!pair[0] || !pair[1]) {
-        freePair(pair);
-        return 0;
-    }
-
-    result[*count] = pair;
-    (*count)++;
     return 1;
 }
 
@@ -291,22 +254,6 @@ char** extractSelectList(const char** argv, int argc, int* listArgs)
     return selectList;
 }
 
-
-int isKeyWordInArray(const char** argv, int argc)
-{
-    for (int i = 0; i < argc; i++) {
-
-        for (int k = 0; k < reservedWordsCount; k++) {
-
-            if (strcmp(argv[i], reservedWords[k]) == 0) {
-                return 1;
-            }
-        }
-
-    }
-    return 0;
-}
-
 int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize)
 {
     int foundFrom = 0;
@@ -384,28 +331,6 @@ char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* co
     return NULL;
 }
 
-// Prase Row Block
-
-char* copyString(const char* src) {
-    char* dst = safe_malloc(strlen(src) + 1);
-    if (dst) strcpy(dst, src);
-    return dst;
-}
-
-char** resizeRow(char** row, int* capacity) {
-    int newCapacity = (*capacity) * 2;
-    char** tmp = safe_realloc(row, sizeof(char*) * newCapacity);
-    *capacity = newCapacity;
-    return tmp;
-}
-
-int expectChar(const char** argv, int argc, int index, const char* expected) {
-    if (index >= argc || strcmp(argv[index], expected) != 0) {
-        printf("Syntax error: expected '%s'\n", expected);
-        return 0;
-    }
-    return 1;
-}
 
 char** parseValues(const char** argv, int argc, int* index, int columnCount) {
     int rowSize = 0, rowMaxSize = 10;

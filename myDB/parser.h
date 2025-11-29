@@ -6,13 +6,11 @@ char* detokenize(const char** input, int count);
 
 int isIfNotExistsUsed(char ** argv, int argSize);
 char* extractName(char ** argv, int argc, int ifExists);
-int isReservedWord(const char* word);
 int isBracketsExists(const char ** argv, int argc, int ifNotExists);
 
 char *** extractInnerArgs(const char ** argv,int argc,int *innerArgs);
 
 char** extractSelectList(const char** argv, int argc, int *listArgs);
-int isKeyWordInArray(const char ** argv, int argc);
 
 int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize);
 

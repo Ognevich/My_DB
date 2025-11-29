@@ -12,5 +12,11 @@ void spaceTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* c
 void specialSymbolTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count);
 void symbolTokenize(int* bi, char* buffer, const char** p);
 
+int isReservedWord(const char* word);
+int addPair(char**** resultPtr, int* count, int* capacity, const char* name, const char* type);
+int isKeyWordInArray(const char** argv, int argc);
 
+char* copyString(const char* src);
+char** resizeRow(char** row, int* capacity);
+int expectChar(const char** argv, int argc, int index, const char* expected);
 #endif

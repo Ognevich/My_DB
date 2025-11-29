@@ -12,7 +12,6 @@
 void runDB(AppContext* app)
 {
     char input[BUFFER_SIZE];
-
     while (app->state != STOP_PROGRAM) {
         
         printCurrentDbState(app);
