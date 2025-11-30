@@ -71,9 +71,6 @@
     <ClCompile Include="util.c">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="parser.c">
-      <Filter>Source Files\Parser</Filter>
-    </ClCompile>
     <ClCompile Include="useCommand.c">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClCompile>
@@ -99,6 +96,21 @@
       <Filter>Source Files\Engine\CommandHandler\SpecialCommand</Filter>
     </ClCompile>
     <ClCompile Include="parse_util.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="tokenizer.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser_keywords.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser_create.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser_select.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser_insert.c">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,6 +173,21 @@
       <Filter>Source Files\Engine\CommandHandler\SpecialCommand</Filter>
     </ClInclude>
     <ClInclude Include="parse_util.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="tokenizer.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser_keywords.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser_create.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser_select.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser_insert.h">
       <Filter>Source Files\Parser</Filter>
     </ClInclude>
   </ItemGroup>

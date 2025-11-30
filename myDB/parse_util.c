@@ -2,13 +2,8 @@
 #include "parse_util.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "parser_keywords.h"
 #include <string.h>
-
-const char* reservedWords[] = {
-    "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE"
-};
-
-const int reservedWordsCount = sizeof(reservedWords) / sizeof(reservedWords[0]);
 
 void freeInnerArgs(char*** result, int count) {
     if (!result) return;
@@ -65,47 +60,6 @@ void freeExtractedValues(char*** values, int size) {
     free(values);
 }
 
-
-void spaceTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
-{
-    if (*bi > 0) {
-        buffer[*bi] = '\0';
-        (*tokens)[*count] = _strdup(buffer);
-        (*count)++;
-        *bi = 0;
-    }
-    (*p)++;
-}
-
-void specialSymbolTokenize(int* bi, char* buffer, char*** tokens, const char** p, int* count)
-{
-    if (*bi > 0) {
-        buffer[*bi] = '\0';
-        (*tokens)[*count] = _strdup(buffer);
-        (*count)++;
-        *bi = 0;
-    }
-
-    char sym[2] = { **p, '\0' };
-    (*tokens)[*count] = _strdup(sym);
-    (*count)++;
-    (*p)++;
-}
-
-void symbolTokenize(int* bi, char* buffer, const char** p)
-{
-    buffer[(*bi)++] = **p;
-    (*p)++;
-}
-
-int isReservedWord(const char* word)
-{
-    for (int i = 0; i < reservedWordsCount; i++) {
-        if (strcmp(reservedWords[i], word) == 0)
-            return 1;
-    }
-    return 0;
-}
 int addPair(char**** resultPtr, int* count, int* capacity, const char* name, const char* type) {
     char*** result = *resultPtr;
 
