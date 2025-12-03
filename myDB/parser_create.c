@@ -3,6 +3,7 @@
 #include "parser_keywords.h"
 #include "commandValidators.h"
 #include <string.h>
+#include <stdlib.h>
 
 int isIfNotExistsUsed(char** argv, int argSize)
 {
@@ -20,15 +21,21 @@ int isIfNotExistsUsed(char** argv, int argSize)
     return 0;
 }
 
-char* extractName(char** argv, int argc, int ifNotExists) {
-    char* name = NULL;
-    if (ifNotExists && argc >= 6) name = argv[5];
-    else if (!ifNotExists && argc >= 3) name = argv[2];
+void extractName(char** argv, int argc, char** name, int ifNotExists) {
+    *name = NULL;
 
-    if (!name || isReservedWord(name) || hasForbiddenSymbol(name))
-        return NULL;
-    return name;
+    if (ifNotExists && argc >= 6) {
+        *name = argv[5];
+    }
+    else if (!ifNotExists && argc >= 3) {
+        *name = argv[2];
+    }
+
+    if (*name && (isReservedWord(*name) || hasForbiddenSymbol(*name))) {
+        *name = NULL;
+    }
 }
+
 
 int isBracketsExists(const char** argv, int argc, int ifNotExists)
 {
@@ -44,13 +51,20 @@ int isBracketsExists(const char** argv, int argc, int ifNotExists)
     return 1;
 }
 
-char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
-    if (!argv || argc <= 0 || !innerArgs) return NULL;
+int extractInnerArgs(const char** argv, int argc, char**** outResult, int* innerArgs)
+{
+    if (!argv || argc <= 0 || !outResult || !innerArgs)
+        return 0;
+
+    *outResult = NULL;
+    *innerArgs = 0;
 
     int isOpenBracket = 0;
     int counter = 0;
     int arraySize = 4;
+
     char*** result = safe_malloc(arraySize * sizeof(char**));
+    if (!result) return 0;
 
     char* currentName = NULL;
     char* currentType = NULL;
@@ -69,7 +83,7 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
             if (currentName && !currentType) {
                 fprintf(stderr, "Error: column '%s' has no data type.\n", currentName);
                 freeInnerArgs(result, counter);
-                return NULL;
+                return 0;
             }
             break;
         }
@@ -78,7 +92,7 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
             if (!expectComma) {
                 fprintf(stderr, "Syntax error: unexpected ',' near '%s'.\n", token);
                 freeInnerArgs(result, counter);
-                return NULL;
+                return 0;
             }
             expectComma = 0;
             continue;
@@ -86,13 +100,13 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
 
         if (!expectComma) {
             if (!currentName)
-                currentName = (char*)token;
+                currentName = _strdup(token);
             else if (!currentType) {
-                currentType = (char*)token;
+                currentType = _strdup(token);
 
                 if (!addPair(&result, &counter, &arraySize, currentName, currentType)) {
                     freeInnerArgs(result, counter);
-                    return NULL;
+                    return 0;
                 }
 
                 currentName = NULL;
@@ -103,15 +117,19 @@ char*** extractInnerArgs(const char** argv, int argc, int* innerArgs) {
         else {
             fprintf(stderr, "Syntax error: expected ',' or ')' before '%s'.\n", token);
             freeInnerArgs(result, counter);
-            return NULL;
+            return 0;
         }
     }
 
     if (!expectComma && currentName && !currentType) {
         fprintf(stderr, "Error: column '%s' has no data type.\n", currentName);
+        free(currentName);
         freeInnerArgs(result, counter);
-        return NULL;
+        return 0;
     }
+
     *innerArgs = counter;
-    return result;
+    *outResult = result;
+
+    return 1;
 }

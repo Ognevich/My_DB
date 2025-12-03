@@ -82,6 +82,19 @@ FieldType StrToField(char* filedType)
     return NONE;
 }
 
+const char* sqlErrorToString(SqlError err) {
+    switch (err) {
+    case SQL_OK: return "No error";
+    case SQL_ERR_SYNTAX: return "Syntax error";
+    case SQL_ERR_MEMORY: return "Memory allocation error";
+    case SQL_ERR_RESERVED_WORD: return "Identifier is a reserved word";
+    case SQL_ERR_FORBIDDEN_SYMBOL: return "Forbidden symbol found";
+    case SQL_ERR_MISSING_PAREN: return "Missing parenthesis";
+    case SQL_ERR_INVALID_ARGUMENT: return "Invalid argument";
+    default: return "Unknown error";
+    }
+}
+
 void printTokens(const char** tokens, int tokensSize)
 {
     for (int i = 0; i < tokensSize; i++) {

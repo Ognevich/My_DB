@@ -19,7 +19,9 @@ void createCommand(AppContext* app, char** argv, int argc)
 
 	const char* objectType = argv[1];
 	int ifNotExists = isIfNotExistsUsed(argv, argc);
-	char* name = extractName(argv, argc, ifNotExists);
+	char* name = NULL;
+	extractName(argv, argc, &name,ifNotExists);
+
 
 	if (name == NULL) {
 		printf("Error: Invalid CREATE syntax\n");
@@ -68,7 +70,8 @@ void processCreateTableCommand(AppContext* app, char** argv, int argc, const cha
 	}
 
 	int innerArgs = 0;
-	const char*** innerBracketsArgv = extractInnerArgs(argv,argc, &innerArgs);
+	const char*** innerBracketsArgv = NULL;
+	extractInnerArgs(argv,argc, &innerBracketsArgv,&innerArgs);
 
 	if (checkCreateTableArguments(innerBracketsArgv, innerArgs) <= 0) 
 		return;

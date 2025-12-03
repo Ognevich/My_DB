@@ -1,6 +1,7 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 #include "table.h"
+#include "parser_keywords.h"
 
 int increaseTwoDimCharArray(char*** array, int size);
 void freeTwoDimArray(void*** array, int rows);
@@ -10,9 +11,11 @@ void printHeader(const char* headerName);
 int defineColumnSize(FieldType type);
 
 FieldType StrToField(char * filedType);
+const char* sqlErrorToString(SqlError error);
 
 void printTokens(const char** tokens, int tokensSize);
 void printParsedValues(char *** values,int valuesSize );
+
 
 #endif
 

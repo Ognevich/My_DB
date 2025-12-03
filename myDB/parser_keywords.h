@@ -3,6 +3,15 @@
 
 #define BUFFER_SIZE 512
 
+typedef enum {
+    SQL_OK,
+    SQL_ERR_SYNTAX,
+    SQL_ERR_MEMORY,
+    SQL_ERR_RESERVED_WORD,
+    SQL_ERR_FORBIDDEN_SYMBOL,
+    SQL_ERR_MISSING_PAREN,
+    SQL_ERR_INVALID_ARGUMENT,
+} SqlError;
 
 extern const char* reservedWords[];
 extern const int reservedWordsCount;

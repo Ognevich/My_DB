@@ -2,9 +2,9 @@
 #define _PARSER_CREATE_H_
 
 int isIfNotExistsUsed(char** argv, int argSize);
-char* extractName(char** argv, int argc, int ifNotExists);
+void extractName(char** argv, int argc,char ** name, int ifNotExists);
 int isBracketsExists(const char** argv, int argc, int ifNotExists);
-char*** extractInnerArgs(const char** argv, int argc, int* innerArgs);
+int extractInnerArgs(const char** argv, int argc, char**** outResult, int* innerArgs);
 
 #endif
 
