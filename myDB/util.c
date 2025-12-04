@@ -46,18 +46,21 @@ void freeThreeDimArray(void**** array, int rows) {
     *array = NULL;
 }
 
-void freeParsedValues(char*** values, int valuesSize) {
+void freeParsedValues(char*** values, int valuesSize)
+{
+    if (!values) return;
+
     for (int i = 0; i < valuesSize; i++) {
-        if (values[i] != NULL) {
+        if (values[i]) {
             for (int j = 0; values[i][j] != NULL; j++) {
                 free(values[i][j]);
             }
             free(values[i]);
         }
     }
+
     free(values);
 }
-
 
 void printHeader(const char* headerName)
 {

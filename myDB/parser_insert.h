@@ -1,9 +1,9 @@
 #ifndef _PARSER_INSERT_H_
 #define _PARSER_INSERT_H_
 
-char*** extractedValuesToInsert(const char** argv, int argc, int startPos, int* valuesSize, int columnCount);
-char** parseRow(const char** argv, int argc, int* index, int columnCount);
-char** parseValues(const char** argv, int argc, int* index, int columnCount);
-char** extractColumnsToInsert(const char** argv, int argc, int startPos, int* columnsSize);
+int extractedValuesToInsert(const char** argv, int argc, int startPos, char**** outValues, int* valuesSize, int columnCount);
+int parseRow(const char** argv, int argc, int* index, char*** outRow, int columnCount);
+int parseValues(const char** argv, int argc, int* index, char*** outValues, int columnCount);
+int extractColumnsToInsert(const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize);
 
 #endif

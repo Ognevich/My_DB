@@ -24,7 +24,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
     if (index < argc && strcmp(argv[index], "(") == 0)
     {
-        extractedColumns = extractColumnsToInsert(argv, argc, ++index, &columnsSize);
+        extractColumnsToInsert(argv, argc, ++index, &extractedColumns ,&columnsSize);
         if (!extractedColumns)
             success = 0;
 
@@ -66,7 +66,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         else
             columnCount = table->columnCount;
 
-        extractedValues = extractedValuesToInsert(argv, argc, index, &valuesSize, columnCount);
+        extractedValuesToInsert(argv, argc, index, &extractedValues,&valuesSize, columnCount);
         if (!extractedValues)
             success = 0;
     }
@@ -78,7 +78,14 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         }
     }
 
-    freeTwoDimArray((void***)&extractedColumns, columnsSize);
-    freeParsedValues(extractedValues, valuesSize);
+    if (extractedColumns) {
+        freeTwoDimArray((void***)&extractedColumns, columnsSize);
+        extractedColumns = NULL;
+    }
+    if (extractedValues) {
+        freeParsedValues(extractedValues, valuesSize);
+        extractedValues = NULL;
+    }
+
 }
 
