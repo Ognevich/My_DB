@@ -24,7 +24,8 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
     if (index < argc && strcmp(argv[index], "(") == 0)
     {
-        extractColumnsToInsert(argv, argc, ++index, &extractedColumns ,&columnsSize);
+        SqlError err = extractColumnsToInsert(argv, argc, ++index, &extractedColumns ,&columnsSize);
+        printError(err);
         if (!extractedColumns)
             success = 0;
 
@@ -66,7 +67,8 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         else
             columnCount = table->columnCount;
 
-        extractedValuesToInsert(argv, argc, index, &extractedValues,&valuesSize, columnCount);
+        SqlError err = extractedValuesToInsert(argv, argc, index, &extractedValues,&valuesSize, columnCount);
+        printError(err);
         if (!extractedValues)
             success = 0;
     }

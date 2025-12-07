@@ -51,10 +51,10 @@ int isBracketsExists(const char** argv, int argc, int ifNotExists)
     return 1;
 }
 
-int extractInnerArgs(const char** argv, int argc, char**** outResult, int* innerArgs)
+SqlError extractInnerArgs(const char** argv, int argc, char**** outResult, int* innerArgs)
 {
     if (!argv || argc <= 0 || !outResult || !innerArgs)
-        return 0;
+        return SQL_ERR_INVALID_ARGUMENT;
 
     *outResult = NULL;
     *innerArgs = 0;
@@ -64,7 +64,7 @@ int extractInnerArgs(const char** argv, int argc, char**** outResult, int* inner
     int arraySize = 4;
 
     char*** result = safe_malloc(arraySize * sizeof(char**));
-    if (!result) return 0;
+    if (!result) return SQL_ERR_MEMORY;
 
     char* currentName = NULL;
     char* currentType = NULL;
@@ -81,18 +81,16 @@ int extractInnerArgs(const char** argv, int argc, char**** outResult, int* inner
 
         if (strcmp(token, ")") == 0) {
             if (currentName && !currentType) {
-                fprintf(stderr, "Error: column '%s' has no data type.\n", currentName);
                 freeInnerArgs(result, counter);
-                return 0;
+                return SQL_ERR_INVALID_ARGUMENT;
             }
             break;
         }
 
         if (strcmp(token, ",") == 0) {
             if (!expectComma) {
-                fprintf(stderr, "Syntax error: unexpected ',' near '%s'.\n", token);
                 freeInnerArgs(result, counter);
-                return 0;
+                return SQL_ERR_SYNTAX;
             }
             expectComma = 0;
             continue;
@@ -115,21 +113,19 @@ int extractInnerArgs(const char** argv, int argc, char**** outResult, int* inner
             }
         }
         else {
-            fprintf(stderr, "Syntax error: expected ',' or ')' before '%s'.\n", token);
             freeInnerArgs(result, counter);
-            return 0;
+            return SQL_ERR_SYNTAX;
         }
     }
 
     if (!expectComma && currentName && !currentType) {
-        fprintf(stderr, "Error: column '%s' has no data type.\n", currentName);
         free(currentName);
         freeInnerArgs(result, counter);
-        return 0;
+        return SQL_ERR_INVALID_ARGUMENT;
     }
 
     *innerArgs = counter;
     *outResult = result;
 
-    return 1;
+    return SQL_OK;
 }

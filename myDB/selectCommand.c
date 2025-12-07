@@ -11,7 +11,8 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 		return;
 
 	int selectArraySize = 0;
-	const char** selectArray = extractSelectList(argv, argc, &selectArraySize);
+	char** selectArray = NULL;
+	extractSelectList(argv, argc, &selectArray,&selectArraySize);
 	
 	if (checkSelectCommandArgsValidation(selectArray, selectArraySize) <= 0)
 		return;
@@ -28,7 +29,6 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 		return;
 	}
 
-	// FIND OUT IF THE TABLE NEEDS TO BE CLEARED
 	Table* table = findTable(app->currentDatabase, tableName);
 	if (!table) {
 		printf("Error: Table %s don't exists\n", tableName);

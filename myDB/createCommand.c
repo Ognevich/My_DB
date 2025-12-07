@@ -71,7 +71,10 @@ void processCreateTableCommand(AppContext* app, char** argv, int argc, const cha
 
 	int innerArgs = 0;
 	const char*** innerBracketsArgv = NULL;
-	extractInnerArgs(argv,argc, &innerBracketsArgv,&innerArgs);
+
+	SqlError err = extractInnerArgs(argv,argc, &innerBracketsArgv,&innerArgs);
+	printError(err);
+
 
 	if (checkCreateTableArguments(innerBracketsArgv, innerArgs) <= 0) 
 		return;

@@ -98,6 +98,14 @@ const char* sqlErrorToString(SqlError err) {
     }
 }
 
+void printError(SqlError error)
+{
+    const char * str_error = sqlErrorToString(error);
+    if (error = SQL_OK)
+        return;
+    printf("Error: %s\n", str_error);
+}
+
 void printTokens(const char** tokens, int tokensSize)
 {
     for (int i = 0; i < tokensSize; i++) {

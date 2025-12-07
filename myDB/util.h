@@ -12,6 +12,8 @@ int defineColumnSize(FieldType type);
 
 FieldType StrToField(char * filedType);
 const char* sqlErrorToString(SqlError error);
+void printError(SqlError error);
+
 
 void printTokens(const char** tokens, int tokensSize);
 void printParsedValues(char *** values,int valuesSize );

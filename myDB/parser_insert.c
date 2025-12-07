@@ -1,13 +1,14 @@
 #include "parser_insert.h"
+#include "util.h"
 #include <stdio.h>
 #include "parse_util.h"
 #include <string.h>
 #include <stdlib.h>
 
-int extractColumnsToInsert( const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize)
+SqlError extractColumnsToInsert( const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize)
 {
     if (!argv || !outColumn || !columnsSize || startPos >= argc)
-        return -1;
+        return SQL_OK;
 
     int currentSize = 0;
     int maxSize = 4;
@@ -15,34 +16,31 @@ int extractColumnsToInsert( const char** argv, int argc, int startPos, char*** o
 
     char** extractedColumns = safe_malloc(sizeof(char*) * maxSize);
     if (!extractedColumns)
-        return -1;
+        return SQL_ERR_MEMORY;
 
     for (int i = startPos; i < argc; i++) {
 
         if (strcmp(argv[i], ")") == 0) {
 
             if (expectColumn && currentSize > 0) {
-                printf("Error: trailing comma before ')'\n");
                 freeCharArr(extractedColumns, currentSize);
-                return -1;
+                return SQL_ERR_INVALID_ARGUMENT;
             }
 
             if (i + 1 >= argc || strcmp(argv[i + 1], "VALUES") != 0) {
-                printf("ERROR: expected keyword 'VALUES' after ')'\n");
                 freeCharArr(extractedColumns, currentSize);
-                return -1;
+                return SQL_ERR_RESERVED_WORD;
             }
 
             *outColumn = extractedColumns;
             *columnsSize = currentSize;
-            return 0;
+            return SQL_OK;
         }
 
         if (strcmp(argv[i], ",") == 0) {
             if (expectColumn) {
-                printf("Error: unexpected comma\n");
                 freeCharArr(extractedColumns, currentSize);
-                return -1;
+                return SQL_ERR_SYNTAX;
             }
             expectColumn = 1;
             continue;
@@ -54,36 +52,32 @@ int extractColumnsToInsert( const char** argv, int argc, int startPos, char*** o
                 maxSize *= 2;
                 char** temp = safe_realloc(extractedColumns, sizeof(char*) * maxSize);
                 if (!temp) {
-                    printf("Error: realloc failed\n");
                     freeCharArr(extractedColumns, currentSize);
-                    return -1;
+                    return SQL_ERR_MEMORY;
                 }
                 extractedColumns = temp;
             }
 
             extractedColumns[currentSize] = _strdup(argv[i]);
             if (!extractedColumns[currentSize]) {
-                printf("Error: strdup failed\n");
                 freeCharArr(extractedColumns, currentSize);
-                return -1;
+                return SQL_ERR_MEMORY;
             }
 
             currentSize++;
             expectColumn = 0;
         }
         else {
-            printf("Error: missing comma before '%s'\n", argv[i]);
             freeCharArr(extractedColumns, currentSize);
-            return -1;
+            return SQL_ERR_SYNTAX;
         }
     }
 
-    printf("Error: missing closing ')'\n");
     freeCharArr(extractedColumns, currentSize);
-    return -1;
+    return SQL_ERR_MISSING_PAREN;
 }
 
-int parseValues(const char** argv, int argc, int* index,char *** outValues ,int columnCount) {
+static int parseValues(const char** argv, int argc, int* index,char *** outValues ,int columnCount) {
     int rowSize = 0;
     int rowMaxSize = 10;
     char** row = safe_malloc(sizeof(char*) * rowMaxSize);
@@ -94,7 +88,7 @@ int parseValues(const char** argv, int argc, int* index,char *** outValues ,int 
 
         if (strcmp(argv[*index], ",") == 0) {
             if (expectValue) {
-                printf("Syntax error: unexpected ','\n");
+                printError(SQL_ERR_SYNTAX);
                 freeCharArr(row, rowSize);
                 return -1;
             }
@@ -104,7 +98,7 @@ int parseValues(const char** argv, int argc, int* index,char *** outValues ,int 
         }
 
         if (!expectValue) {
-            printf("Syntax error: missing ',' between values\n");
+            printError(SQL_ERR_SYNTAX);
             freeCharArr(row, rowSize);
             return -1;
         }
@@ -130,7 +124,7 @@ int parseValues(const char** argv, int argc, int* index,char *** outValues ,int 
     }
 
     if (rowSize != columnCount) {
-        printf("ERROR: too many values in row (expected %d, got %d)\n", columnCount, rowSize);
+        printError(SQL_ERR_INVALID_ARGUMENT);
         freeCharArr(row, rowSize);
         return -1;
     }
@@ -140,7 +134,7 @@ int parseValues(const char** argv, int argc, int* index,char *** outValues ,int 
     return 0;
 }
 
-int parseRow(const char** argv, int argc, int* index, char *** outRow,int columnCount) {
+static int parseRow(const char** argv, int argc, int* index, char *** outRow,int columnCount) {
     if (!expectChar(argv, argc, *index, "(")) return -1;
     (*index)++;
     char** row = NULL;
@@ -167,10 +161,10 @@ int parseRow(const char** argv, int argc, int* index, char *** outRow,int column
     return 0;
 }
 
-int extractedValuesToInsert(const char** argv, int argc, int startPos,char **** outValues,int* valuesSize, int columnCount)
+SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,char **** outValues,int* valuesSize, int columnCount)
 {
     *valuesSize = 0;
-    if (!argv || startPos >= argc) return -1;
+    if (!argv || startPos >= argc) return SQL_ERR_INVALID_ARGUMENT;
 
     int maxSize = 10, currentSize = 0;
     char*** extractedValues = safe_malloc(sizeof(char**) * maxSize);
@@ -184,7 +178,7 @@ int extractedValuesToInsert(const char** argv, int argc, int startPos,char **** 
             parseRow(argv, argc, &i, &row,columnCount);
             if (!row) {
                 freeExtractedValues(extractedValues, currentSize);
-                return -1;
+                return SQL_OK;
             }
 
             if (currentSize >= maxSize) {
@@ -195,7 +189,7 @@ int extractedValuesToInsert(const char** argv, int argc, int startPos,char **** 
                     for (int j = 0; row[j]; j++)
                         free(row[j]);
                     free(row);
-                    return -1;
+                    return SQL_ERR_MEMORY;
                 }
                 extractedValues = tmp;
             }
@@ -209,20 +203,18 @@ int extractedValuesToInsert(const char** argv, int argc, int startPos,char **** 
                 i++;
             }
             else {
-                printf("Syntax error: expected ',' between blocks but found '%s'\n", argv[i]);
                 freeExtractedValues(extractedValues, currentSize);
-                return -1;
+                return SQL_ERR_SYNTAX;
             }
         }
     }
 
     if (expectBlock && currentSize > 0) {
-        printf("Syntax error: dangling ',' at the end\n");
         freeExtractedValues(extractedValues, currentSize);
-        return -1;
+        return SQL_ERR_SYNTAX;
     }
 
     *valuesSize = currentSize;
     *outValues = extractedValues;
-    return 0;
+    return SQL_OK;
 }

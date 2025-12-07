@@ -44,7 +44,6 @@ int checkDatabaseExists(AppContext* app, const char* name, int ifNotExists)
 int checkCreateTableArguments(const char*** argv, int argc)
 {
     if (argv == NULL) {
-        printf("Error: Incorrect args\n");
         return 0;
     }
 
