@@ -12,8 +12,9 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 
 	int selectArraySize = 0;
 	char** selectArray = NULL;
-	extractSelectList(argv, argc, &selectArray,&selectArraySize);
-	
+	SqlError error = extractSelectList(argv, argc, &selectArray,&selectArraySize);
+	printError(error);
+
 	if (checkSelectCommandArgsValidation(selectArray, selectArraySize) <= 0)
 		return;
 
