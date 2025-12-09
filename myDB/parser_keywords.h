@@ -13,6 +13,13 @@ typedef enum {
     SQL_ERR_INVALID_ARGUMENT,
 } SqlError;
 
+typedef enum {
+    TYPE_INT,
+    TYPE_VARCHAR,
+    TYPE_BOOLEAN,
+    TYPE_UNKNOWN
+}SqlType;
+
 extern const char* reservedWords[];
 extern const int reservedWordsCount;
 

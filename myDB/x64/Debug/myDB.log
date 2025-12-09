@@ -1,14 +1,4 @@
-﻿  app.c
-D:\my_projects\C\myDB\myDB\app.c(81,27): warning C4013: 'isspace' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\app.c(80,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  commandValidators.c
-  createCommand.c
-  insertCommand.c
-  parser_insert.c
-  parser_select.c
-  selectCommand.c
-  specialCommnad.c
-  Generating Code...
+﻿  parser_insert.c
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

@@ -4,90 +4,95 @@
 #include "parse_util.h"
 #include <string.h>
 
+typedef enum {
+    SELECT_EXPECT_COLUMN,
+    SELECT_EXPECT_COMMA_OR_FROM,
+    SELECT_END,
+}extractSelectArgsState;
+
 SqlError extractSelectList(const char** argv, int argc, char*** outList, int* listArgs)
 {
+    if (!argv || argc < 2 || !outList || !listArgs)
+        return SQL_ERR_INVALID_ARGUMENT;
+
     int columnCount = 0;
     int capacity = 4;
+
     char** selectList = safe_malloc(capacity * sizeof(char*));
+    if (!selectList) return SQL_ERR_MEMORY;
 
-    int expectComma = 0;
-    int foundFromKeyword = 0;
-    int isValidSyntax = 1;
-    
-    SqlError error;
+    extractSelectArgsState state = SELECT_EXPECT_COLUMN;
 
-    for (int i = 1; i < argc && isValidSyntax; i++) {
+    SqlError error = SQL_OK;
+
+    for (int i = 1; i < argc; i++) {
         const char* token = argv[i];
 
-        if (strcmp(token, "FROM") == 0) {
-            if (!expectComma && columnCount > 0) {
-                error = SQL_ERR_RESERVED_WORD;
-                isValidSyntax = 0;
+        switch (state)
+        {
+        case SELECT_EXPECT_COLUMN:
+            if (strcmp(token, "FROM") == 0) {
+                freeCharArr(selectList, columnCount);
+                return SQL_ERR_SYNTAX;
+            }
+            if (strcmp(token, ",") == 0) {
+                freeCharArr(selectList, columnCount);
+                return SQL_ERR_INVALID_ARGUMENT;
+            }
+
+            if (columnCount >= capacity) {
+                capacity *= 2;
+                char** tmp = safe_realloc(selectList, capacity * sizeof(char*));
+                if (!tmp) {
+                    freeCharArr(selectList, columnCount);
+                    return SQL_ERR_MEMORY;
+                }
+                selectList = tmp;
+            }
+
+            selectList[columnCount] = safe_malloc(strlen(token) + 1);
+            if (!selectList[columnCount]) {
+                freeCharArr(selectList, columnCount);
+                return SQL_ERR_MEMORY;
+            }
+            strcpy(selectList[columnCount], token);
+            columnCount++;
+
+            state = SELECT_EXPECT_COMMA_OR_FROM;
+            break;
+
+
+        case SELECT_EXPECT_COMMA_OR_FROM:
+            if (strcmp(token, ",") == 0) {
+                state = SELECT_EXPECT_COLUMN;
                 break;
             }
-            foundFromKeyword = 1;
-            break;
-        }
 
-        if (strcmp(token, ",") == 0) {
-            if (!expectComma) {
-                error = SQL_ERR_INVALID_ARGUMENT;
-                isValidSyntax = 0;
+            if (strcmp(token, "FROM") == 0) {
+                state = SELECT_END;
                 break;
             }
-            expectComma = 0;
-            continue;
-        }
 
-        if (expectComma) {
-            error = SQL_ERR_INVALID_ARGUMENT;
-            isValidSyntax = 0;
+            freeCharArr(selectList, columnCount);
+            return SQL_ERR_SYNTAX;
+
+
+        case SELECT_END:
+            i = argc;
             break;
-        }
-
-        if (columnCount >= capacity) {
-            capacity *= 2;
-            char** tmp = safe_realloc(selectList, capacity * sizeof(char*));
-            if (!tmp) {
-                isValidSyntax = 0;
-                break;
-            }
-            selectList = tmp;
-        }
-
-        selectList[columnCount] = safe_malloc(strlen(token) + 1);
-        if (!selectList[columnCount]) {
-            isValidSyntax = 0;
-            break;
-        }
-        strcpy(selectList[columnCount], token);
-        columnCount++;
-
-        expectComma = 1;
-    }
-
-    if (isValidSyntax) {
-        if (!foundFromKeyword) {
-            error = SQL_ERR_RESERVED_WORD;
-            isValidSyntax = 0;
-        }
-        else if (!expectComma && columnCount > 0) {
-            error = SQL_ERR_SYNTAX;
-            isValidSyntax = 0;
         }
     }
 
-    if (!isValidSyntax) {
+    if (state != SELECT_END) {
         freeCharArr(selectList, columnCount);
-        return error;
+        return SQL_ERR_SYNTAX;
     }
 
     *outList = selectList;
     *listArgs = columnCount;
-    error = SQL_OK;
-
-    return error;
+    return SQL_OK;
 }
+
 
 int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize)
 {

@@ -5,48 +5,44 @@
 #include <string.h>
 #include <stdlib.h>
 
-SqlError extractColumnsToInsert( const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize)
+
+typedef enum {
+    INSERT_COLUMNS_EXPECT_COLUMN,
+    INSERT_COLUMNS_EXPECT_COMMA_OR_CLOSE_PAREN,
+    INSERT_COLUMNS_END
+}extractColumnInsertState;
+
+typedef enum {
+    INSERT_VALUES_EXPECT_ROW,     
+    INSERT_VALUES_EXPECT_COMMA,
+    INSERT_VALUES_END_STATE
+} ExtractValuesState;
+
+
+SqlError extractColumnsToInsert(const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize)
 {
     if (!argv || !outColumn || !columnsSize || startPos >= argc)
         return SQL_OK;
 
     int currentSize = 0;
     int maxSize = 4;
-    int expectColumn = 1;
 
     char** extractedColumns = safe_malloc(sizeof(char*) * maxSize);
     if (!extractedColumns)
         return SQL_ERR_MEMORY;
 
+    extractColumnInsertState state = INSERT_COLUMNS_EXPECT_COLUMN;
+
     for (int i = startPos; i < argc; i++) {
 
-        if (strcmp(argv[i], ")") == 0) {
+        switch (state)
+        {
+        case INSERT_COLUMNS_EXPECT_COLUMN:
 
-            if (expectColumn && currentSize > 0) {
+            if (!strcmp(argv[i], ",") || !strcmp(argv[i], ")")) {
                 freeCharArr(extractedColumns, currentSize);
                 return SQL_ERR_INVALID_ARGUMENT;
             }
-
-            if (i + 1 >= argc || strcmp(argv[i + 1], "VALUES") != 0) {
-                freeCharArr(extractedColumns, currentSize);
-                return SQL_ERR_RESERVED_WORD;
-            }
-
-            *outColumn = extractedColumns;
-            *columnsSize = currentSize;
-            return SQL_OK;
-        }
-
-        if (strcmp(argv[i], ",") == 0) {
-            if (expectColumn) {
-                freeCharArr(extractedColumns, currentSize);
-                return SQL_ERR_SYNTAX;
-            }
-            expectColumn = 1;
-            continue;
-        }
-
-        if (expectColumn) {
 
             if (currentSize >= maxSize) {
                 maxSize *= 2;
@@ -65,16 +61,40 @@ SqlError extractColumnsToInsert( const char** argv, int argc, int startPos, char
             }
 
             currentSize++;
-            expectColumn = 0;
-        }
-        else {
+            state = INSERT_COLUMNS_EXPECT_COMMA_OR_CLOSE_PAREN;
+            break;
+
+        case INSERT_COLUMNS_EXPECT_COMMA_OR_CLOSE_PAREN:
+
+            if (strcmp(argv[i], ",") == 0) {
+                state = INSERT_COLUMNS_EXPECT_COLUMN;
+                break;
+            }
+
+            if (strcmp(argv[i], ")") == 0) {
+                state = INSERT_COLUMNS_END;
+                i = argc; 
+                break;
+            }
+
             freeCharArr(extractedColumns, currentSize);
-            return SQL_ERR_SYNTAX;
+            return SQL_ERR_INVALID_ARGUMENT;
+
+        case INSERT_COLUMNS_END:
+            i = argc;
+            break;
         }
     }
 
-    freeCharArr(extractedColumns, currentSize);
-    return SQL_ERR_MISSING_PAREN;
+    if (state != INSERT_COLUMNS_END) {
+        freeCharArr(extractedColumns, currentSize);
+        return SQL_ERR_MISSING_PAREN;
+    }
+
+    *outColumn = extractedColumns;
+    *columnsSize = currentSize;
+
+    return SQL_OK;
 }
 
 static int parseValues(const char** argv, int argc, int* index,char *** outValues ,int columnCount) {
@@ -164,18 +184,23 @@ static int parseRow(const char** argv, int argc, int* index, char *** outRow,int
 SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,char **** outValues,int* valuesSize, int columnCount)
 {
     *valuesSize = 0;
-    if (!argv || startPos >= argc) return SQL_ERR_INVALID_ARGUMENT;
+    if (!argv || startPos >= argc)
+        return SQL_ERR_INVALID_ARGUMENT;
 
     int maxSize = 10, currentSize = 0;
     char*** extractedValues = safe_malloc(sizeof(char**) * maxSize);
 
     int i = startPos;
-    int expectBlock = 1;
+
+    ExtractValuesState state = INSERT_VALUES_EXPECT_ROW;
 
     while (i < argc) {
-        if (expectBlock) {
+        switch (state) {
+
+        case INSERT_VALUES_EXPECT_ROW: {
             char** row = NULL;
-            parseRow(argv, argc, &i, &row,columnCount);
+            parseRow(argv, argc, &i, &row, columnCount);
+
             if (!row) {
                 freeExtractedValues(extractedValues, currentSize);
                 return SQL_OK;
@@ -195,26 +220,31 @@ SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,char 
             }
 
             extractedValues[currentSize++] = row;
-            expectBlock = 0;
+
+            state = INSERT_VALUES_EXPECT_COMMA;
+            break;
         }
-        else {
+
+        case INSERT_VALUES_EXPECT_COMMA:
             if (strcmp(argv[i], ",") == 0) {
-                expectBlock = 1;
                 i++;
+                state = INSERT_VALUES_EXPECT_ROW;
             }
             else {
                 freeExtractedValues(extractedValues, currentSize);
                 return SQL_ERR_SYNTAX;
             }
+            break;
         }
     }
 
-    if (expectBlock && currentSize > 0) {
+    if (state == INSERT_VALUES_EXPECT_ROW && currentSize > 0) {
         freeExtractedValues(extractedValues, currentSize);
         return SQL_ERR_SYNTAX;
     }
 
     *valuesSize = currentSize;
     *outValues = extractedValues;
+
     return SQL_OK;
 }

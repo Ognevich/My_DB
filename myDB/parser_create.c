@@ -5,6 +5,15 @@
 #include <string.h>
 #include <stdlib.h>
 
+typedef enum {
+    CREATE_EXPECT_OPEN_BRACKET,
+    CREATE_EXPECT_COL_NAME,
+    CREATE_EXPECT_COL_TYPE,
+    CREATE_EXPECT_COMMA_OR_CLOSE_BRACKET,
+    CREATE_END
+}extractCreateArgsState;
+
+
 int isIfNotExistsUsed(char** argv, int argSize)
 {
     if (argSize < 3) {
@@ -59,69 +68,92 @@ SqlError extractInnerArgs(const char** argv, int argc, char**** outResult, int* 
     *outResult = NULL;
     *innerArgs = 0;
 
-    int isOpenBracket = 0;
-    int counter = 0;
     int arraySize = 4;
+    int counter = 0;
 
     char*** result = safe_malloc(arraySize * sizeof(char**));
     if (!result) return SQL_ERR_MEMORY;
 
     char* currentName = NULL;
     char* currentType = NULL;
-    int expectComma = 0;
+
+    extractCreateArgsState state = CREATE_EXPECT_OPEN_BRACKET;
 
     for (int i = 0; i < argc; i++) {
         const char* token = argv[i];
 
-        if (!isOpenBracket) {
-            if (strcmp(token, "(") == 0)
-                isOpenBracket = 1;
-            continue;
-        }
+        switch (state)
+        {
+        case CREATE_EXPECT_OPEN_BRACKET:
+            if (strcmp(token, "(") == 0) {
+                state = CREATE_EXPECT_COL_NAME;
+            }
+            break;
 
-        if (strcmp(token, ")") == 0) {
-            if (currentName && !currentType) {
+        case CREATE_EXPECT_COL_NAME:
+            if (strcmp(token, ")") == 0) {
                 freeInnerArgs(result, counter);
                 return SQL_ERR_INVALID_ARGUMENT;
             }
-            break;
-        }
 
-        if (strcmp(token, ",") == 0) {
-            if (!expectComma) {
+            currentName = _strdup(token);
+            if (!currentName) {
                 freeInnerArgs(result, counter);
-                return SQL_ERR_SYNTAX;
+                return SQL_ERR_MEMORY;
             }
-            expectComma = 0;
-            continue;
-        }
 
-        if (!expectComma) {
-            if (!currentName)
-                currentName = _strdup(token);
-            else if (!currentType) {
-                currentType = _strdup(token);
+            state = CREATE_EXPECT_COL_TYPE;
+            break;
 
-                if (!addPair(&result, &counter, &arraySize, currentName, currentType)) {
-                    freeInnerArgs(result, counter);
-                    return 0;
-                }
-
-                currentName = NULL;
-                currentType = NULL;
-                expectComma = 1;
+        case CREATE_EXPECT_COL_TYPE:
+            if (strcmp(token, ")") == 0) {
+                free(currentName);
+                freeInnerArgs(result, counter);
+                return SQL_ERR_INVALID_ARGUMENT;
             }
-        }
-        else {
+
+            currentType = _strdup(token);
+            if (!currentType) {
+                free(currentName);
+                freeInnerArgs(result, counter);
+                return SQL_ERR_MEMORY;
+            }
+
+            if (!addPair(&result, &counter, &arraySize, currentName, currentType)) {
+                free(currentName);
+                free(currentType);
+                freeInnerArgs(result, counter);
+                return SQL_ERR_MEMORY;
+            }
+
+            currentName = NULL;
+            currentType = NULL;
+
+            state = CREATE_EXPECT_COMMA_OR_CLOSE_BRACKET;
+            break;
+
+        case CREATE_EXPECT_COMMA_OR_CLOSE_BRACKET:
+            if (strcmp(token, ",") == 0) {
+                state = CREATE_EXPECT_COL_NAME;
+                break;
+            }
+
+            if (strcmp(token, ")") == 0) {
+                state = CREATE_END;
+                break;
+            }
+
             freeInnerArgs(result, counter);
             return SQL_ERR_SYNTAX;
+
+        case CREATE_END:
+            break;
         }
     }
 
-    if (!expectComma && currentName && !currentType) {
-        free(currentName);
+    if (state != CREATE_END) {
         freeInnerArgs(result, counter);
-        return SQL_ERR_INVALID_ARGUMENT;
+        return SQL_ERR_SYNTAX;
     }
 
     *innerArgs = counter;
