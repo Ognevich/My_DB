@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <ctype.h>
 
 int increaseTwoDimCharArray(char*** array, int size)
 {
@@ -129,6 +129,21 @@ void printParsedValues(char*** values, int valuesSize) {
     }
 }
 
+int isNumber(const char* s)
+{
+    if (!s || !*s) return 0;
+
+    int i = 0;
+    if (s[i] == '-' || s[i] == '+') i++;
+
+    if (!isdigit(s[i])) return 0;
+
+    for (; s[i]; i++)
+        if (!isdigit(s[i])) return 0;
+
+    return 1;
+}
+
 int defineColumnSize(FieldType type);
 
 int defineColumnSize(FieldType type)
@@ -152,3 +167,4 @@ int defineColumnSize(FieldType type)
 
     return value;
 }
+
