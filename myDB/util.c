@@ -101,7 +101,7 @@ const char* sqlErrorToString(SqlError err) {
 void printError(SqlError error)
 {
     const char * str_error = sqlErrorToString(error);
-    if (error = SQL_OK)
+    if (strcmp(str_error, "No error") == 0)
         return;
     printf("Error: %s\n", str_error);
 }
