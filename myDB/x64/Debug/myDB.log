@@ -1,7 +1,7 @@
 ﻿  app.c
-  createCommand.c
 D:\my_projects\C\myDB\myDB\app.c(81,27): warning C4013: 'isspace' undefined; assuming extern returning int
 D:\my_projects\C\myDB\myDB\app.c(80,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  createCommand.c
   insertCommand.c
   parser_insert.c
   selectCommand.c
@@ -11,6 +11,9 @@ D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': 
   table.c
   util.c
 D:\my_projects\C\myDB\myDB\util.c(33,13): warning C4133: 'initializing': incompatible types - from 'void ***' to 'char ***'
+D:\my_projects\C\myDB\myDB\util.c(154,53): warning C4047: '==': 'int' differs in levels of indirection from 'char [2]'
+D:\my_projects\C\myDB\myDB\util.c(154,75): warning C4047: '==': 'int' differs in levels of indirection from 'char [2]'
+D:\my_projects\C\myDB\myDB\util.c(149,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,

@@ -144,6 +144,31 @@ int isNumber(const char* s)
     return 1;
 }
 
+int isQuotedString(const char* s)
+{
+    int len = strlen(s);
+    
+    if (len < 2)
+        return 0; 
+
+    if ((s[0] == '"' && s[len - 1] == '"') || (s[0] == "\'" && s[len - 1] == "\'"))
+        return 1;
+    return 0;
+
+}
+
+int isNULL(const char* s)
+{
+    if (strcmp(s, "null") || strcmp(s, "NULL"))
+        return 1;
+    return 0;
+}
+
+
+
+
+
+
 int defineColumnSize(FieldType type);
 
 int defineColumnSize(FieldType type)
