@@ -13,7 +13,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
     Table* table = findTable(app->currentDatabase, argv[2]);
 
     const char** extractedColumns = NULL;
-    const char*** extractedValues = NULL;
+    const parsedValue*** extractedValues = NULL;
 
     int columnsSize = 0;
     int valuesSize = 0;

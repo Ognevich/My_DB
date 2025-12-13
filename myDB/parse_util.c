@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "parse_util.h"
 #include <stdlib.h>
-#include "parser_keywords.h"
 #include <string.h>
 
 void freeInnerArgs(char*** result, int count) {
@@ -27,6 +26,18 @@ void freeCharArr(const char** value, int size)
     free(value);
 }
 
+void freeParsedArr(parsedValue** values, int size) {
+    if (!values) return;
+
+    for (int i = 0; i < size; i++) {
+        if (values[i]) {
+            if (values[i]->raw) free(values[i]->raw);  
+            free(values[i]);                        
+        }
+    }
+    free(values); 
+}
+
 void* safe_malloc(size_t s) {
     void* p = malloc(s);
     if (!p) {
@@ -45,12 +56,15 @@ void* safe_realloc(void* p, size_t s) {
     return tmp;
 }
 
-void freeExtractedValues(char*** values, int size) {
+void freeExtractedParsedValues(parsedValue*** values, int rows)
+{
     if (!values) return;
-    for (int i = 0; i < size; i++) {
-        char** row = values[i];
+
+    for (int i = 0; i < rows; i++) {
+        parsedValue** row = values[i];
         if (row) {
             for (int j = 0; row[j]; j++) {
+                if (row[j]->raw) free(row[j]->raw);
                 free(row[j]);
             }
             free(row);
@@ -58,7 +72,6 @@ void freeExtractedValues(char*** values, int size) {
     }
     free(values);
 }
-
 int addPair(char**** resultPtr, int* count, int* capacity, const char* name, const char* type) {
     char*** result = *resultPtr;
 
@@ -109,6 +122,14 @@ char* copyString(const char* src) {
 char** resizeRow(char** row, int* capacity) {
     int newCapacity = (*capacity) * 2;
     char** tmp = safe_realloc(row, sizeof(char*) * newCapacity);
+    *capacity = newCapacity;
+    return tmp;
+}
+
+parsedValue** resizeParsedArr(parsedValue** value, int* capacity)
+{
+    int newCapacity = (*capacity) * 2;
+    parsedValue** tmp = safe_realloc(value, sizeof(parsedValue*) * newCapacity);
     *capacity = newCapacity;
     return tmp;
 }

@@ -20,6 +20,19 @@ typedef enum {
     TYPE_UNKNOWN
 }SqlType;
 
+typedef enum {
+    SQL_TYPE_NUMBER,
+    SQL_TYPE_STRING,
+    SQL_TYPE_NULL
+} sqlValuesType;
+
+
+typedef struct {
+    const char* raw;
+    sqlValuesType type;
+}parsedValue;
+
+
 extern const char* reservedWords[];
 extern const int reservedWordsCount;
 

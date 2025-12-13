@@ -23,7 +23,6 @@ typedef enum {
     INSERT_VALUESARGS_EXPECT_COMMA,
 }extractValuesArgsState;
 
-
 SqlError extractColumnsToInsert(const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize)
 {
     if (!argv || !outColumn || !columnsSize || startPos >= argc)
@@ -102,11 +101,45 @@ SqlError extractColumnsToInsert(const char** argv, int argc, int startPos, char*
     return SQL_OK;
 }
 
-static int parseValues(const char** argv, int argc, int* index, char*** outValues, int columnCount) {
+static parsedValue* parseSingleValue(const char* token)
+{
+    if (!token) return NULL;
+
+    parsedValue* value = malloc(sizeof(parsedValue));
+    if (!value) return NULL;
+
+    if (isNumber(token))
+    {
+        value->raw = copyString(token);
+        value->type = SQL_TYPE_NUMBER;
+    }
+    else if (isQuotedString(token))
+    {
+        int len = strlen(token);
+        char* unquoted = safe_malloc(len - 1);  
+        memcpy(unquoted, token + 1, len - 2);
+        unquoted[len - 2] = '\0';
+        value->raw = unquoted;
+        value->type = SQL_TYPE_STRING;
+    }
+    else if (isNULL(token)) 
+    {
+        value->raw = NULL;
+        value->type = SQL_TYPE_NULL;
+    }
+    else {
+        free(value);
+        return NULL;
+    }
+
+    return value;
+}
+
+static int parseValues(const char** argv, int argc, int* index, parsedValue*** outValues, int columnCount) {
     int rowSize = 0;
     int rowMaxSize = 10;
 
-    char** row = safe_malloc(sizeof(char*) * rowMaxSize);
+    parsedValue** row = safe_malloc(sizeof(parsedValue*) * rowMaxSize);
     if (!row) return -1;
 
     extractValuesArgsState state = INSERT_VALUESARGS_EXPECT_VALUE;
@@ -119,26 +152,25 @@ static int parseValues(const char** argv, int argc, int* index, char*** outValue
         case INSERT_VALUESARGS_EXPECT_VALUE:
             if (strcmp(argv[*index], ",") == 0) {
                 printError(SQL_ERR_SYNTAX);
-                freeCharArr(row, rowSize);
+                freeParsedArr(row, rowSize); 
                 return -1;
             }
-
             if (rowSize >= rowMaxSize - 1) {
-                char** tmp = resizeRow(row, &rowMaxSize);
+                parsedValue** tmp = resizeParsedArr(row, &rowMaxSize); 
                 if (!tmp) {
-                    freeCharArr(row, rowSize);
+                    freeParsedArr(row, rowSize);
                     return -1;
                 }
                 row = tmp;
             }
 
-            row[rowSize] = copyString(argv[*index]);
-            if (!row[rowSize]) {
-                freeCharArr(row, rowSize);
+            parsedValue* val = parseSingleValue(argv[*index]);
+            if (!val) {
+                freeParsedArr(row, rowSize);
                 return -1;
             }
+            row[rowSize++] = val;
 
-            rowSize++;
             (*index)++;
             state = INSERT_VALUESARGS_EXPECT_COMMA;
             break;
@@ -146,7 +178,7 @@ static int parseValues(const char** argv, int argc, int* index, char*** outValue
         case INSERT_VALUESARGS_EXPECT_COMMA:
             if (strcmp(argv[*index], ",") != 0) {
                 printError(SQL_ERR_SYNTAX);
-                freeCharArr(row, rowSize);
+                freeParsedArr(row, rowSize);
                 return -1;
             }
             (*index)++;
@@ -157,7 +189,7 @@ static int parseValues(const char** argv, int argc, int* index, char*** outValue
 
     if (rowSize != columnCount) {
         printError(SQL_ERR_INVALID_ARGUMENT);
-        freeCharArr(row, rowSize);
+        freeParsedArr(row, rowSize);
         return -1;
     }
 
@@ -165,22 +197,23 @@ static int parseValues(const char** argv, int argc, int* index, char*** outValue
     *outValues = row;
     return 0;
 }
-static int parseRow(const char** argv, int argc, int* index, char *** outRow,int columnCount) {
+
+static int parseRow(const char** argv, int argc, int* index, parsedValue *** outRow,int columnCount) {
     if (!expectChar(argv, argc, *index, "(")) return -1;
     (*index)++;
-    char** row = NULL;
+    parsedValue** row = NULL;
     parseValues(argv, argc, index, &row,columnCount);
     if (!row) return -1;
 
     if (!expectChar(argv, argc, *index, ")")) {
-        freeCharArr(row, columnCount);
+        freeParsedArr(row, columnCount);
         return -1;
     }
     (*index)++;
 
-    char** finalRow = safe_malloc(sizeof(char*) * (columnCount + 1));
+    parsedValue** finalRow = safe_malloc(sizeof(parsedValue*) * (columnCount + 1));
     if (!finalRow) {
-        freeCharArr(row, columnCount);
+        freeParsedArr(row, columnCount);
         return -1;
     }
 
@@ -192,14 +225,14 @@ static int parseRow(const char** argv, int argc, int* index, char *** outRow,int
     return 0;
 }
 
-SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,char **** outValues,int* valuesSize, int columnCount)
+SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,parsedValue **** outValues,int* valuesSize, int columnCount)
 {
     *valuesSize = 0;
     if (!argv || startPos >= argc)
         return SQL_ERR_INVALID_ARGUMENT;
 
     int maxSize = 10, currentSize = 0;
-    char*** extractedValues = safe_malloc(sizeof(char**) * maxSize);
+    parsedValue*** extractedValues = safe_malloc(sizeof(parsedValue**) * maxSize);
 
     int i = startPos;
 
@@ -209,21 +242,23 @@ SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,char 
         switch (state) {
 
         case INSERT_VALUES_EXPECT_ROW: {
-            char** row = NULL;
+            parsedValue** row = NULL;
             parseRow(argv, argc, &i, &row, columnCount);
 
             if (!row) {
-                freeExtractedValues(extractedValues, currentSize);
+                freeExtractedParsedValues(extractedValues, currentSize);
                 return SQL_OK;
             }
 
             if (currentSize >= maxSize) {
                 maxSize *= 2;
-                char*** tmp = safe_realloc(extractedValues, sizeof(char**) * maxSize);
+                parsedValue*** tmp = safe_realloc(extractedValues, sizeof(parsedValue**) * maxSize);
                 if (!tmp) {
-                    freeExtractedValues(extractedValues, currentSize);
-                    for (int j = 0; row[j]; j++)
+                    freeExtractedParsedValues(extractedValues, currentSize);
+                    for (int j = 0; row[j]; j++) {
+                        free(row[j]->raw);
                         free(row[j]);
+                    }
                     free(row);
                     return SQL_ERR_MEMORY;
                 }
@@ -242,7 +277,7 @@ SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,char 
                 state = INSERT_VALUES_EXPECT_ROW;
             }
             else {
-                freeExtractedValues(extractedValues, currentSize);
+                freeExtractedParsedValues(extractedValues, currentSize);
                 return SQL_ERR_SYNTAX;
             }
             break;
@@ -250,7 +285,7 @@ SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,char 
     }
 
     if (state == INSERT_VALUES_EXPECT_ROW && currentSize > 0) {
-        freeExtractedValues(extractedValues, currentSize);
+        freeExtractedParsedValues(extractedValues, currentSize);
         return SQL_ERR_SYNTAX;
     }
 

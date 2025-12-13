@@ -1,14 +1,63 @@
 ﻿  app.c
 D:\my_projects\C\myDB\myDB\app.c(81,27): warning C4013: 'isspace' undefined; assuming extern returning int
 D:\my_projects\C\myDB\myDB\app.c(80,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  commandValidators.c
   createCommand.c
-  insertCommand.c
+  database.c
+  db_engine.c
+  parser_create.c
   parser_insert.c
+D:\my_projects\C\myDB\myDB\parser_insert.c(118,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\parser_insert.c(228,93): warning C4028: formal parameter 4 different from declaration
+D:\my_projects\C\myDB\myDB\parser_insert.c(259,36): warning C4090: 'function': different 'const' qualifiers
+  parser_keywords.c
+D:\my_projects\C\myDB\myDB\parser_keywords.c(12,13): warning C4013: 'strcmp' undefined; assuming extern returning int
+  parser_select.c
+  parse_util.c
+D:\my_projects\C\myDB\myDB\parse_util.c(17,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(18,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(25,19): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(34,47): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(67,45): warning C4090: 'function': different 'const' qualifiers
+  specialCommnad.c
+  File_Utils.c
+D:\my_projects\C\myDB\myDB\File_Utils.c(70,7): warning C4013: 'strcspn' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(72,2): warning C4013: 'strncpy' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(83,16): warning C4013: 'strtok' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(85,29): warning C4013: 'realloc' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(85,20): warning C4312: 'type cast': conversion from 'int' to 'Column *' of greater size
+D:\my_projects\C\myDB\myDB\File_Utils.c(92,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(83,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(105,7): warning C4013: 'strcmp' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(108,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(103,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(120,23): warning C4013: 'malloc' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(120,15): warning C4312: 'type cast': conversion from 'int' to 'Field *' of greater size
+D:\my_projects\C\myDB\myDB\File_Utils.c(126,34): warning C4013: 'atoi' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(127,36): warning C4013: 'atof' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(127,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\my_projects\C\myDB\myDB\File_Utils.c(134,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(137,16): warning C4312: 'type cast': conversion from 'int' to 'Row *' of greater size
+D:\my_projects\C\myDB\myDB\File_Utils.c(139,3): warning C4013: 'free' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(123,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
+  insertCommand.c
+D:\my_projects\C\myDB\myDB\insertCommand.c(70,67): warning C4133: 'function': incompatible types - from 'const parsedValue ****' to 'char ****'
+D:\my_projects\C\myDB\myDB\insertCommand.c(88,26): warning C4133: 'function': incompatible types - from 'const parsedValue ***' to 'char ***'
+  logger.c
+  main.c
+  programState.c
   selectCommand.c
   showCommand.c
 D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   table.c
+  tokenizer.c
+D:\my_projects\C\myDB\myDB\tokenizer.c(16,13): warning C4013: 'isspace' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\tokenizer.c(39,24): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
+  unuseCommand.c
+  useCommand.c
   util.c
 D:\my_projects\C\myDB\myDB\util.c(33,13): warning C4133: 'initializing': incompatible types - from 'void ***' to 'char ***'
 D:\my_projects\C\myDB\myDB\util.c(154,53): warning C4047: '==': 'int' differs in levels of indirection from 'char [2]'
