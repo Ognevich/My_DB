@@ -116,8 +116,16 @@ static parsedValue* parseSingleValue(const char* token)
     else if (isQuotedString(token))
     {
         int len = strlen(token);
-        char* unquoted = safe_malloc(len - 1);  
-        memcpy(unquoted, token + 1, len - 2);
+        if (len < 2) {
+            free(value);
+            return NULL;
+        }
+        char* unquoted = safe_malloc(len - 1);
+        if (!unquoted) {
+            free(value);
+            return NULL;
+        }
+        strncpy(unquoted, token + 1, len - 2);
         unquoted[len - 2] = '\0';
         value->raw = unquoted;
         value->type = SQL_TYPE_STRING;
@@ -144,8 +152,7 @@ static int parseValues(const char** argv, int argc, int* index, parsedValue*** o
 
     extractValuesArgsState state = INSERT_VALUESARGS_EXPECT_VALUE;
 
-    while (*index < argc &&
-        strcmp(argv[*index], ")") != 0) 
+    while (*index < argc && strcmp(argv[*index], ")") != 0) 
     {
         switch (state)
         {

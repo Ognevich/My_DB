@@ -21,6 +21,7 @@ int isNumber(const char* s);
 int isQuotedString(const char* s);
 int isNULL(const char* s);
 
+void printInsertValues(parsedValue*** value, int size);
 
 #endif
 

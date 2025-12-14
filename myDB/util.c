@@ -147,14 +147,14 @@ int isNumber(const char* s)
 int isQuotedString(const char* s)
 {
     int len = strlen(s);
-    
+
     if (len < 2)
-        return 0; 
+        return 0;
 
-    if ((s[0] == '"' && s[len - 1] == '"') || (s[0] == "\'" && s[len - 1] == "\'"))
+    if ((s[0] == '"' && s[len - 1] == '"') || (s[0] == '\'' && s[len - 1] == '\''))
         return 1;
-    return 0;
 
+    return 0;
 }
 
 int isNULL(const char* s)
@@ -164,7 +164,21 @@ int isNULL(const char* s)
     return 0;
 }
 
+void printInsertValues(parsedValue*** value, int size)
+{
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; value[i][j]; j++) {
+            if (value[i][j]->raw)
+                printf("%s", value[i][j]->raw);
+            else
+                printf("NULL");
 
+            printf("(%d)", value[i][j]->type); 
+            if (value[i][j + 1]) printf(", "); 
+        }
+        printf("\n"); 
+    }
+}
 
 
 

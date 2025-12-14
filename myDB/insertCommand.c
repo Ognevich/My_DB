@@ -73,6 +73,8 @@ void insertCommand(AppContext* app, const char** argv, int argc)
             success = 0;
     }
 
+    printInsertValues(extractedValues, valuesSize);
+
     if (success)
     {
         for (int i = 0; i < columnCount; i++) {

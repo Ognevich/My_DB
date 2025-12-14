@@ -24,7 +24,7 @@ void runDB(AppContext* app)
         if (!argv)
             continue;
 
-        printTokens(argv, argSize);
+        //printTokens(argv, argSize);
 
         if (checkExit(app, argv)) {
             freeTwoDimArray(&argv, argSize);
