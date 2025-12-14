@@ -11,6 +11,8 @@ void printHeader(const char* headerName);
 int defineColumnSize(FieldType type);
 
 FieldType StrToField(char * filedType);
+FieldType SqlValTypeToField(sqlValuesType type);
+
 const char* sqlErrorToString(SqlError error);
 void printError(SqlError error);
 

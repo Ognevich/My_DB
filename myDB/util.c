@@ -85,6 +85,19 @@ FieldType StrToField(char* filedType)
     return NONE;
 }
 
+FieldType SqlValTypeToField(sqlValuesType type)
+{
+    switch (type)
+    {
+    case SQL_TYPE_STRING:
+        return CHAR;
+    case SQL_TYPE_NUMBER:
+        return INT;
+    case SQL_TYPE_NULL:
+        return NONE;
+    }
+}
+
 const char* sqlErrorToString(SqlError err) {
     switch (err) {
     case SQL_OK: return "No error";

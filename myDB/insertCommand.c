@@ -5,6 +5,15 @@
 #include "commandValidators.h"
 #include "parser.h"
 
+typedef enum {
+    INSERT_STATE_START,
+    INSERT_STATE_COLUMNS,
+    INSERT_STATE_EXPECT_VALUES,
+    INSERT_STATE_VALUES,
+    INSERT_STATE_EXECUTE,
+    INSERT_STATE_END
+} InsertState;
+
 void insertCommand(AppContext* app, const char** argv, int argc)
 {
     if (checkInsertCommandValidation(app, argv, argc) <= 0)
@@ -17,79 +26,91 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
     int columnsSize = 0;
     int valuesSize = 0;
-
-    int success = 1;
-    int index = 3;
-
-
-    if (index < argc && strcmp(argv[index], "(") == 0)
-    {
-        SqlError err = extractColumnsToInsert(argv, argc, ++index, &extractedColumns ,&columnsSize);
-        printError(err);
-        if (!extractedColumns)
-            success = 0;
-
-        if (success && columnsSize > table->columnCount) {
-            printf("ERROR: wrong number of parameters\n");
-            success = 0;
-        }
-
-        int isAsterics = 0;
-        if (success && !isColumnsExists(extractedColumns, columnsSize, table, &isAsterics)) {
-            printf("ERROR: columns didn't exists\n");
-            success = 0;
-        }
-
-        if (success && !isValidArgs(extractedColumns, columnsSize))
-            success = 0;
-
-        index = index + columnsSize + (columnsSize-1) + 1; 
-    }
-
-    if (success)
-    {
-        if (index >= argc || strcmp(argv[index], "VALUES") != 0) {
-            printf("ERROR: missing VALUES\n");
-            success = 0;
-        }
-    }
-
-    if (success)
-        index++;
-
     int columnCount = 0;
 
-    if (success)
+    int index = 3;
+    InsertState state = INSERT_STATE_START;
+
+    while (state != INSERT_STATE_END)
     {
+        switch (state)
+        {
+        case INSERT_STATE_START:
+            state = (index < argc && strcmp(argv[index], "(") == 0)
+                ? INSERT_STATE_COLUMNS
+                : INSERT_STATE_EXPECT_VALUES;
+            break;
 
-        if (columnsSize)
-            columnCount = columnsSize;
-        else
-            columnCount = table->columnCount;
+        case INSERT_STATE_COLUMNS:
+        {
+            SqlError err = extractColumnsToInsert(
+                argv, argc, ++index, &extractedColumns, &columnsSize);
+            printError(err);
 
-        SqlError err = extractedValuesToInsert(argv, argc, index, &extractedValues,&valuesSize, columnCount);
-        printError(err);
-        if (!extractedValues)
-            success = 0;
-    }
+            if (!extractedColumns || columnsSize > table->columnCount) {
+                printf("ERROR: wrong columns\n");
+                state = INSERT_STATE_END;
+                break;
+            }
 
-    printInsertValues(extractedValues, valuesSize);
+            int isAsterics = 0;
+            if (!isColumnsExists(extractedColumns, columnsSize, table, &isAsterics) ||
+                !isValidArgs(extractedColumns, columnsSize))
+            {
+                printf("ERROR: invalid columns\n");
+                state = INSERT_STATE_END;
+                break;
+            }
 
-    if (success)
-    {
-        for (int i = 0; i < columnCount; i++) {
+            index = index + columnsSize + (columnsSize - 1) + 1;
+            state = INSERT_STATE_EXPECT_VALUES;
+            break;
+        }
 
+        case INSERT_STATE_EXPECT_VALUES:
+            if (index >= argc || strcmp(argv[index], "VALUES") != 0) {
+                printf("ERROR: missing VALUES\n");
+                state = INSERT_STATE_END;
+                break;
+            }
+
+            index++;
+            state = INSERT_STATE_VALUES;
+            break;
+
+        case INSERT_STATE_VALUES:
+        {
+            columnCount = columnsSize ? columnsSize : table->columnCount;
+
+            SqlError err = extractedValuesToInsert(
+                argv, argc, index,
+                &extractedValues, &valuesSize, columnCount);
+            printError(err);
+
+            if (!extractedValues) {
+                state = INSERT_STATE_END;
+                break;
+            }
+
+            state = INSERT_STATE_EXECUTE;
+            break;
+        }
+
+        case INSERT_STATE_EXECUTE:
+            printInsertValues(extractedValues, valuesSize);
+            state = INSERT_STATE_END;
+            break;
+
+        default:
+            state = INSERT_STATE_END;
         }
     }
 
-    if (extractedColumns) {
+    if (extractedColumns)
         freeTwoDimArray((void***)&extractedColumns, columnsSize);
-        extractedColumns = NULL;
-    }
-    if (extractedValues) {
-        freeParsedValues(extractedValues, valuesSize);
-        extractedValues = NULL;
-    }
 
+    if (extractedValues)
+        freeParsedValues(extractedValues, valuesSize);
 }
+
 
