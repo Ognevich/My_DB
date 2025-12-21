@@ -19,10 +19,12 @@ AppContext* initAppContext(void)
     program->state = START_PROGRAM;
 
     program->commandCount = 7;
+#ifdef SPECIAL_COMMANDS
     program->specialCommandCount = 1;
+    initSpecialCommands(program);
+#endif 
 
     initCommands(program);
-    initSpecialCommands(program);
 
     program->databases = NULL;
     program->databasesSize = 0;
