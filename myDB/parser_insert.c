@@ -117,6 +117,7 @@ static parsedValue* parseSingleValue(const char* token)
     {
         int len = strlen(token);
         if (len < 2) {
+            printf("Error: too few arguments");
             free(value);
             return NULL;
         }

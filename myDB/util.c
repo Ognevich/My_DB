@@ -167,12 +167,13 @@ int isQuotedString(const char* s)
     if ((s[0] == '"' && s[len - 1] == '"') || (s[0] == '\'' && s[len - 1] == '\''))
         return 1;
 
+    printf("Error: incorrect backets type");
     return 0;
 }
 
 int isNULL(const char* s)
 {
-    if (strcmp(s, "null") || strcmp(s, "NULL"))
+    if (strcmp(s, "null") == 0 || strcmp(s, "NULL") == 0)
         return 1;
     return 0;
 }

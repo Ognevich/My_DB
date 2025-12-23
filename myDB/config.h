@@ -7,6 +7,6 @@
 #define COLUMN_ARGUMENTS 2
 
 #define SPECIAL_COMMANDS
-#undef SPECIAL_COMMANDS
+//#undef SPECIAL_COMMANDS
  
 #endif
