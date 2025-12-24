@@ -101,6 +101,16 @@ SqlError extractColumnsToInsert(const char** argv, int argc, int startPos, char*
     return SQL_OK;
 }
 
+int isColumninExtractedValues(const char* name, char** columns, int size)
+{
+    for (int i = 0; i < size; i++) {
+        if (strcmp(columns[i], name) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 static parsedValue* parseSingleValue(const char* token)
 {
     if (!token) return NULL;
@@ -117,7 +127,7 @@ static parsedValue* parseSingleValue(const char* token)
     {
         int len = strlen(token);
         if (len < 2) {
-            printf("Error: too few arguments");
+            printf("Error: too few arguments\n");
             free(value);
             return NULL;
         }

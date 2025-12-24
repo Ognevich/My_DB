@@ -53,15 +53,6 @@ void insertCommand(AppContext* app, const char** argv, int argc)
                 break;
             }
 
-            int isAsterics = 0;
-            if (!isColumnsExists(extractedColumns, columnsSize, table, &isAsterics) ||
-                !isValidArgs(extractedColumns, columnsSize))
-            {
-                printf("ERROR: invalid columns\n");
-                state = INSERT_STATE_END;
-                break;
-            }
-
             index = index + columnsSize + (columnsSize - 1) + 1;
             state = INSERT_STATE_EXPECT_VALUES;
             break;
@@ -98,6 +89,19 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
         case INSERT_STATE_EXECUTE:
             printInsertValues(extractedValues, valuesSize);
+
+            if (!checkInsertColumnValidation(extractedColumns, columnsSize, table)) {
+                state = INSERT_STATE_END;
+                break;
+            }
+
+            for (int i = 0; i < columnsSize; i++) {
+
+
+
+            }
+
+
             state = INSERT_STATE_END;
             break;
 

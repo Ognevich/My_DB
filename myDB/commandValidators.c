@@ -139,6 +139,18 @@ int checkInsertCommandValidation(AppContext* app, const char** argv, int argc)
     return 1;
 }
 
+int checkInsertColumnValidation(char** extractedColumns, int ColumnsSize, Table* table)
+{
+    int isAsterics = 0;
+    if (!isColumnsExists(extractedColumns, ColumnsSize, table, &isAsterics) ||
+        !isValidArgs(extractedColumns, ColumnsSize))
+    {
+        printf("ERROR: invalid columns\n");
+        return 0;
+    }
+    return 1;
+}
+
 int isValidArgs(const char** args, int argc)
 {
     for (int i = 0; i < argc; i++) {

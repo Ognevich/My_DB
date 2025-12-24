@@ -1,7 +1,13 @@
-﻿  parser_insert.c
-D:\my_projects\C\myDB\myDB\parser_insert.c(118,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\my_projects\C\myDB\myDB\parser_insert.c(236,93): warning C4028: formal parameter 4 different from declaration
-D:\my_projects\C\myDB\myDB\parser_insert.c(267,36): warning C4090: 'function': different 'const' qualifiers
+﻿  commandValidators.c
+  createCommand.c
+  insertCommand.c
+D:\my_projects\C\myDB\myDB\insertCommand.c(78,17): warning C4133: 'function': incompatible types - from 'const parsedValue ****' to 'char ****'
+D:\my_projects\C\myDB\myDB\insertCommand.c(117,26): warning C4133: 'function': incompatible types - from 'const parsedValue ***' to 'char ***'
+  parser_create.c
+  selectCommand.c
+  unuseCommand.c
+  useCommand.c
+  Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
