@@ -273,3 +273,12 @@ int isColumnsExists(const char** selectArray, int selectArraySize, Table* table,
     return 1; 
 }
 
+int findTableColumnIndex(Table* table, const char* colName)
+{
+    for (int i = 0; i < table->columnCount; i++) {
+        if (strcmp(table->columns[i].name, colName) == 0)
+            return i;
+    }
+    return -1;
+}
+

@@ -95,9 +95,33 @@ void insertCommand(AppContext* app, const char** argv, int argc)
                 break;
             }
 
-            for (int i = 0; i < columnsSize; i++) {
+            for (int i = 0; i < valuesSize; i++) {
+                
+                Field* fields = safe_malloc(sizeof(Field)* table->columnCount);
 
+                for (int j = 0; j < table->columnCount; j++) {
+                    fields[j].type = NONE;
+                    fields[j].iVal = 0;
+               }
+                if (columnCount == 0) {
+                    for (int k = 0; k < table->columnCount; k++) {
+                        fields[k] = parsedValueToField(extractedValues[i][k]);
+                    }
+                }
+                else {
+                    for (int k = 0; k < columnsSize; k++) {
+                        int colindex = findTableColumnIndex(table, extractedColumns[k]);
+                        if (colindex == -1) {
+                            printf("ERROR: column not found\n");
+                            break;
+                        }
 
+                        fields[colindex] = parsedValueToField(extractedValues[i][k]);
+
+                    }
+                }
+
+                insertRow(table, fields);
 
             }
 

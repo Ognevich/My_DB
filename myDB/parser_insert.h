@@ -5,4 +5,6 @@
 SqlError extractedValuesToInsert(const char** argv, int argc, int startPos, char**** outValues, int* valuesSize, int columnCount);
 SqlError extractColumnsToInsert(const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize);
 
+int isColumninExtractedValues(const char* name, char ** columns,int size);
+
 #endif

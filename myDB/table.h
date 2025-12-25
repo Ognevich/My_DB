@@ -59,3 +59,4 @@ void printSelectedColumns(Table * table, const char **columns, int columnsCount)
 void freeTable(Table * table);
 
 int isColumnsExists(const char** selectArray, int selectArraySize, Table* table, int* isAsterisk);
+int findTableColumnIndex(Table * table, const char * colName);

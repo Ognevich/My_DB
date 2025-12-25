@@ -1,13 +1,8 @@
-﻿  commandValidators.c
-  createCommand.c
-  insertCommand.c
-D:\my_projects\C\myDB\myDB\insertCommand.c(78,17): warning C4133: 'function': incompatible types - from 'const parsedValue ****' to 'char ****'
-D:\my_projects\C\myDB\myDB\insertCommand.c(117,26): warning C4133: 'function': incompatible types - from 'const parsedValue ***' to 'char ***'
-  parser_create.c
-  selectCommand.c
-  unuseCommand.c
-  useCommand.c
-  Generating Code...
+﻿  util.c
+D:\my_projects\C\myDB\myDB\util.c(33,13): warning C4133: 'initializing': incompatible types - from 'void ***' to 'char ***'
+D:\my_projects\C\myDB\myDB\util.c(91,25): warning C5286: implicit conversion from enum type 'sqlValuesType' to enum type 'FieldType'; use an explicit cast to silence this warning
+D:\my_projects\C\myDB\myDB\util.c(96,16): warning C4047: '=': 'int' differs in levels of indirection from 'const char *const '
+D:\my_projects\C\myDB\myDB\util.c(171,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

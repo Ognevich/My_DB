@@ -85,17 +85,26 @@ FieldType StrToField(char* filedType)
     return NONE;
 }
 
-FieldType SqlValTypeToField(sqlValuesType type)
+Field parsedValueToField(const parsedValue* parsedValue)
 {
-    switch (type)
+    Field f;
+    f.type = parsedValue->type;
+
+    switch (parsedValue->type)
     {
-    case SQL_TYPE_STRING:
-        return CHAR;
     case SQL_TYPE_NUMBER:
-        return INT;
+        f.iVal = parsedValue->raw;
+        break;
+    case SQL_TYPE_STRING:
+        strcpy(f.sVal, parsedValue->raw);
+        break;
     case SQL_TYPE_NULL:
-        return NONE;
+        f.iVal = 0;
+        break;
+    default:
+        f.type = NONE;
     }
+    return f;
 }
 
 const char* sqlErrorToString(SqlError err) {
