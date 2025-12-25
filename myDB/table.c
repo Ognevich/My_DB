@@ -252,6 +252,9 @@ void freeTable(Table* table)
 
 int isColumnsExists(const char** selectArray, int selectArraySize, Table* table, int* isAsterisk)
 {
+    if (selectArraySize < 1)
+        return 0;
+
     if (strcmp(selectArray[0], "*") == 0)
     {
         *isAsterisk = 1;

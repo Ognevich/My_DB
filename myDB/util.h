@@ -12,6 +12,7 @@ int defineColumnSize(FieldType type);
 
 FieldType StrToField(char * filedType);
 Field parsedValueToField(const parsedValue * parsedValue);
+void sqlValuesTypeToFieldType(const sqlValuesType sType, FieldType * fType);
 
 const char* sqlErrorToString(SqlError error);
 void printError(SqlError error);

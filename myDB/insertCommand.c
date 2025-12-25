@@ -47,6 +47,11 @@ void insertCommand(AppContext* app, const char** argv, int argc)
                 argv, argc, ++index, &extractedColumns, &columnsSize);
             printError(err);
 
+            if (!checkInsertColumnValidation(extractedColumns, columnsSize, table)) {
+                state = INSERT_STATE_END;
+                break;
+            }
+
             if (!extractedColumns || columnsSize > table->columnCount) {
                 printf("ERROR: wrong columns\n");
                 state = INSERT_STATE_END;
@@ -90,20 +95,12 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         case INSERT_STATE_EXECUTE:
             printInsertValues(extractedValues, valuesSize);
 
-            if (!checkInsertColumnValidation(extractedColumns, columnsSize, table)) {
-                state = INSERT_STATE_END;
-                break;
-            }
-
             for (int i = 0; i < valuesSize; i++) {
-                
-                Field* fields = safe_malloc(sizeof(Field)* table->columnCount);
 
-                for (int j = 0; j < table->columnCount; j++) {
-                    fields[j].type = NONE;
-                    fields[j].iVal = 0;
-               }
-                if (columnCount == 0) {
+                Field* fields = safe_malloc(sizeof(Field) * table->columnCount);
+                memset(fields, 0, sizeof(Field) * table->columnCount);
+
+                if (columnsSize == 0) {
                     for (int k = 0; k < table->columnCount; k++) {
                         fields[k] = parsedValueToField(extractedValues[i][k]);
                     }
@@ -115,17 +112,12 @@ void insertCommand(AppContext* app, const char** argv, int argc)
                             printf("ERROR: column not found\n");
                             break;
                         }
-
                         fields[colindex] = parsedValueToField(extractedValues[i][k]);
-
                     }
                 }
 
                 insertRow(table, fields);
-
             }
-
-
             state = INSERT_STATE_END;
             break;
 

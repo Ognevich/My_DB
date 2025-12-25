@@ -85,26 +85,47 @@ FieldType StrToField(char* filedType)
     return NONE;
 }
 
-Field parsedValueToField(const parsedValue* parsedValue)
+Field parsedValueToField(const parsedValue* pv)
 {
     Field f;
-    f.type = parsedValue->type;
+    memset(&f, 0, sizeof(Field));
 
-    switch (parsedValue->type)
+    sqlValuesTypeToFieldType(pv->type, &f.type);
+
+    switch (pv->type)
     {
     case SQL_TYPE_NUMBER:
-        f.iVal = parsedValue->raw;
+        f.iVal = atoi(pv->raw);
+        break;
+
+    case SQL_TYPE_STRING:
+        printf("DEBUG raw ptr=%p raw='%s'\n",(void*)pv->raw,pv->raw ? pv->raw : "NULL");
+        strncpy(f.sVal, pv->raw, sizeof(f.sVal) - 1);
+        f.sVal[sizeof(f.sVal) - 1] = '\0';
+        break;
+
+    case SQL_TYPE_NULL:
+        f.type = SQL_TYPE_NULL;
+        break;
+    }
+
+    return f;
+}
+
+void sqlValuesTypeToFieldType(const sqlValuesType sType, FieldType * fType)
+{
+    switch (sType)
+    {
+    case SQL_TYPE_NUMBER:
+        *fType = INT;
         break;
     case SQL_TYPE_STRING:
-        strcpy(f.sVal, parsedValue->raw);
+        *fType = CHAR;
         break;
     case SQL_TYPE_NULL:
-        f.iVal = 0;
         break;
-    default:
-        f.type = NONE;
+        *fType = NONE;
     }
-    return f;
 }
 
 const char* sqlErrorToString(SqlError err) {
