@@ -16,14 +16,15 @@ typedef enum {
 
 int isIfNotExistsUsed(char** argv, int argSize)
 {
-    if (argSize < 3) {
+    if (argSize < 3)
         return 0;
-    }
 
-    for (int i = 0; i < argSize - 2; i++) {
-        if (strcmp(argv[i], "IF") == 0 &&
-            strcmp(argv[i + 1], "NOT") == 0 &&
-            strcmp(argv[i + 2], "EXISTS") == 0) {
+    for (int i = 0; i <= argSize - 3; i++)
+    {
+        if (strcasecmp(argv[i], "IF") == 0 &&
+            strcasecmp(argv[i + 1], "NOT") == 0 &&
+            strcasecmp(argv[i + 2], "EXISTS") == 0)
+        {
             return 1;
         }
     }

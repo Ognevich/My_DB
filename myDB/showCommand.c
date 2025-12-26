@@ -11,11 +11,11 @@ void showCommand(AppContext* app, char** argv, int argc)
 		return;
 	}
 
-	if (strcmp(argv[1], "DATABASES")==0) {
+	if (strcasecmp(argv[1], "DATABASES")==0) {
 		showDatabaseCommand(app);
 		return;
 	}
-    if (strcmp(argv[1], "TABLES") == 0) {
+    if (strcasecmp(argv[1], "TABLES") == 0) {
         showTablesCommand(app);
         return;
     }

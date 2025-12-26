@@ -28,10 +28,10 @@ void createCommand(AppContext* app, char** argv, int argc)
 		return;
 	}
 
-	if (strcmp(objectType, "DATABASE") == 0) {
+	if (strcasecmp(objectType, "DATABASE") == 0) {
 		createDatabaseCommand(app, name, ifNotExists);
 	}
-	else if (strcmp(objectType, "TABLE") == 0) {
+	else if (strcasecmp(objectType, "TABLE") == 0) {
 		processCreateTableCommand(app, argv, argc, name, ifNotExists);
 	}
 	else {

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "parse_util.h"
 #include <string.h>
+#include "config.h"
 
 typedef enum {
     SELECT_EXPECT_COLUMN,
@@ -31,7 +32,7 @@ SqlError extractSelectList(const char** argv, int argc, char*** outList, int* li
         switch (state)
         {
         case SELECT_EXPECT_COLUMN:
-            if (strcmp(token, "FROM") == 0) {
+            if (strcasecmp(token, "FROM") == 0 ) {
                 freeCharArr(selectList, columnCount);
                 return SQL_ERR_SYNTAX;
             }
@@ -68,7 +69,7 @@ SqlError extractSelectList(const char** argv, int argc, char*** outList, int* li
                 break;
             }
 
-            if (strcmp(token, "FROM") == 0) {
+            if (strcmp(token, "FROM") == 0 || strcmp(token, "from") == 0) {
                 state = SELECT_END;
                 break;
             }
@@ -99,7 +100,7 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
     int foundFrom = 0;
 
     for (int i = 0; i < argc; i++) {
-        if (strcmp(argv[i], "FROM") == 0) {
+        if (strcmp(argv[i], "FROM") == 0 || strcmp(argv[i], "from") == 0) {
             foundFrom = 1;
             continue;
         }

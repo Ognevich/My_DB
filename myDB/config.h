@@ -8,5 +8,11 @@
 
 #define SPECIAL_COMMANDS
 //#undef SPECIAL_COMMANDS
- 
+
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#else
+#include <strings.h>
+#endif
+
 #endif

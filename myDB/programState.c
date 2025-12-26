@@ -35,7 +35,7 @@ AppContext* initAppContext(void)
 
 void initCommands(AppContext* app)
 {
-    app->commands[0] = (Command){ "CREATE", createCommand };
+    app->commands[0] = (Command){"CREATE", createCommand };
     app->commands[1] = (Command){ "USE", useCommand };
     app->commands[2] = (Command){ "UNUSE", unuseCommand };
     app->commands[3] = (Command){ "SHOW", showCommand };

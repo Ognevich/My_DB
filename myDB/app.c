@@ -1,13 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "app.h"
 #include <stdio.h>
+#include <string.h>
 #include "config.h"
 #include "database.h"
 #include "table.h"
 #include "logger.h"
 #include "parser.h"
 #include "util.h"
-#include "string.h"
+
 
 void runDB(AppContext* app)
 {
@@ -107,7 +108,7 @@ void handleCommand(AppContext* app, char** argv, int argc)
     }
 
     for (int i = 0; i < app->commandCount; i++) {
-        if (strcmp(argv[0], app->commands[i].name) == 0) {
+        if (_stricmp(argv[0], app->commands[i].name) == 0) {
             app->commands[i].handler(app, argv, argc);
             return;
         }

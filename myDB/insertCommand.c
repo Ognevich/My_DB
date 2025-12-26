@@ -64,7 +64,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         }
 
         case INSERT_STATE_EXPECT_VALUES:
-            if (index >= argc || strcmp(argv[index], "VALUES") != 0) {
+            if (index >= argc || strcasecmp(argv[index], "VALUES") != 0) {
                 printf("ERROR: missing VALUES\n");
                 state = INSERT_STATE_END;
                 break;
