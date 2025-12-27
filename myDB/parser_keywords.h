@@ -14,18 +14,11 @@ typedef enum {
 } SqlError;
 
 typedef enum {
-    TYPE_INT,
-    TYPE_VARCHAR,
-    TYPE_BOOLEAN,
-    TYPE_UNKNOWN
-}SqlType;
-
-typedef enum {
-    SQL_TYPE_NUMBER,
+    SQL_TYPE_INT,
+    SQL_TYPE_FLOAT,
     SQL_TYPE_STRING,
     SQL_TYPE_NULL
 } sqlValuesType;
-
 
 typedef struct {
     const char* raw;

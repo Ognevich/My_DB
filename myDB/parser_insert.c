@@ -118,10 +118,15 @@ static parsedValue* parseSingleValue(const char* token)
     parsedValue* value = malloc(sizeof(parsedValue));
     if (!value) return NULL;
 
-    if (isNumber(token))
+    if (isInteger(token))
     {
         value->raw = copyString(token);
-        value->type = SQL_TYPE_NUMBER;
+        value->type = SQL_TYPE_INT;
+    }
+    else if (isFloat(token))
+    {
+        value->raw = copyString(token);
+        value->type = SQL_TYPE_FLOAT;
     }
     else if (isQuotedString(token))
     {

@@ -73,13 +73,13 @@ void printHeader(const char* headerName)
 FieldType StrToField(char* filedType)
 {
     
-    if (strcmp(filedType, "INT") == 0) {
+    if (strcasecmp(filedType, "INT") == 0) {
         return INT;
     }
-    if(strcmp(filedType, "CHAR") == 0) {
+    if(strcasecmp(filedType, "CHAR") == 0) {
         return CHAR;
     }
-    if (strcmp(filedType, "FLOAT") == 0) {
+    if (strcasecmp(filedType, "FLOAT") == 0) {
         return FLOAT;
     }
     return NONE;
@@ -94,10 +94,12 @@ Field parsedValueToField(const parsedValue* pv)
 
     switch (pv->type)
     {
-    case SQL_TYPE_NUMBER:
+    case SQL_TYPE_INT:
         f.iVal = atoi(pv->raw);
         break;
-
+    case SQL_TYPE_FLOAT:
+        f.fVal = atof(pv->raw);
+        break;
     case SQL_TYPE_STRING:
         printf("DEBUG raw ptr=%p raw='%s'\n",(void*)pv->raw,pv->raw ? pv->raw : "NULL");
         strncpy(f.sVal, pv->raw, sizeof(f.sVal) - 1);
@@ -116,8 +118,11 @@ void sqlValuesTypeToFieldType(const sqlValuesType sType, FieldType * fType)
 {
     switch (sType)
     {
-    case SQL_TYPE_NUMBER:
+    case SQL_TYPE_INT:
         *fType = INT;
+        break;
+    case SQL_TYPE_FLOAT:
+        *fType = FLOAT;
         break;
     case SQL_TYPE_STRING:
         *fType = CHAR;
@@ -172,7 +177,7 @@ void printParsedValues(char*** values, int valuesSize) {
     }
 }
 
-int isNumber(const char* s)
+int isInteger(const char* s)
 {
     if (!s || !*s) return 0;
 
@@ -185,6 +190,38 @@ int isNumber(const char* s)
         if (!isdigit(s[i])) return 0;
 
     return 1;
+}
+
+int isFloat(const char* s)
+{
+    if (!s || !*s) return 0;
+
+    int i = 0;
+    int dotCount = 0;
+    int digitCount = 0;
+
+    if (s[i] == '+' || s[i] == '-')
+        i++;
+
+    for (; s[i]; i++)
+    {
+        if (isdigit(s[i]))
+        {
+            digitCount++;
+        }
+        else if (s[i] == '.')
+        {
+            dotCount++;
+            if (dotCount > 1)
+                return 0;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    return (dotCount == 1 && digitCount > 0);
 }
 
 int isQuotedString(const char* s)

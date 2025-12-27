@@ -126,7 +126,7 @@ int checkInsertCommandValidation(AppContext* app, const char** argv, int argc)
     if (!checkDatabaseConnection(app))
         return 0;
 
-    if (strcmp(argv[1], "INTO") != 0) {
+    if (strcasecmp(argv[1], "INTO") != 0) {
         printf("Error: missed keyword 'INTO'\n");
         return 0;
     }

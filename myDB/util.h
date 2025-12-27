@@ -20,7 +20,9 @@ void printError(SqlError error);
 void printTokens(const char** tokens, int tokensSize);
 void printParsedValues(char *** values,int valuesSize );
 
-int isNumber(const char* s);
+int isInteger(const char* s);
+int isFloat(const char* s);
+
 int isQuotedString(const char* s);
 int isNULL(const char* s);
 
