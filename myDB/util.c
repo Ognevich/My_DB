@@ -64,10 +64,28 @@ void freeParsedValues(char*** values, int valuesSize)
 
 void printHeader(const char* headerName)
 {
+    int maxLenght = 42;
+    int nameLenght = strlen(headerName);
+    int spaces = maxLenght - 3 - nameLenght;
+
     printf("+----------------------------------------+\n");
-    printf("| %s                               |\n", headerName);
+    printf("| %s");
+    for (int i = 0; i < spaces; i++) {
+        printf(" ");
+    }
+    printf("|\n");
     printf("+----------------------------------------+\n");
 
+}
+
+void printLine(int size, char symbol)
+{
+    printf("+");
+    for (int i = 0; i < size-2; i++) {
+        printf("%c", symbol);
+    }
+    printf("+");
+    printf("\n");
 }
 
 FieldType StrToField(char* filedType)
@@ -261,10 +279,17 @@ void printInsertValues(parsedValue*** value, int size)
     }
 }
 
+int findColumnsLenght(Column* columns,int size)
+{
+    int lenght = 0;
 
+    for (int i = 0; i < size; i++)
+    {
+        lenght += strlen(columns[i].name);
+    }
 
-
-int defineColumnSize(FieldType type);
+    return lenght;
+}
 
 int defineColumnSize(FieldType type)
 {

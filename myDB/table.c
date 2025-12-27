@@ -148,13 +148,19 @@ void updateRow(Table* table, int rowIndex, Field* newValues)
 
 void printTable(Table* table)
 {
-    printf("Table: %s\n", table->name);
+    
+    int columnsLenght = findColumnsLenght(table->columns, table->columnCount);
+
+    int allLenght = columnsLenght + (table->columnCount * 5) + 1;
+
+    printLine(allLenght, '-');
+    printf("|");
 
     for (int i = 0; i < table->columnCount; i++) {
-        printf("%s\t", table->columns[i].name);
+        printf("%s\t|", table->columns[i].name);
     }
-
     printf("\n");
+    printLine(allLenght, '-');
 
     for (int i = 0; i < table->rowCount; i++) {
         for (int j = 0; j < table->columnCount; j++) {
@@ -172,8 +178,6 @@ void printTable(Table* table)
            }
         printf("\n");
     }
-   
-
 }
 
 void printSelectedColumns(Table* table, const char** columns, int columnsCount)

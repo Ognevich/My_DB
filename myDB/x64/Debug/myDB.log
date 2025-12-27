@@ -1,7 +1,4 @@
-﻿  parser_insert.c
-D:\my_projects\C\myDB\myDB\parser_insert.c(133,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\my_projects\C\myDB\myDB\parser_insert.c(251,93): warning C4028: formal parameter 4 different from declaration
-D:\my_projects\C\myDB\myDB\parser_insert.c(282,36): warning C4090: 'function': different 'const' qualifiers
+﻿  table.c
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
