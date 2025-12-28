@@ -4,6 +4,7 @@
 #include "util.h"
 #include "commandValidators.h"
 #include "parser.h"
+#include <stdlib.h>
 
 typedef enum {
     INSERT_STATE_START,
@@ -102,7 +103,13 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
                 if (columnsSize == 0) {
                     for (int k = 0; k < table->columnCount; k++) {
-                        fields[k] = parsedValueToField(extractedValues[i][k]);
+                        FieldType columnType = table->columns[k].type;
+                        
+                        if (!parsedValueToField(&fields[k], extractedValues[i][k], columnType)) 
+                        {
+                            printf("Error: invalid data types\n");
+                            return;
+                        }
                     }
                 }
                 else {
@@ -112,11 +119,19 @@ void insertCommand(AppContext* app, const char** argv, int argc)
                             printf("ERROR: column not found\n");
                             break;
                         }
-                        fields[colindex] = parsedValueToField(extractedValues[i][k]);
+                        FieldType columnType = table->columns[colindex].type;
+
+                        if (!parsedValueToField(&fields[colindex], extractedValues[i][k], columnType))
+                        {
+                            printf("Error: invalid data types\n");
+                            return;
+                        }
                     }
                 }
 
                 insertRow(table, fields);
+                free(fields);
+
             }
             state = INSERT_STATE_END;
             break;

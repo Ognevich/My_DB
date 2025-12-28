@@ -145,7 +145,7 @@ void updateRow(Table* table, int rowIndex, Field* newValues)
         table->rows[rowIndex].fields[i].type = table->columns[i].type; 
     }
 }
-#define COL_WIDTH 20
+#define COL_WIDTH 15
 
 static void printColumns(Table* table)
 {

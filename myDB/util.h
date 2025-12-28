@@ -14,7 +14,7 @@ void printLine(int size, char symbol);
 int defineColumnSize(FieldType type);
 
 FieldType StrToField(char * filedType);
-Field parsedValueToField(const parsedValue * parsedValue);
+int parsedValueToField(Field * f, const parsedValue * parsedValue, const FieldType columnType);
 void sqlValuesTypeToFieldType(const sqlValuesType sType, FieldType * fType);
 
 const char* sqlErrorToString(SqlError error);

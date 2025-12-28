@@ -103,33 +103,35 @@ FieldType StrToField(char* filedType)
     return NONE;
 }
 
-Field parsedValueToField(const parsedValue* pv)
+int parsedValueToField(Field* f, const parsedValue* pv, const FieldType columnType)
 {
-    Field f;
-    memset(&f, 0, sizeof(Field));
+    memset(f, 0, sizeof(Field));
 
-    sqlValuesTypeToFieldType(pv->type, &f.type);
+    sqlValuesTypeToFieldType(pv->type, &f->type);
+    
+    if (f->type != columnType) {
+        return 0;
+    }
 
     switch (pv->type)
     {
     case SQL_TYPE_INT:
-        f.iVal = atoi(pv->raw);
+        f->iVal = atoi(pv->raw);
         break;
     case SQL_TYPE_FLOAT:
-        f.fVal = atof(pv->raw);
+        f->fVal = atof(pv->raw);
         break;
     case SQL_TYPE_STRING:
         printf("DEBUG raw ptr=%p raw='%s'\n",(void*)pv->raw,pv->raw ? pv->raw : "NULL");
-        strncpy(f.sVal, pv->raw, sizeof(f.sVal) - 1);
-        f.sVal[sizeof(f.sVal) - 1] = '\0';
+        strncpy(f->sVal, pv->raw, sizeof(f->sVal) - 1);
+        f->sVal[sizeof(f->sVal) - 1] = '\0';
         break;
 
     case SQL_TYPE_NULL:
-        f.type = SQL_TYPE_NULL;
+        f->type = SQL_TYPE_NULL;
         break;
     }
-
-    return f;
+    return 1;
 }
 
 void sqlValuesTypeToFieldType(const sqlValuesType sType, FieldType * fType)

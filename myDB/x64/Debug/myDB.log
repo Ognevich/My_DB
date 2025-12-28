@@ -1,4 +1,33 @@
-﻿  table.c
+﻿  app.c
+  createCommand.c
+D:\my_projects\C\myDB\myDB\app.c(82,27): warning C4013: 'isspace' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\app.c(81,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  insertCommand.c
+D:\my_projects\C\myDB\myDB\insertCommand.c(84,17): warning C4133: 'function': incompatible types - from 'const parsedValue ****' to 'char ****'
+D:\my_projects\C\myDB\myDB\insertCommand.c(148,26): warning C4133: 'function': incompatible types - from 'const parsedValue ***' to 'char ***'
+  parser_insert.c
+D:\my_projects\C\myDB\myDB\parser_insert.c(133,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\parser_insert.c(251,93): warning C4028: formal parameter 4 different from declaration
+D:\my_projects\C\myDB\myDB\parser_insert.c(282,36): warning C4090: 'function': different 'const' qualifiers
+  selectCommand.c
+  showCommand.c
+D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  table.c
+  util.c
+D:\my_projects\C\myDB\myDB\util.c(33,13): warning C4133: 'initializing': incompatible types - from 'void ***' to 'char ***'
+D:\my_projects\C\myDB\myDB\util.c(72,12): warning C4473: 'printf' : not enough arguments passed for format string
+      D:\my_projects\C\myDB\myDB\util.c(72,12):
+      placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+      D:\my_projects\C\myDB\myDB\util.c(72,12):
+      the missing variadic argument 1 is required by format string '%s'
+  
+D:\my_projects\C\myDB\myDB\util.c(68,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(122,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(131,19): warning C5286: implicit conversion from enum type 'sqlValuesType' to enum type 'FieldType'; use an explicit cast to silence this warning
+D:\my_projects\C\myDB\myDB\util.c(249,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(290,19): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
