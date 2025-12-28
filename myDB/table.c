@@ -145,39 +145,59 @@ void updateRow(Table* table, int rowIndex, Field* newValues)
         table->rows[rowIndex].fields[i].type = table->columns[i].type; 
     }
 }
+#define COL_WIDTH 20
 
+static void printColumns(Table* table)
+{
+    int allLength = table->columnCount * (COL_WIDTH + 3) + 1;
+
+    printLine(allLength, '-');
+
+    printf("|");
+    for (int i = 0; i < table->columnCount; i++) {
+        printf(" %-*s |", COL_WIDTH, table->columns[i].name);
+    }
+    printf("\n");
+
+    printLine(allLength, '-');
+}
+
+static void printMainBody(Table* table)
+{
+    for (int i = 0; i < table->rowCount; i++) {
+        printf("|");
+
+        for (int j = 0; j < table->columnCount; j++) {
+            Field f = table->rows[i].fields[j];
+
+            switch (f.type)
+            {
+            case INT:
+                printf(" %-*d |", COL_WIDTH, f.iVal);
+                break;
+
+            case FLOAT:
+                printf(" %-*.2f |", COL_WIDTH, f.fVal);
+                break;
+
+            case CHAR:
+                printf(" %-*s |", COL_WIDTH , f.sVal);
+                break;
+
+            default:
+                printf(" %-*s |", COL_WIDTH, "NULL");
+            }
+        }
+        printf("\n");
+    }
+    printLine(table->columnCount * (COL_WIDTH + 3) + 1, '-');
+}
 void printTable(Table* table)
 {
     
-    int columnsLenght = findColumnsLenght(table->columns, table->columnCount);
+    printColumns(table);
+    printMainBody(table);
 
-    int allLenght = columnsLenght + (table->columnCount * 5) + 1;
-
-    printLine(allLenght, '-');
-    printf("|");
-
-    for (int i = 0; i < table->columnCount; i++) {
-        printf("%s\t|", table->columns[i].name);
-    }
-    printf("\n");
-    printLine(allLenght, '-');
-
-    for (int i = 0; i < table->rowCount; i++) {
-        for (int j = 0; j < table->columnCount; j++) {
-
-            Field f = table->rows[i].fields[j];
-               
-            switch (f.type)
-            {
-            case INT: printf("%d\t", f.iVal); break;
-            case FLOAT: printf("%.2f\t", f.fVal); break;
-            case CHAR: printf("%s\t", f.sVal); break;
-            default:
-                break;
-            }
-           }
-        printf("\n");
-    }
 }
 
 void printSelectedColumns(Table* table, const char** columns, int columnsCount)
@@ -189,49 +209,71 @@ void printSelectedColumns(Table* table, const char** columns, int columnsCount)
 
     int* selectedIndices = malloc(columnsCount * sizeof(int));
     if (!selectedIndices) {
-        fprintf(stderr, "Memory allocation failed for selectedIndices.\n");
+        fprintf(stderr, "Memory allocation failed.\n");
         return;
     }
 
-    printf("Table: %s\n", table->name);
+    int selectedCount = 0;
 
     for (int i = 0; i < columnsCount; i++) {
-        int found = 0;
+        selectedIndices[i] = -1;
         for (int j = 0; j < table->columnCount; j++) {
             if (strcmp(columns[i], table->columns[j].name) == 0) {
                 selectedIndices[i] = j;
-                found = 1;
+                selectedCount++;
                 break;
             }
         }
-        if (!found) {
+        if (selectedIndices[i] == -1) {
             fprintf(stderr, "Warning: column '%s' not found in table '%s'.\n",
                 columns[i], table->name);
-            selectedIndices[i] = -1;
         }
     }
 
+    if (selectedCount == 0) {
+        free(selectedIndices);
+        return;
+    }
+
+    int allLength = selectedCount * (COL_WIDTH + 3) + 1;
+
+    printLine(allLength, '-');
+
+    printf("|");
     for (int i = 0; i < columnsCount; i++) {
-        if (selectedIndices[i] != -1)
-            printf("%s\t", columns[i]);
+        if (selectedIndices[i] != -1) {
+            printf(" %-*s |", COL_WIDTH, columns[i]);
+        }
     }
     printf("\n");
 
+    printLine(allLength, '-');
+
     for (int i = 0; i < table->rowCount; i++) {
+        printf("|");
         for (int j = 0; j < columnsCount; j++) {
             int colIdx = selectedIndices[j];
             if (colIdx == -1) continue;
 
             Field f = table->rows[i].fields[colIdx];
             switch (f.type) {
-            case INT:   printf("%d\t", f.iVal); break;
-            case FLOAT: printf("%.2f\t", f.fVal); break;
-            case CHAR:  printf("%s\t", f.sVal); break;
-            default:    printf("?\t"); break;
+            case INT:
+                printf(" %-*d |", COL_WIDTH, f.iVal);
+                break;
+            case FLOAT:
+                printf(" %-*.2f |", COL_WIDTH, f.fVal);
+                break;
+            case CHAR:
+                printf(" %-*s |", COL_WIDTH, f.sVal);
+                break;
+            default:
+                printf(" %-*s |", COL_WIDTH, "NULL");
             }
         }
         printf("\n");
     }
+
+    printLine(allLength, '-');
 
     free(selectedIndices);
 }

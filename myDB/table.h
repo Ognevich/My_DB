@@ -55,6 +55,7 @@ void deleteRow(Table* table, int rowIndex);
 void updateRow(Table* table, int rowIndex, Field* newValues);
 
 void printTable(Table* table);
+
 void printSelectedColumns(Table * table, const char **columns, int columnsCount);
 void freeTable(Table * table);
 
