@@ -1,6 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "File_Utils.h"
 
+#ifdef _WIN32
+#include <direct.h>  
+#else
+#include <sys/stat.h> 
+#include <sys/types.h>
+#include <unistd.h>
+#endif
+
 int IfFileOpen(FILE* file)
 {
 	if (!file) {
@@ -8,6 +16,46 @@ int IfFileOpen(FILE* file)
 		return 0;
 	}
 	return 1;
+}
+
+int createDbDirectory(const char* name)
+{
+	char dbPath[256];
+	char metaPath[256];
+
+	snprintf(dbPath, sizeof(dbPath), "%s/%s", DB_ROOT, name);
+
+#ifdef _WIN32
+	if (_mkdir(dbPath) != 0) {
+#else
+	if (mkdir(dbPath, 0755) != 0) {
+#endif
+		perror("Failed to create database directory");
+		return 0;
+	}
+
+	snprintf(metaPath, sizeof(metaPath), "%s/%s/%s.meta", DB_ROOT, name, name);
+
+	FILE* file = fopen(metaPath, "w");
+	if (!file) {
+		perror("Failed to create meta file");
+
+#ifdef _WIN32
+		_rmdir(dbPath);
+#else
+		rmdir(dbPath);
+#endif
+		return 0;
+	}
+
+	fprintf(file, "%s\n0\n", name);
+	fclose(file);
+
+	return 1;
+}
+
+void writeDatabase(FILE* file, Database* database)
+{
 }
 
 void writeTableName(FILE* file, Table* table)

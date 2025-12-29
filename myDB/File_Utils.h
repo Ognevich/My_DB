@@ -2,9 +2,18 @@
 #define _FILE_UTILS_H_
 #include <stdio.h>
 #include "table.h"
+#include "database.h"
+
+#define DB_ROOT "./data"
 
 int IfFileOpen(FILE * file);
 
+//DATABASES
+
+int createDbDirectory(const char* name);
+void writeDatabase(FILE * file, Database * database);
+
+// TABLES
 void writeTableName(FILE* file, Table* table);
 void writeColName(FILE* file, Table* table);
 void writeColTypes(FILE* file, Table* table);

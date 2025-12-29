@@ -3,10 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "File_Utils.h"
 
 Database* createDatabase(const char* name)
 {
-    if (!name) return NULL; 
+    if (!name) return NULL;
+
+    createDbDirectory(name);
 
     Database* db = malloc(sizeof(Database));
     if (!db) {
