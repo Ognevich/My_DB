@@ -43,3 +43,15 @@ void dutCommand(AppContext* app, const char** argv, int argc)
     addTable(db, tb);
 
 }
+
+void clearCommand(AppContext* app, const char** argv, int argc)
+{
+    app->currentDatabase = NULL;
+    
+    for (int i = 0 ; i < app->databasesSize; i++)
+    {
+        free(app->databases[i]);
+    }
+    free(app->databases);
+    app->databasesSize = 0;
+}

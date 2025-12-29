@@ -69,7 +69,8 @@ void printHeader(const char* headerName)
     int spaces = maxLenght - 3 - nameLenght;
 
     printf("+----------------------------------------+\n");
-    printf("| %s");
+
+    printf("| %s", headerName);
     for (int i = 0; i < spaces; i++) {
         printf(" ");
     }

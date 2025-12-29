@@ -20,7 +20,7 @@ AppContext* initAppContext(void)
 
     program->commandCount = 7;
 #ifdef SPECIAL_COMMANDS
-    program->specialCommandCount = 1;
+    program->specialCommandCount = 2;
     initSpecialCommands(program);
 #endif 
 
@@ -47,6 +47,7 @@ void initCommands(AppContext* app)
 void initSpecialCommands(AppContext* app)
 {
     app->specialCommands[0] = (SpecialCommand){"dut" , dutCommand};
+    app->specialCommands[1] = (SpecialCommand){"clear", clearCommand};
 }
 
 void freeAppContext(AppContext** program)
