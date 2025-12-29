@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "logger.h"
+#include "File_Utils.h"
 
 Table* createTable(const char* name) {
     Table* t = malloc(sizeof(*t));
@@ -330,4 +331,3 @@ int findTableColumnIndex(Table* table, const char* colName)
     }
     return -1;
 }
-

@@ -9,7 +9,8 @@ Database* createDatabase(const char* name)
 {
     if (!name) return NULL;
 
-    createDbDirectory(name);
+    if (!createDbDirectory(name))
+        return NULL;
 
     Database* db = malloc(sizeof(Database));
     if (!db) {

@@ -2,12 +2,31 @@
 #include "File_Utils.h"
 
 #ifdef _WIN32
-#include <direct.h>  
+#include <direct.h>
+#include <sys/stat.h>
 #else
-#include <sys/stat.h> 
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 #endif
+
+int directoryExists(const char* path)
+{
+	struct stat st;
+	if (stat(path, &st) != 0)
+		return 0;
+
+#ifdef _WIN32
+	return (st.st_mode & _S_IFDIR) != 0;
+#else
+	return (st.st_mode & S_IFDIR) != 0;
+#endif
+}
+
+int fileExists(const char* path) {
+	struct stat st;
+	return stat(path, &st) == 0 && !(st.st_mode & S_IFDIR);
+}
 
 int IfFileOpen(FILE* file)
 {
@@ -17,6 +36,7 @@ int IfFileOpen(FILE* file)
 	}
 	return 1;
 }
+
 
 int createDbDirectory(const char* name)
 {
@@ -191,4 +211,27 @@ int readRow(FILE* file, Table* table)
 	table->rows[table->rowCount] = row;
 	table->rowCount++;
 	return 1;
+}
+
+int saveTableToFile(Table* table, AppContext* app, const char* name, const char*** args, int size)
+{
+	char tablePath[256];
+	snprintf(tablePath, sizeof(tablePath), "%s/%s/%s.tbl", DB_ROOT, app->currentDatabase->name, name);
+
+	if (fileExists(tablePath))
+	{
+		printf("Error: file %s already exists\n", tablePath);
+		return 0;
+	}
+
+	FILE* file = fopen(tablePath, "w");
+	if (!file)
+		return;
+
+	writeTableName(file, table);
+	writeColName(file, table);
+	writeColTypes(file, table);
+
+	fclose(file);
+
 }

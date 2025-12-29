@@ -3,6 +3,7 @@
 #include "parser.h"
 #include <stdlib.h>
 #include <string.h>
+#include "File_Utils.h"
 
 
 
@@ -36,10 +37,21 @@ void handleSpecialCommand(AppContext* app, const char** argv, const char* detoke
 void dutCommand(AppContext* app, const char** argv, int argc)
 {
     Database* db = createDatabase("test");
+    if (!db)
+        return;
+
     app->currentDatabase = db;
     Table* tb = createTable("t");
     addColumn(tb, "id", INT, sizeof(int));
     addColumn(tb, "name", CHAR, 50);
+
+    const char* col1[] = { "id", "INT" };
+    const char* col2[] = { "name", "TEXT" };
+
+    const char** table[] = { col1, col2 };
+
+    saveTableToFile(tb,app,tb->name, (const char***)table, 2);
+
     addTable(db, tb);
 
 }

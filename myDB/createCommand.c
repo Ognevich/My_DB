@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "File_Utils.h"
 
 void createCommand(AppContext* app, char** argv, int argc)
 {
@@ -29,7 +30,8 @@ void createCommand(AppContext* app, char** argv, int argc)
 	}
 
 	if (strcasecmp(objectType, "DATABASE") == 0) {
-		createDatabaseCommand(app, name, ifNotExists);
+		if (!createDatabaseCommand(app, name, ifNotExists))
+			return;
 	}
 	else if (strcasecmp(objectType, "TABLE") == 0) {
 		processCreateTableCommand(app, argv, argc, name, ifNotExists);
@@ -38,28 +40,30 @@ void createCommand(AppContext* app, char** argv, int argc)
 		logMessage(LOG_ERROR, "Unknown object type: %s", objectType);
 	}
 }
-void createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
+int createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 {
 	if (checkDatabaseExists(app, name, ifNotExists) <= 0) {
 		printf("Database %s already exists\n", name);
-		return;
+		return 0;
 	}
 	
 	Database* db = createDatabase(name);
+	if (!db)
+		return 0;
 
 	Database **temp = realloc(app->databases, sizeof(Database*) * (app->databasesSize + 1));
 
 	if (!temp){
 		logMessage(LOG_ERROR, "database didn't create");
 		free(db);
-		return;
+		return 0;
 	}
 
 	app->databases = temp;
 	app->databases[app->databasesSize] = db;
 	app->databasesSize++;
 	printf("Database %s created\n", db->name);
-
+	return 1;
 }
 
 void processCreateTableCommand(AppContext* app, char** argv, int argc, const char* name, int ifNotExists)
@@ -74,7 +78,6 @@ void processCreateTableCommand(AppContext* app, char** argv, int argc, const cha
 
 	SqlError err = extractInnerArgs(argv,argc, &innerBracketsArgv,&innerArgs);
 	printError(err);
-
 
 	if (checkCreateTableArguments(innerBracketsArgv, innerArgs) <= 0) 
 		return;
@@ -98,7 +101,10 @@ void createTableCommand(AppContext* app, const char* name, char*** innerArgs, in
 		return;
 	}
 
+	saveTableToFile(table, app ,name, innerArgs, innerSize);
+
 	if (!registerTableInDatabase(app, table)) return;
 
 	printf("Table '%s' created successfully.\n", table->name);
+
 }
