@@ -5,6 +5,7 @@
 #include "commandValidators.h"
 #include "parser.h"
 #include <stdlib.h>
+#include "File_Utils.h"
 
 typedef enum {
     INSERT_STATE_START,
@@ -130,6 +131,13 @@ void insertCommand(AppContext* app, const char** argv, int argc)
                 }
 
                 insertRow(table, fields);
+                
+                if (!appendTableRowsToFile(fields, table->columnCount, app->currentDatabase->name, table->name))
+                {
+                    printf("Error: file not found\n");
+                    return;
+                }
+
                 free(fields);
 
             }

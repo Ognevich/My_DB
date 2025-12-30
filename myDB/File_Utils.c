@@ -109,6 +109,25 @@ void writeColTypes(FILE* file, Table* table)
 	fprintf(file, "\n");
 }
 
+void writeRow(FILE* file, Field* fields, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		Field f = fields[i];
+
+		switch (f.type)
+		{
+		case INT: fprintf(file, "%d", f.iVal); break;
+		case FLOAT: fprintf(file, "%.2f", f.fVal); break;
+		case CHAR: fprintf(file, "%s", f.sVal); break;
+		default:
+			break;
+		}
+		if (i < size - 1) fprintf(file, ";");
+	}
+	fprintf(file, "\n");
+}
+
 void writeRows(FILE* file, Table* table)
 {
 	for (int i = 0; i < table->rowCount; i++) {
@@ -234,4 +253,21 @@ int saveTableToFile(Table* table, AppContext* app, const char* name, const char*
 
 	fclose(file);
 
+}
+
+int appendTableRowsToFile(Field* fields, int size, const char* dbName, const char* tableName)
+{
+	char filePath[256];
+	snprintf(filePath, sizeof(filePath), "%s/%s/%s.tbl", DB_ROOT, dbName, tableName);
+
+	FILE* file = fopen(filePath, "a");
+
+	if (!file)
+		return 0;
+
+	writeRow(file, fields, size);
+
+	fclose(file);
+
+	return 1;
 }

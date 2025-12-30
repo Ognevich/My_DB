@@ -1,25 +1,25 @@
 ﻿  File_Utils.c
-D:\my_projects\C\myDB\myDB\File_Utils.c(138,7): warning C4013: 'strcspn' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(140,2): warning C4013: 'strncpy' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(151,16): warning C4013: 'strtok' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(153,29): warning C4013: 'realloc' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(153,20): warning C4312: 'type cast': conversion from 'int' to 'Column *' of greater size
-D:\my_projects\C\myDB\myDB\File_Utils.c(160,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\File_Utils.c(151,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\File_Utils.c(173,7): warning C4013: 'strcmp' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(176,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\File_Utils.c(171,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\File_Utils.c(188,23): warning C4013: 'malloc' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(188,15): warning C4312: 'type cast': conversion from 'int' to 'Field *' of greater size
-D:\my_projects\C\myDB\myDB\File_Utils.c(194,34): warning C4013: 'atoi' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(195,36): warning C4013: 'atof' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(195,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\my_projects\C\myDB\myDB\File_Utils.c(202,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\File_Utils.c(205,16): warning C4312: 'type cast': conversion from 'int' to 'Row *' of greater size
-D:\my_projects\C\myDB\myDB\File_Utils.c(207,3): warning C4013: 'free' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\File_Utils.c(191,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\File_Utils.c(229,3): warning C4033: 'saveTableToFile' must return a value
-D:\my_projects\C\myDB\myDB\File_Utils.c(237,1): warning C4715: 'saveTableToFile': not all control paths return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(157,7): warning C4013: 'strcspn' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(159,2): warning C4013: 'strncpy' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(170,16): warning C4013: 'strtok' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(172,29): warning C4013: 'realloc' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(172,20): warning C4312: 'type cast': conversion from 'int' to 'Column *' of greater size
+D:\my_projects\C\myDB\myDB\File_Utils.c(179,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(170,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(192,7): warning C4013: 'strcmp' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(195,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(190,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(207,23): warning C4013: 'malloc' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(207,15): warning C4312: 'type cast': conversion from 'int' to 'Field *' of greater size
+D:\my_projects\C\myDB\myDB\File_Utils.c(213,34): warning C4013: 'atoi' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(214,36): warning C4013: 'atof' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(214,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\my_projects\C\myDB\myDB\File_Utils.c(221,9): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(224,16): warning C4312: 'type cast': conversion from 'int' to 'Row *' of greater size
+D:\my_projects\C\myDB\myDB\File_Utils.c(226,3): warning C4013: 'free' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\File_Utils.c(210,8): warning C4047: 'initializing': 'char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(248,3): warning C4033: 'saveTableToFile' must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(256,1): warning C4715: 'saveTableToFile': not all control paths return a value
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

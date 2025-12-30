@@ -20,6 +20,7 @@ void writeDatabase(FILE * file, Database * database);
 void writeTableName(FILE* file, Table * table);
 void writeColName(FILE* file, Table* table);
 void writeColTypes(FILE* file, Table* table);
+void writeRow(FILE * file, Field * fields, int size);
 void writeRows(FILE* file, Table* table);
 
 int readTableName(FILE* file, Table* table);
@@ -28,4 +29,6 @@ int readColumnTypes(FILE* file, Table* table);
 int readRow(FILE* file, Table* table);
 
 int saveTableToFile(Table* table, AppContext* app, const char* name, const char*** args, int size);
+int appendTableRowsToFile(Field* fields, int size, const char * dbName, const char * tableName);
+
 #endif
