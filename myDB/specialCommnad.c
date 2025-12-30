@@ -42,8 +42,8 @@ void dutCommand(AppContext* app, const char** argv, int argc)
 
     app->currentDatabase = db;
     Table* tb = createTable("t");
-    addColumn(tb, "id", INT, sizeof(int));
-    addColumn(tb, "name", CHAR, 50);
+    addColumn(tb, "id", FIELD_INT, sizeof(int));
+    addColumn(tb, "name", FIELD_CHAR, 50);
 
     const char* col1[] = { "id", "INT" };
     const char* col2[] = { "name", "TEXT" };

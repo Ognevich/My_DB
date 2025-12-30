@@ -1,9 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "File_Utils.h"
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef _WIN32
 #include <direct.h>
 #include <sys/stat.h>
+#include <windows.h>
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -98,9 +101,9 @@ void writeColTypes(FILE* file, Table* table)
 	for (int i = 0; i < table->columnCount; i++) {
 		switch (table->columns[i].type)
 		{
-		case INT: fprintf(file, "INT"); break;
-		case FLOAT: fprintf(file, "FLOAT"); break;
-		case CHAR: fprintf(file, "CHAR"); break;
+		case FIELD_INT: fprintf(file, "INT"); break;
+		case FIELD_FLOAT: fprintf(file, "FLOAT"); break;
+		case FIELD_CHAR: fprintf(file, "CHAR"); break;
 		default:
 			break;
 		}
@@ -117,9 +120,9 @@ void writeRow(FILE* file, Field* fields, int size)
 
 		switch (f.type)
 		{
-		case INT: fprintf(file, "%d", f.iVal); break;
-		case FLOAT: fprintf(file, "%.2f", f.fVal); break;
-		case CHAR: fprintf(file, "%s", f.sVal); break;
+		case FIELD_INT: fprintf(file, "%d", f.iVal); break;
+		case FIELD_FLOAT: fprintf(file, "%.2f", f.fVal); break;
+		case FIELD_CHAR: fprintf(file, "%s", f.sVal); break;
 		default:
 			break;
 		}
@@ -136,9 +139,9 @@ void writeRows(FILE* file, Table* table)
 
 			switch (f.type)
 			{
-			case INT: fprintf(file, "%d\t", f.iVal); break;
-			case FLOAT: fprintf(file, "%.2f\t", f.fVal); break;
-			case CHAR: fprintf(file, "%s\t", f.sVal); break;
+			case FIELD_INT: fprintf(file, "%d\t", f.iVal); break;
+			case FIELD_FLOAT: fprintf(file, "%.2f\t", f.fVal); break;
+			case FIELD_CHAR: fprintf(file, "%s\t", f.sVal); break;
 
 			default:
 				break;
@@ -174,7 +177,7 @@ int readColumns(FILE* file, Table* table) {
 		Column* col = &table->columns[table->columnCount];
 		strncpy(col->name, token, sizeof(col->name) - 1);
 		col->name[sizeof(col->name) - 1] = '\0';
-		col->type = CHAR; 
+		col->type = FIELD_CHAR;
 		table->columnCount++;
 		token = strtok(NULL, ";");
 	}
@@ -189,9 +192,9 @@ int readColumnTypes(FILE* file, Table* table)
 
 	char* token = strtok(line, ";");
 	for (int i = 0; i < table->columnCount && token; i++) {
-		if (strcmp(token, "INT") == 0) table->columns[i].type = INT;
-		else if (strcmp(token, "FLOAT") == 0) table->columns[i].type = FLOAT;
-		else table->columns[i].type = CHAR;
+		if (strcmp(token, "INT") == 0) table->columns[i].type = FIELD_INT;
+		else if (strcmp(token, "FLOAT") == 0) table->columns[i].type = FIELD_FLOAT;
+		else table->columns[i].type = FIELD_CHAR;
 		token = strtok(NULL, ";");
 	}
 	return 1;
@@ -210,9 +213,9 @@ int readRow(FILE* file, Table* table)
 	char* token = strtok(line, ";");
 	for (int j = 0; j < table->columnCount && token; j++) {
 		switch (table->columns[j].type) {
-		case INT: row.fields[j].iVal = atoi(token); break;
-		case FLOAT: row.fields[j].fVal = atof(token); break;
-		case CHAR:
+		case FIELD_INT: row.fields[j].iVal = atoi(token); break;
+		case FIELD_FLOAT: row.fields[j].fVal = atof(token); break;
+		case FIELD_CHAR:
 			strncpy(row.fields[j].sVal, token, sizeof(row.fields[j].sVal) - 1);
 			row.fields[j].sVal[sizeof(row.fields[j].sVal) - 1] = '\0';
 			break;

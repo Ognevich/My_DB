@@ -37,7 +37,7 @@ int fillTableColumns(Table* table, char*** innerArgs, int innerSize) {
         char* columnName = innerArgs[i][0];
         FieldType type = StrToField(innerArgs[i][1]);
 
-        if (type == NONE) {
+        if (type == FIELD_NONE) {
             printf("Error: Incorrect data type '%s'\n", innerArgs[i][1]);
             return 0;
         }
@@ -130,13 +130,13 @@ void updateRow(Table* table, int rowIndex, Field* newValues)
     for (int i = 0; i < table->columnCount; i++) {
         switch (table->columns[i].type)
         {
-        case INT:
+        case FIELD_INT:
             table->rows[rowIndex].fields[i].iVal = newValues[i].iVal;
             break;
-        case FLOAT:
+        case FIELD_FLOAT:
             table->rows[rowIndex].fields[i].fVal = newValues[i].fVal;
             break;
-        case CHAR:
+        case FIELD_CHAR:
             strncpy(table->rows[rowIndex].fields[i].sVal, newValues[i].sVal, sizeof(table->rows[rowIndex].fields[i].sVal) - 1);
             table->rows[rowIndex].fields[i].sVal[sizeof(table->rows[rowIndex].fields[i].sVal) - 1] = '\0';
             break;
@@ -173,15 +173,15 @@ static void printMainBody(Table* table)
 
             switch (f.type)
             {
-            case INT:
+            case FIELD_INT:
                 printf(" %-*d |", COL_WIDTH, f.iVal);
                 break;
 
-            case FLOAT:
+            case FIELD_FLOAT:
                 printf(" %-*.2f |", COL_WIDTH, f.fVal);
                 break;
 
-            case CHAR:
+            case FIELD_CHAR:
                 printf(" %-*s |", COL_WIDTH , f.sVal);
                 break;
 
@@ -258,13 +258,13 @@ void printSelectedColumns(Table* table, const char** columns, int columnsCount)
 
             Field f = table->rows[i].fields[colIdx];
             switch (f.type) {
-            case INT:
+            case FIELD_INT:
                 printf(" %-*d |", COL_WIDTH, f.iVal);
                 break;
-            case FLOAT:
+            case FIELD_FLOAT:
                 printf(" %-*.2f |", COL_WIDTH, f.fVal);
                 break;
-            case CHAR:
+            case FIELD_CHAR:
                 printf(" %-*s |", COL_WIDTH, f.sVal);
                 break;
             default:

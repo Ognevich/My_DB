@@ -5,10 +5,10 @@
 
 typedef enum 
 { 
-	INT, 
-	FLOAT ,
-	CHAR,
-	NONE
+	FIELD_INT, 
+	FIELD_FLOAT ,
+	FIELD_CHAR,
+	FIELD_NONE
 } FieldType;
 
 typedef struct {

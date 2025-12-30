@@ -93,15 +93,15 @@ FieldType StrToField(char* filedType)
 {
     
     if (strcasecmp(filedType, "INT") == 0) {
-        return INT;
+        return FIELD_INT;
     }
     if(strcasecmp(filedType, "CHAR") == 0) {
-        return CHAR;
+        return FIELD_CHAR;
     }
     if (strcasecmp(filedType, "FLOAT") == 0) {
-        return FLOAT;
+        return FIELD_FLOAT;
     }
-    return NONE;
+    return FIELD_NONE;
 }
 
 int parsedValueToField(Field* f, const parsedValue* pv, const FieldType columnType)
@@ -140,17 +140,17 @@ void sqlValuesTypeToFieldType(const sqlValuesType sType, FieldType * fType)
     switch (sType)
     {
     case SQL_TYPE_INT:
-        *fType = INT;
+        *fType = FIELD_INT;
         break;
     case SQL_TYPE_FLOAT:
-        *fType = FLOAT;
+        *fType = FIELD_FLOAT;
         break;
     case SQL_TYPE_STRING:
-        *fType = CHAR;
+        *fType = FIELD_CHAR;
         break;
     case SQL_TYPE_NULL:
         break;
-        *fType = NONE;
+        *fType = FIELD_NONE;
     }
 }
 
@@ -300,13 +300,13 @@ int defineColumnSize(FieldType type)
 
     switch (type)
     {
-    case INT:
+    case FIELD_INT:
         value = sizeof(int);
         break;
-    case CHAR:
+    case FIELD_CHAR:
         value = 50;
         break;
-    case FLOAT:
+    case FIELD_FLOAT:
         value = sizeof(float);
         break;
     default:
