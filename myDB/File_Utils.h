@@ -31,4 +31,5 @@ int readRow(FILE* file, Table* table);
 int saveTableToFile(Table* table, AppContext* app, const char* name, const char*** args, int size);
 int appendTableRowsToFile(Field* fields, int size, const char * dbName, const char * tableName);
 
+int removeDirRecursive(const char* path);
 #endif

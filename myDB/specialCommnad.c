@@ -41,6 +41,7 @@ void dutCommand(AppContext* app, const char** argv, int argc)
         return;
 
     app->currentDatabase = db;
+
     Table* tb = createTable("t");
     addColumn(tb, "id", FIELD_INT, sizeof(int));
     addColumn(tb, "name", FIELD_CHAR, 50);
@@ -58,12 +59,29 @@ void dutCommand(AppContext* app, const char** argv, int argc)
 
 void clearCommand(AppContext* app, const char** argv, int argc)
 {
+    if (app->databasesSize == 0) {
+        printf("nothing to clear\n");
+        return;
+    }
+
+    for (int i = 0; i < app->databasesSize; i++) {
+
+        char path[256];
+        snprintf(path, sizeof(path), "%s/%s", DB_ROOT, app->databases[i]->name);
+
+        if (!removeDirRecursive(path))
+        {
+            printf("Error: failed to remove directory\n");
+        }
+
+    }
     app->currentDatabase = NULL;
-    
-    for (int i = 0 ; i < app->databasesSize; i++)
+
+    for (int i = 0; i < app->databasesSize; i++)
     {
         free(app->databases[i]);
     }
-    free(app->databases);
+
     app->databasesSize = 0;
+
 }

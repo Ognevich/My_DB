@@ -274,3 +274,66 @@ int appendTableRowsToFile(Field* fields, int size, const char* dbName, const cha
 
 	return 1;
 }
+
+
+int removeDirRecursive(const char* path)
+{
+#ifdef _WIN32
+	WIN32_FIND_DATAA ffd;
+	char searchPath[MAX_PATH];
+	char fullPath[MAX_PATH];
+
+	snprintf(searchPath, MAX_PATH, "%s\\*", path);
+
+	HANDLE hFind = FindFirstFileA(searchPath, &ffd);
+	if (hFind == INVALID_HANDLE_VALUE)
+		return -1;
+
+	do {
+		if (!strcmp(ffd.cFileName, ".") || !strcmp(ffd.cFileName, ".."))
+			continue;
+
+		snprintf(fullPath, MAX_PATH, "%s\\%s", path, ffd.cFileName);
+
+		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		{
+			removeDirRecursive(fullPath);
+		}
+		else
+		{
+			DeleteFileA(fullPath);
+		}
+
+	} while (FindNextFileA(hFind, &ffd));
+
+	FindClose(hFind);
+	return RemoveDirectoryA(path);
+
+#else
+	DIR* dir = opendir(path);
+	if (!dir) return -1;
+
+	struct dirent* entry;
+	char fullPath[512];
+
+	while ((entry = readdir(dir)) != NULL)
+	{
+		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
+			continue;
+
+		snprintf(fullPath, sizeof(fullPath), "%s/%s", path, entry->d_name);
+
+		struct stat st;
+		if (stat(fullPath, &st) == 0)
+		{
+			if (S_ISDIR(st.st_mode))
+				removeDirRecursive(fullPath);
+			else
+				remove(fullPath);
+		}
+	}
+
+	closedir(dir);
+	return rmdir(path);
+#endif
+}
