@@ -8,6 +8,7 @@
 #include "insertCommand.h"
 #include "specialCommnad.h"
 #include "logger.h"
+#include <stdio.h>
 #include <string.h>
 
 AppContext* initAppContext(void)
@@ -75,6 +76,24 @@ int isDatabaseExists(AppContext* app, const char* name)
     for (int i = 0; i < app->databasesSize; i++)
         if (strcmp(app->databases[i]->name, name) == 0)     return 1;
     return 0;
+}
+
+int registerDatabase(AppContext* app, Database* db)
+{
+    Database** temp = realloc(app->databases, sizeof(Database*) * (app->databasesSize + 1));
+
+    if (!temp) {
+        logMessage(LOG_ERROR, "database didn't create");
+        free(db);
+        return 0;
+    }
+
+    app->databases = temp;
+    app->databases[app->databasesSize] = db;
+    app->databasesSize++;
+    printf("Database %s created\n", db->name);
+
+    return 1;
 }
 
 

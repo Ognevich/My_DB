@@ -40,7 +40,8 @@ void dutCommand(AppContext* app, const char** argv, int argc)
     if (!db)
         return;
 
-    app->currentDatabase = db;
+    registerDatabase(app, db);
+    
 
     Table* tb = createTable("t");
     addColumn(tb, "id", FIELD_INT, sizeof(int));

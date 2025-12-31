@@ -51,18 +51,8 @@ int createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 	if (!db)
 		return 0;
 
-	Database **temp = realloc(app->databases, sizeof(Database*) * (app->databasesSize + 1));
+	registerDatabase(app, db);
 
-	if (!temp){
-		logMessage(LOG_ERROR, "database didn't create");
-		free(db);
-		return 0;
-	}
-
-	app->databases = temp;
-	app->databases[app->databasesSize] = db;
-	app->databasesSize++;
-	printf("Database %s created\n", db->name);
 	return 1;
 }
 

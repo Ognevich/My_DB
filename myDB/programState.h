@@ -30,7 +30,10 @@ AppContext* initAppContext();
 void initCommands(AppContext * app);
 void initSpecialCommands(AppContext* app);
 void freeAppContext(AppContext** app);
+
 int isDatabaseExists(AppContext *app,const char* name);
+int registerDatabase(AppContext *app, Database* db);
+
 int registerTableInDatabase(AppContext* app, Table* table);
 
 #endif
