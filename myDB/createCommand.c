@@ -51,7 +51,8 @@ int createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 	if (!db)
 		return 0;
 
-	registerDatabase(app, db);
+	if (!registerDatabase(app, db))
+		return;
 
 	return 1;
 }
@@ -91,6 +92,7 @@ void createTableCommand(AppContext* app, const char* name, char*** innerArgs, in
 		return;
 	}
 
+	increaseMeta(app->currentDatabase->name);
 	saveTableToFile(table, app ,name, innerArgs, innerSize);
 
 	if (!registerTableInDatabase(app, table)) return;

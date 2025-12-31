@@ -4,6 +4,6 @@
 
 #include "programState.h"
 
-void insertCommand(AppContext* app, const char** argv, int argc);
+void	insertCommand(AppContext* app, const char** argv, int argc);
 
 #endif

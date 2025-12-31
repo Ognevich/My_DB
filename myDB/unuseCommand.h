@@ -3,7 +3,7 @@
 
 #include "programState.h"
 
-void unuseCommand(AppContext* app, char** argv, int argc);
+void	unuseCommand(AppContext* app, char** argv, int argc);
 
 #endif
 

@@ -6,30 +6,34 @@
 #include "programState.h"
 #define DB_ROOT "./data"
 
-int IfFileOpen(FILE * file);
+int		IfFileOpen(FILE * file);
 
 //DATABASES
 
-int directoryExists(const char* path);
-int fileExists(const char* path);
+int		directoryExists(const char* path);
+int		fileExists(const char* path);
 
-int createDbDirectory(const char* name);
-void writeDatabase(FILE * file, Database * database);
-
+int		createDbDirectory(const char* name);
+void	writeDatabase(FILE * file, Database * database);
+		
 // TABLES
-void writeTableName(FILE* file, Table * table);
-void writeColName(FILE* file, Table* table);
-void writeColTypes(FILE* file, Table* table);
-void writeRow(FILE * file, Field * fields, int size);
-void writeRows(FILE* file, Table* table);
+void	writeTableName(FILE* file, Table * table);
+void	writeColName(FILE* file, Table* table);
+void	writeColTypes(FILE* file, Table* table);
+void	writeRow(FILE * file, Field * fields, int size);
+void	writeRows(FILE* file, Table* table);
 
-int readTableName(FILE* file, Table* table);
-int readColumns(FILE* file, Table* table);
-int readColumnTypes(FILE* file, Table* table);
-int readRow(FILE* file, Table* table);
+int		readDataFromFile(AppContext* app);
 
-int saveTableToFile(Table* table, AppContext* app, const char* name, const char*** args, int size);
-int appendTableRowsToFile(Field* fields, int size, const char * dbName, const char * tableName);
+int		readTableName(FILE* file, Table* table);
+int		readColumns(FILE* file, Table* table);
+int		readColumnTypes(FILE* file, Table* table);
+int		readRow(FILE* file, Table* table);
 
-int removeDirRecursive(const char* path);
+int		saveTableToFile(Table* table, AppContext* app, const char* name, const char*** args, int size);
+int		appendTableRowsToFile(Field* fields, int size, const char * dbName, const char * tableName);
+
+int		removeDirRecursive(const char* path);
+
+void	increaseMeta(const char * dbname);
 #endif

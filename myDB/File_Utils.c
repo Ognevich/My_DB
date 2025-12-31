@@ -153,6 +153,14 @@ void writeRows(FILE* file, Table* table)
 
 }
 
+int readDataFromFile(AppContext* app)
+{
+
+	FILE* file = fopen(DB_ROOT, 'r');
+	
+	fclose(file);
+}
+
 int readTableName(FILE* file, Table* table)
 {
 	char line[256];
@@ -336,4 +344,42 @@ int removeDirRecursive(const char* path)
 	closedir(dir);
 	return rmdir(path);
 #endif
+}
+
+void increaseMeta(const char* dbname)
+{
+	char filePath[256];
+	char dbName[256];
+	char intBuff[256];
+	int value = 0;
+
+	snprintf(filePath, sizeof(filePath), "%s/%s/%s.meta", DB_ROOT, dbname, dbname);
+
+	FILE* file = fopen(filePath, "r");
+	if (!file) {
+		perror("fopen read");
+		return;
+	}
+
+	if (!fgets(dbName, sizeof(dbName), file)) {
+		fclose(file);
+		return;
+	}
+
+	dbName[strcspn(dbName, "\n")] = '\0';
+
+	if (fgets(intBuff, sizeof(intBuff), file)) {
+		value = (int)strtol(intBuff, NULL, 10);
+	}
+
+	fclose(file);
+
+	FILE* wfile = fopen(filePath, "w");
+	if (!wfile) {
+		perror("fopen write");
+		return;
+	}
+
+	fprintf(wfile, "%s\n%d\n", dbName, value + 1);
+	fclose(wfile);
 }

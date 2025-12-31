@@ -39,11 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="technical_task.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>

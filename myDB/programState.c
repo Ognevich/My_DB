@@ -10,6 +10,7 @@
 #include "logger.h"
 #include <stdio.h>
 #include <string.h>
+#include "File_Utils.h"
 
 AppContext* initAppContext(void)
 {
@@ -20,12 +21,15 @@ AppContext* initAppContext(void)
     program->state = START_PROGRAM;
 
     program->commandCount = 7;
+
 #ifdef SPECIAL_COMMANDS
     program->specialCommandCount = 2;
     initSpecialCommands(program);
 #endif 
 
     initCommands(program);
+
+ /*   readDataFromFile(program);*/
 
     program->databases = NULL;
     program->databasesSize = 0;

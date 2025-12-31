@@ -125,9 +125,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="technical_task.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="app.c" />
     <ClCompile Include="commandValidators.c" />
     <ClCompile Include="createCommand.c" />

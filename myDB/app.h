@@ -2,13 +2,13 @@
 #define _APP_H_
 #include "programState.h"
 
-void runDB(AppContext * app);
-void shutdownDB(AppContext* app);
-void printCurrentDbState(AppContext * app);
-int readInput(char *buffer, int size);
-int checkExit(AppContext* app, char** argv);
+void	runDB(AppContext * app);
+void	shutdownDB(AppContext* app);
+void	printCurrentDbState(AppContext * app);
+int		readInput(char *buffer, int size);
+int		checkExit(AppContext* app, char** argv);
 
-void handleCommand(AppContext* app, char** argv, int argc);
+void	handleCommand(AppContext* app, char** argv, int argc);
 
 
 #endif

@@ -9,14 +9,14 @@ typedef struct {
 
 }Database;
 
-Database* createDatabase(const char* name);
-void addTable(Database* db, Table* table);
-Table* findTable(Database* db, const char* tableName);
-void deleteTable(Database* db, const char * tableName);
-void printDatabase(Database* db);
+Database*	createDatabase(const char* name);
+void		addTable(Database* db, Table* table);
+Table*		findTable(Database* db, const char* tableName);
+void		deleteTable(Database* db, const char * tableName);
+void		printDatabase(Database* db);
 
-int isTableExists(Database* db, const char* name);
+int			isTableExists(Database* db, const char* name);
 
-void freeDatabase(Database* db);
+void		freeDatabase(Database* db);
 
 #endif
