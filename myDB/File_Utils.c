@@ -2,7 +2,7 @@
 #include "File_Utils.h"
 #include <stdlib.h>
 #include <string.h>
-
+#include <stdio.h>
 #ifdef _WIN32
 #include <direct.h>
 #include <sys/stat.h>
@@ -159,6 +159,65 @@ int readDataFromFile(AppContext* app)
 	FILE* file = fopen(DB_ROOT, 'r');
 	
 	fclose(file);
+}
+
+int scanDatabase()
+{
+#ifdef _WIN32
+	WIN32_FIND_DATAA findData;
+	HANDLE hFind;
+
+	char searchPath[512];
+	snprintf(searchPath, sizeof(searchPath), "%s\\*", DB_ROOT);
+
+	hFind = FindFirstFileA(searchPath, &findData);
+	if (hFind == INVALID_HANDLE_VALUE) {
+		printf("Cannot open DB_ROOT\n");
+		return;
+	}
+
+	do {
+		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+
+			if (strcmp(findData.cFileName, ".") == 0 ||
+				strcmp(findData.cFileName, "..") == 0)
+				continue;
+
+			char dbPath[512];
+			snprintf(dbPath, sizeof(dbPath), "%s\\%s", DB_ROOT, findData.cFileName);
+
+			printf("\nDB directory: %s\n", dbPath);
+			//readDatabase(dbPath);
+		}
+	} while (FindNextFileA(hFind, &findData));
+
+	FindClose(hFind);
+
+#else
+	DIR* dir = opendir(DB_ROOT);
+	if (!dir) {
+		perror("opendir DB_ROOT");
+		return;
+	}
+
+	struct dirent* entry;
+	while ((entry = readdir(dir)) != NULL) {
+
+		if (strcmp(entry->d_name, ".") == 0 ||
+			strcmp(entry->d_name, "..") == 0)
+			continue;
+
+		if (entry->d_type == DT_DIR) {
+			char dbPath[512];
+			snprintf(dbPath, sizeof(dbPath), "%s/%s", DB_ROOT, entry->d_name);
+
+			printf("\n📁 DB directory: %s\n", dbPath);
+			readDatabase(dbPath);
+		}
+	}
+
+	closedir(dir);
+#endif
 }
 
 int readTableName(FILE* file, Table* table)

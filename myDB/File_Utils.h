@@ -25,6 +25,8 @@ void	writeRows(FILE* file, Table* table);
 
 int		readDataFromFile(AppContext* app);
 
+int		scanDatabase();
+
 int		readTableName(FILE* file, Table* table);
 int		readColumns(FILE* file, Table* table);
 int		readColumnTypes(FILE* file, Table* table);
