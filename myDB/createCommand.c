@@ -47,7 +47,7 @@ int createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
 		return 0;
 	}
 	
-	Database* db = createDatabase(name);
+	Database* db = createDatabase(name, 1);
 	if (!db)
 		return 0;
 

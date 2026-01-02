@@ -8,7 +8,12 @@
 #include "logger.h"
 #include "parser.h"
 #include "util.h"
+#include "File_Utils.h"
 
+void init(AppContext* app)
+{
+    scanDatabase(app);
+}
 
 void runDB(AppContext* app)
 {

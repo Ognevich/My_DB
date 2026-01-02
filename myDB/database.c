@@ -5,12 +5,14 @@
 #include <stdlib.h>
 #include "File_Utils.h"
 
-Database* createDatabase(const char* name)
+Database* createDatabase(const char* name, int createFolder)
 {
     if (!name) return NULL;
 
-    if (!createDbDirectory(name))
-        return NULL;
+    if (createFolder) {
+        if (!createDbDirectory(name))
+            return NULL;
+    }
 
     Database* db = malloc(sizeof(Database));
     if (!db) {

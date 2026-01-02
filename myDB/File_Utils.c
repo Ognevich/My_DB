@@ -43,8 +43,8 @@ int IfFileOpen(FILE* file)
 
 int createDbDirectory(const char* name)
 {
-	char dbPath[256];
-	char metaPath[256];
+	char dbPath[DEFAULT_BUFF_SIZE];
+	char metaPath[DEFAULT_BUFF_SIZE];
 
 	snprintf(dbPath, sizeof(dbPath), "%s/%s", DB_ROOT, name);
 
@@ -169,7 +169,7 @@ int scanDatabase(AppContext* app)
 	WIN32_FIND_DATAA findData;
 	HANDLE hFind;
 
-	char searchPath[512];
+	char searchPath[DEFAULT_BUFF_SIZE*2];
 	snprintf(searchPath, sizeof(searchPath), "%s\\*", DB_ROOT);
 
 	hFind = FindFirstFileA(searchPath, &findData);
@@ -185,7 +185,7 @@ int scanDatabase(AppContext* app)
 				strcmp(findData.cFileName, "..") == 0)
 				continue;
 
-			char dbPath[512];
+			char dbPath[DEFAULT_BUFF_SIZE*2];
 			snprintf(dbPath, sizeof(dbPath), "%s\\%s", DB_ROOT, findData.cFileName);
 
 			readDatabase(app, dbPath);
@@ -227,7 +227,7 @@ void readDatabase(AppContext* app, const char* dbpath)
 	WIN32_FIND_DATAA findData;
 	HANDLE hFind;
 
-	char searchPath[512];
+	char searchPath[DEFAULT_BUFF_SIZE*2];
 	snprintf(searchPath, sizeof(searchPath), "%s\\*", dbpath);
 
 	hFind = FindFirstFileA(searchPath, &findData);
@@ -238,16 +238,16 @@ void readDatabase(AppContext* app, const char* dbpath)
 		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
 
-		char path[512];
+		char path[DEFAULT_BUFF_SIZE*2];
 		snprintf(path, sizeof(path), "%s\\%s", dbpath, findData.cFileName);
 
 		if (strstr(findData.cFileName, ".meta")) {
-			readMeta(path);
+			readMeta(app, path);
 		}
 
 
 		if (strstr(findData.cFileName, ".tbl")) {
-			readTable(path);
+			readTable(app, path);
 		}
 
 	} while (FindNextFileA(hFind, &findData));
@@ -259,7 +259,7 @@ void readDatabase(AppContext* app, const char* dbpath)
 	if (!dir) return;
 
 	struct dirent* entry;
-	char path[512];
+	char path[DEFAULT_BUFF_SIZE*2];
 
 	while ((entry = readdir(dir)) != NULL) {
 
@@ -271,11 +271,11 @@ void readDatabase(AppContext* app, const char* dbpath)
 
 		if (strstr(entry->d_name, ".meta")) {
 			printf("\nMETA FILE\n");
-			readMeta(path);
+			readMeta(app, path);
 		}
 
 		if (strstr(entry->d_name, ".tbl")) {
-			readTable(path);
+			readTable(app, path);
 		}
 	}
 
@@ -283,14 +283,60 @@ void readDatabase(AppContext* app, const char* dbpath)
 #endif
 }
 
-void readMeta(AppContext* app, const char* metapath)
+int readMeta(AppContext* app, const char* metapath)
+{
+	char name[DEFAULT_BUFF_SIZE];
+	char intBuff[DEFAULT_BUFF_SIZE];
+	int count = 0;
+
+	FILE* file = fopen(metapath, "r");
+	if (!file)
+		return -1;
+
+	if (!fgets(name, sizeof(name), file))
+	{
+		fclose(file);
+		return -2;
+	}
+	name[strcspn(name, "\n")] = '\0';
+
+	if (!fgets(intBuff, sizeof(intBuff), file))
+	{
+		fclose(file);
+		return -3;
+	}
+
+	char* endptr;
+	count = (int)strtol(intBuff, &endptr, 10);
+	if (endptr == intBuff || count < 0)
+	{
+		fclose(file);
+		return -4;
+	}
+
+	Database* db = createDatabase(name,0);
+	if (!db)
+	{
+		fclose(file);
+		return -5;
+	}
+
+	db->tableCount = count;
+	strcpy(db->name,name);
+	registerDatabase(app, db);
+
+	fclose(file);
+	return 0;
+}
+
+int readTable(AppContext* app, const char* tablepath)
 {
 
 }
 
 int readTableName(FILE* file, Table* table)
 {
-	char line[256];
+	char line[DEFAULT_BUFF_SIZE];
 	if (!fgets(line, sizeof(line), file)) return 0;
 	line[strcspn(line, "\n")] = 0;
 
@@ -301,7 +347,7 @@ int readTableName(FILE* file, Table* table)
 }
 
 int readColumns(FILE* file, Table* table) {
-	char line[1024];
+	char line[DEFAULT_BUFF_SIZE*4];
 	if (!fgets(line, sizeof(line), file)) return 0;
 	line[strcspn(line, "\n")] = 0;
 
@@ -321,7 +367,7 @@ int readColumns(FILE* file, Table* table) {
 
 int readColumnTypes(FILE* file, Table* table)
 {
-	char line[1024];
+	char line[DEFAULT_BUFF_SIZE*4];
 	if (!fgets(line, sizeof(line), file)) return 0;
 	line[strcspn(line, "\n")] = 0;
 
@@ -337,7 +383,7 @@ int readColumnTypes(FILE* file, Table* table)
 
 int readRow(FILE* file, Table* table)
 {
-	char line[1024];
+	char line[DEFAULT_BUFF_SIZE*4];
 	if (!fgets(line, sizeof(line), file)) return 0;
 	line[strcspn(line, "\n")] = 0;
 
@@ -372,7 +418,7 @@ int readRow(FILE* file, Table* table)
 
 int saveTableToFile(Table* table, AppContext* app, const char* name, const char*** args, int size)
 {
-	char tablePath[256];
+	char tablePath[DEFAULT_BUFF_SIZE];
 	snprintf(tablePath, sizeof(tablePath), "%s/%s/%s.tbl", DB_ROOT, app->currentDatabase->name, name);
 
 	if (fileExists(tablePath))
@@ -395,7 +441,7 @@ int saveTableToFile(Table* table, AppContext* app, const char* name, const char*
 
 int appendTableRowsToFile(Field* fields, int size, const char* dbName, const char* tableName)
 {
-	char filePath[256];
+	char filePath[DEFAULT_BUFF_SIZE];
 	snprintf(filePath, sizeof(filePath), "%s/%s/%s.tbl", DB_ROOT, dbName, tableName);
 
 	FILE* file = fopen(filePath, "a");
@@ -449,7 +495,7 @@ int removeDirRecursive(const char* path)
 	if (!dir) return -1;
 
 	struct dirent* entry;
-	char fullPath[512];
+	char fullPath[DEFAULT_BUFF_SIZE * 2];
 
 	while ((entry = readdir(dir)) != NULL)
 	{
@@ -475,9 +521,9 @@ int removeDirRecursive(const char* path)
 
 void increaseMeta(const char* dbname)
 {
-	char filePath[256];
-	char dbName[256];
-	char intBuff[256];
+	char filePath[DEFAULT_BUFF_SIZE];
+	char dbName[DEFAULT_BUFF_SIZE];
+	char intBuff[DEFAULT_BUFF_SIZE];
 	int value = 0;
 
 	snprintf(filePath, sizeof(filePath), "%s/%s/%s.meta", DB_ROOT, dbname, dbname);

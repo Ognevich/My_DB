@@ -9,7 +9,7 @@ typedef struct {
 
 }Database;
 
-Database*	createDatabase(const char* name);
+Database*	createDatabase(const char* name, int createFolder);
 void		addTable(Database* db, Table* table);
 Table*		findTable(Database* db, const char* tableName);
 void		deleteTable(Database* db, const char * tableName);

@@ -9,6 +9,7 @@ int main(int argc, char * argv[]) {
 
 	AppContext* app = initAppContext();
 
+	init(app);
 	runDB(app);
 	shutdownDB(app);
 

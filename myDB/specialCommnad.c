@@ -36,7 +36,7 @@ void handleSpecialCommand(AppContext* app, const char** argv, const char* detoke
 
 void dutCommand(AppContext* app, const char** argv, int argc)
 {
-    Database* db = createDatabase("test");
+    Database* db = createDatabase("test",1);
     if (!db)
         return;
 

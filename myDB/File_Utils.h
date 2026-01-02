@@ -28,7 +28,8 @@ int		readDataFromFile(AppContext* app);
 int		scanDatabase(AppContext * app);
 void	readDatabase(AppContext* app, const char * dbpath);
 
-void	readMeta(AppContext * app, const char * metapath);
+int		readMeta(AppContext * app, const char * metapath);
+int		readTable(AppContext* app, const char * tablepath);
 
 int		readTableName(FILE* file, Table* table);
 int		readColumns(FILE* file, Table* table);
@@ -41,4 +42,5 @@ int		appendTableRowsToFile(Field* fields, int size, const char * dbName, const c
 int		removeDirRecursive(const char* path);
 
 void	increaseMeta(const char * dbname);
+
 #endif
