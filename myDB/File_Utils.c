@@ -161,7 +161,9 @@ int readDataFromFile(AppContext* app)
 	fclose(file);
 }
 
-int scanDatabase()
+void readDatabase(AppContext* app, const char* dbPath);
+
+int scanDatabase(AppContext* app)
 {
 #ifdef _WIN32
 	WIN32_FIND_DATAA findData;
@@ -186,8 +188,7 @@ int scanDatabase()
 			char dbPath[512];
 			snprintf(dbPath, sizeof(dbPath), "%s\\%s", DB_ROOT, findData.cFileName);
 
-			printf("\nDB directory: %s\n", dbPath);
-			//readDatabase(dbPath);
+			readDatabase(app, dbPath);
 		}
 	} while (FindNextFileA(hFind, &findData));
 
@@ -211,13 +212,80 @@ int scanDatabase()
 			char dbPath[512];
 			snprintf(dbPath, sizeof(dbPath), "%s/%s", DB_ROOT, entry->d_name);
 
-			printf("\n📁 DB directory: %s\n", dbPath);
+			printf("\nDB directory: %s\n", dbPath);
 			readDatabase(dbPath);
 		}
 	}
 
 	closedir(dir);
 #endif
+}
+
+void readDatabase(AppContext* app, const char* dbpath)
+{
+#ifdef _WIN32
+	WIN32_FIND_DATAA findData;
+	HANDLE hFind;
+
+	char searchPath[512];
+	snprintf(searchPath, sizeof(searchPath), "%s\\*", dbpath);
+
+	hFind = FindFirstFileA(searchPath, &findData);
+	if (hFind == INVALID_HANDLE_VALUE)
+		return;
+
+	do {
+		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			continue;
+
+		char path[512];
+		snprintf(path, sizeof(path), "%s\\%s", dbpath, findData.cFileName);
+
+		if (strstr(findData.cFileName, ".meta")) {
+			readMeta(path);
+		}
+
+
+		if (strstr(findData.cFileName, ".tbl")) {
+			readTable(path);
+		}
+
+	} while (FindNextFileA(hFind, &findData));
+
+	FindClose(hFind);
+
+#else
+	DIR* dir = opendir(dbPath);
+	if (!dir) return;
+
+	struct dirent* entry;
+	char path[512];
+
+	while ((entry = readdir(dir)) != NULL) {
+
+		if (strcmp(entry->d_name, ".") == 0 ||
+			strcmp(entry->d_name, "..") == 0)
+			continue;
+
+		snprintf(path, sizeof(path), "%s/%s", dbPath, entry->d_name);
+
+		if (strstr(entry->d_name, ".meta")) {
+			printf("\nMETA FILE\n");
+			readMeta(path);
+		}
+
+		if (strstr(entry->d_name, ".tbl")) {
+			readTable(path);
+		}
+	}
+
+	closedir(dir);
+#endif
+}
+
+void readMeta(AppContext* app, const char* metapath)
+{
+
 }
 
 int readTableName(FILE* file, Table* table)

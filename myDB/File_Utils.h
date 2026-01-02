@@ -25,7 +25,10 @@ void	writeRows(FILE* file, Table* table);
 
 int		readDataFromFile(AppContext* app);
 
-int		scanDatabase();
+int		scanDatabase(AppContext * app);
+void	readDatabase(AppContext* app, const char * dbpath);
+
+void	readMeta(AppContext * app, const char * metapath);
 
 int		readTableName(FILE* file, Table* table);
 int		readColumns(FILE* file, Table* table);
