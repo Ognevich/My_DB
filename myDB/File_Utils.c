@@ -252,8 +252,11 @@ void readDatabase(AppContext* app, const char* dbpath) {
 			continue;
 
 		if (strstr(findData.cFileName, ".tbl")) {
+
 			char path[DEFAULT_BUFF_SIZE * 2];
+
 			snprintf(path, sizeof(path), "%s\\%s", dbpath, findData.cFileName);
+
 			readTable(app, path);
 		}
 	} while (FindNextFileA(hFind, &findData));
@@ -332,21 +335,46 @@ int readMeta(AppContext* app, const char* metapath)
 		return -5;
 	}
 
-	db->tableCount = count;
+	//db->tableCount = count;
 	strcpy(db->name,name);
 	registerDatabase(app, db);
-
+	app->currentDatabase = db;
 	fclose(file);
 	return 0;
 }
 
 int readTable(AppContext* app, const char* tablepath)
 {
+	FILE* file = fopen(tablepath, "r");
+	if (!file) return 0;
 
+	Table* table = malloc(sizeof(Table));
+	if (!table) {
+		fclose(file);
+		return 0;
+	}
+	memset(table, 0, sizeof(Table));
 
+	int ok = 1;
 
+	if (!readTableName(file, table)) ok = 0;
+	else if (!readColumns(file, table)) ok = 0;
+	else if (!readColumnTypes(file, table)) ok = 0;
+	else {
+		while (readRow(file, table)) {
+		}
+	}
+
+	if (ok) {
+		registerTableInDatabase(app, table);
+	}
+	else {
+		free(table);
+	}
+
+	fclose(file);
+	return ok;
 }
-
 int readTableName(FILE* file, Table* table)
 {
 	char line[DEFAULT_BUFF_SIZE];

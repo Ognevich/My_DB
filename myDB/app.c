@@ -13,6 +13,7 @@
 void init(AppContext* app)
 {
     scanDatabase(app);
+    app->currentDatabase = NULL;
 }
 
 void runDB(AppContext* app)
