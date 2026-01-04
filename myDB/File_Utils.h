@@ -41,6 +41,4 @@ int		appendTableRowsToFile(Field* fields, int size, const char * dbName, const c
 
 int		removeDirRecursive(const char* path);
 
-void	increaseMeta(const char * dbname);
-
 #endif

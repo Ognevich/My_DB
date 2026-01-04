@@ -71,7 +71,7 @@ int createDbDirectory(const char* name)
 		return 0;
 	}
 
-	fprintf(file, "%s\n0\n", name);
+	fprintf(file, "%s\n", name);
 	fclose(file);
 
 	return 1;
@@ -300,8 +300,6 @@ void readDatabase(AppContext* app, const char* dbpath) {
 int readMeta(AppContext* app, const char* metapath)
 {
 	char name[DEFAULT_BUFF_SIZE];
-	char intBuff[DEFAULT_BUFF_SIZE];
-	int count = 0;
 
 	FILE* file = fopen(metapath, "r");
 	if (!file)
@@ -314,19 +312,6 @@ int readMeta(AppContext* app, const char* metapath)
 	}
 	name[strcspn(name, "\n")] = '\0';
 
-	if (!fgets(intBuff, sizeof(intBuff), file))
-	{
-		fclose(file);
-		return -3;
-	}
-
-	char* endptr;
-	count = (int)strtol(intBuff, &endptr, 10);
-	if (endptr == intBuff || count < 0)
-	{
-		fclose(file);
-		return -4;
-	}
 
 	Database* db = createDatabase(name,0);
 	if (!db)
@@ -334,8 +319,6 @@ int readMeta(AppContext* app, const char* metapath)
 		fclose(file);
 		return -5;
 	}
-
-	//db->tableCount = count;
 	strcpy(db->name,name);
 	registerDatabase(app, db);
 	app->currentDatabase = db;

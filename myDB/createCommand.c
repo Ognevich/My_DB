@@ -92,7 +92,6 @@ void createTableCommand(AppContext* app, const char* name, char*** innerArgs, in
 		return;
 	}
 
-	increaseMeta(app->currentDatabase->name);
 	saveTableToFile(table, app ,name, innerArgs, innerSize);
 
 	if (!registerTableInDatabase(app, table)) return;
