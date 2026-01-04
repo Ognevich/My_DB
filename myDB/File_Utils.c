@@ -221,60 +221,71 @@ int scanDatabase(AppContext* app)
 #endif
 }
 
-void readDatabase(AppContext* app, const char* dbpath)
-{
+void readDatabase(AppContext* app, const char* dbpath) {
 #ifdef _WIN32
 	WIN32_FIND_DATAA findData;
 	HANDLE hFind;
+	char searchPath[DEFAULT_BUFF_SIZE * 2];
 
-	char searchPath[DEFAULT_BUFF_SIZE*2];
 	snprintf(searchPath, sizeof(searchPath), "%s\\*", dbpath);
-
 	hFind = FindFirstFileA(searchPath, &findData);
-	if (hFind == INVALID_HANDLE_VALUE)
-		return;
+	if (hFind == INVALID_HANDLE_VALUE) return;
 
 	do {
 		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
 
-		char path[DEFAULT_BUFF_SIZE*2];
-		snprintf(path, sizeof(path), "%s\\%s", dbpath, findData.cFileName);
-
 		if (strstr(findData.cFileName, ".meta")) {
+			char path[DEFAULT_BUFF_SIZE * 2];
+			snprintf(path, sizeof(path), "%s\\%s", dbpath, findData.cFileName);
 			readMeta(app, path);
 		}
+	} while (FindNextFileA(hFind, &findData));
 
+	FindClose(hFind);
+
+	hFind = FindFirstFileA(searchPath, &findData);
+	if (hFind == INVALID_HANDLE_VALUE) return;
+
+	do {
+		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			continue;
 
 		if (strstr(findData.cFileName, ".tbl")) {
+			char path[DEFAULT_BUFF_SIZE * 2];
+			snprintf(path, sizeof(path), "%s\\%s", dbpath, findData.cFileName);
 			readTable(app, path);
 		}
-
 	} while (FindNextFileA(hFind, &findData));
 
 	FindClose(hFind);
 
 #else
-	DIR* dir = opendir(dbPath);
+	DIR* dir = opendir(dbpath);
 	if (!dir) return;
 
 	struct dirent* entry;
-	char path[DEFAULT_BUFF_SIZE*2];
+	char path[DEFAULT_BUFF_SIZE * 2];
 
+	rewinddir(dir);
 	while ((entry = readdir(dir)) != NULL) {
-
-		if (strcmp(entry->d_name, ".") == 0 ||
-			strcmp(entry->d_name, "..") == 0)
+		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
 			continue;
 
-		snprintf(path, sizeof(path), "%s/%s", dbPath, entry->d_name);
-
 		if (strstr(entry->d_name, ".meta")) {
+			snprintf(path, sizeof(path), "%s/%s", dbpath, entry->d_name);
 			printf("\nMETA FILE\n");
 			readMeta(app, path);
 		}
+	}
+
+	rewinddir(dir);
+	while ((entry = readdir(dir)) != NULL) {
+		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+			continue;
 
 		if (strstr(entry->d_name, ".tbl")) {
+			snprintf(path, sizeof(path), "%s/%s", dbpath, entry->d_name);
 			readTable(app, path);
 		}
 	}
@@ -331,6 +342,8 @@ int readMeta(AppContext* app, const char* metapath)
 
 int readTable(AppContext* app, const char* tablepath)
 {
+
+
 
 }
 
