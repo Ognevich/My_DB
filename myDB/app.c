@@ -101,7 +101,7 @@ int readInput(char* buffer, int size)
 
 int checkExit(AppContext* app, char** argv)
 {
-    if (argv[0] && strcmp(argv[0], "exit") == 0) {
+    if (argv[0] && strcasecmp(argv[0], "exit") == 0) {
         app->state = STOP_PROGRAM;
         return 1;
     }
@@ -114,7 +114,7 @@ void handleCommand(AppContext* app, char** argv, int argc)
     }
 
     for (int i = 0; i < app->commandCount; i++) {
-        if (_stricmp(argv[0], app->commands[i].name) == 0) {
+        if (strcasecmp(argv[0], app->commands[i].name) == 0) {
             app->commands[i].handler(app, argv, argc);
             return;
         }

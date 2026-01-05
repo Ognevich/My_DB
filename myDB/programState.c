@@ -6,6 +6,7 @@
 #include "showCommand.h"
 #include "selectCommand.h"
 #include "insertCommand.h"
+#include "dropCommand.h"
 #include "specialCommnad.h"
 #include "logger.h"
 #include <stdio.h>
@@ -20,7 +21,7 @@ AppContext* initAppContext(void)
 
     program->state = START_PROGRAM;
 
-    program->commandCount = 7;
+    program->commandCount = 8;
 
 #ifdef SPECIAL_COMMANDS
     program->specialCommandCount = 2;
@@ -46,7 +47,8 @@ void initCommands(AppContext* app)
     app->commands[3] = (Command){ "SHOW", showCommand };
     app->commands[4] = (Command){ "SELECT", selectCommand };
     app->commands[5] = (Command){ "INSERT", insertCommand };
-    app->commands[6] = (Command){ "sp", specialCommand };
+    app->commands[6] = (Command){ "DROP", dropCommand };
+    app->commands[7] = (Command){ "sp", specialCommand };
 }
 
 void initSpecialCommands(AppContext* app)

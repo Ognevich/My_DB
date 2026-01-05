@@ -2,6 +2,7 @@ D:\my_projects\C\myDB\myDB\app.c;D:\my_projects\C\myDB\myDB\x64\Debug\app.obj
 D:\my_projects\C\myDB\myDB\commandValidators.c;D:\my_projects\C\myDB\myDB\x64\Debug\commandValidators.obj
 D:\my_projects\C\myDB\myDB\createCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\createCommand.obj
 D:\my_projects\C\myDB\myDB\database.c;D:\my_projects\C\myDB\myDB\x64\Debug\database.obj
+D:\my_projects\C\myDB\myDB\dropCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\dropCommand.obj
 D:\my_projects\C\myDB\myDB\parser_create.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser_create.obj
 D:\my_projects\C\myDB\myDB\parser_insert.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser_insert.obj
 D:\my_projects\C\myDB\myDB\parser_keywords.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser_keywords.obj

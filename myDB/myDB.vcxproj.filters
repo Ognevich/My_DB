@@ -105,6 +105,9 @@
     <ClCompile Include="parser_insert.c">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="dropCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -177,6 +180,12 @@
       <Filter>Source Files\Parser</Filter>
     </ClInclude>
     <ClInclude Include="parser_insert.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="dropCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="parser_drop.h">
       <Filter>Source Files\Parser</Filter>
     </ClInclude>
   </ItemGroup>

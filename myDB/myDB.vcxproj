@@ -129,6 +129,7 @@
     <ClCompile Include="commandValidators.c" />
     <ClCompile Include="createCommand.c" />
     <ClCompile Include="database.c" />
+    <ClCompile Include="dropCommand.c" />
     <ClCompile Include="parser_create.c" />
     <ClCompile Include="parser_insert.c" />
     <ClCompile Include="parser_keywords.c" />
@@ -155,7 +156,9 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="createCommand.h" />
     <ClInclude Include="database.h" />
+    <ClInclude Include="dropCommand.h" />
     <ClInclude Include="parser_create.h" />
+    <ClInclude Include="parser_drop.h" />
     <ClInclude Include="parser_insert.h" />
     <ClInclude Include="parser_keywords.h" />
     <ClInclude Include="parser_select.h" />
