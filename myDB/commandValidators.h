@@ -5,6 +5,7 @@
 int checkDatabaseConnection(AppContext* app);
 int checkTableExists(AppContext* app, const char* name, int ifNotExists);
 int checkDatabaseExists(AppContext* app, const char* name, int ifNotExists);
+int checkDatabaseNotExists(AppContext* app, const char* name, int ifExists);
 
 int checkCreateTableArguments(const char *** argv, int argc);
 

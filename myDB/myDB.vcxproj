@@ -131,6 +131,7 @@
     <ClCompile Include="database.c" />
     <ClCompile Include="dropCommand.c" />
     <ClCompile Include="parser_create.c" />
+    <ClCompile Include="parser_drop.c" />
     <ClCompile Include="parser_insert.c" />
     <ClCompile Include="parser_keywords.c" />
     <ClCompile Include="parser_select.c" />

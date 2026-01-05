@@ -41,6 +41,23 @@ int checkDatabaseExists(AppContext* app, const char* name, int ifNotExists)
     return 1;
 }
 
+int checkDatabaseNotExists(AppContext* app, const char* name, int ifExists)
+{
+    if (!isDatabaseExists(app, name))
+    {
+        if (ifExists)
+        {
+            return 0;
+        }
+        else
+        {
+            printf("Error: Database %s don't exists\n", name);
+            return -1;
+        }
+    }
+    return 1;
+}
+
 int checkCreateTableArguments(const char*** argv, int argc)
 {
     if (argv == NULL) {

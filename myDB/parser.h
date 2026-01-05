@@ -5,6 +5,7 @@
 #include "parser_insert.h"
 #include "parse_util.h"
 #include "parser_keywords.h"
+#include "parser_drop.h"
 #include "tokenizer.h"
 
 #endif

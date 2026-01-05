@@ -1,8 +1,4 @@
-﻿  app.c
-  dropCommand.c
-  Generating Code...
-D:\my_projects\C\myDB\myDB\app.c(88,27): warning C4013: 'isspace' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\app.c(87,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+﻿  commandValidators.c
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

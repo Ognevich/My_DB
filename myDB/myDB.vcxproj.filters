@@ -108,6 +108,9 @@
     <ClCompile Include="dropCommand.c">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="parser_drop.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">

@@ -3,5 +3,6 @@
 #include "programState.h"
 
 void	dropCommand(AppContext* app, char** argv, int argc);
+int		dropDatabaseCommand(AppContext* app, char* name, int ifExists);
 
 #endif
