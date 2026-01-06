@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "parser.h"
 #include "commandValidators.h"
+#include "File_Utils.h"
 
 void dropCommand(AppContext* app, char** argv, int argc)
 {
@@ -43,5 +44,15 @@ int dropDatabaseCommand(AppContext* app, char* name, int ifExists)
 
 	if (!checkDatabaseNotExists(app, name, ifExists))
 		return 0;
+
+	char dbPath[DEFAULT_BUFF_SIZE];
+
+	snprintf(dbPath, sizeof(dbPath), "%s/%s", DB_ROOT, name);
+
+	if (!removeDirRecursive(dbPath))
+	{
+		printf("Error: failed to remove directory\n");
+	}
+
 
 }

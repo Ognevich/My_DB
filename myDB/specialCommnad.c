@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "File_Utils.h"
-
+#include "database.h"
 
 
 void specialCommand(AppContext* app, const char** argv, int argc)
@@ -80,9 +80,8 @@ void clearCommand(AppContext* app, const char** argv, int argc)
 
     for (int i = 0; i < app->databasesSize; i++)
     {
-        free(app->databases[i]);
+        freeDatabase(app->databases[i]);
     }
-
     app->databasesSize = 0;
 
 }

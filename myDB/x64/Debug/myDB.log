@@ -1,4 +1,6 @@
-﻿  commandValidators.c
+﻿  dropCommand.c
+D:\my_projects\C\myDB\myDB\dropCommand.c(26,6): warning C4013: '_stricmp' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\dropCommand.c(58,1): warning C4715: 'dropDatabaseCommand': not all control paths return a value
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
