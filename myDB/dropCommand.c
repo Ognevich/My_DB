@@ -72,8 +72,9 @@ int dropTableCommand(AppContext* app, const char** argv, int argc, int isExists)
 {
 	
 	char** tableNames = NULL;
+	int tableSize = 0;
 
-	SqlError err = extractDropTableNames(&tableNames,argv, argc);
+	SqlError err = extractDropTableNames(&tableNames, &tableSize ,argv, argc, isExists);
 
 
 }

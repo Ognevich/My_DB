@@ -3,10 +3,12 @@
 #include <stdlib.h>
 #include "parse_util.h"
 #include "commandValidators.h"
+#include <string.h>
 
 typedef enum {
     DROP_EXPECT_COMMA,
-    DROP_EXPECT_VALUE
+    DROP_EXPECT_VALUE,
+    DROP_EXPECT_END
 } dropTableState;
 
 int ifExistsUsed(const char** argv, int argc)
@@ -42,9 +44,32 @@ void extractObjName(const char** argv, int argc, const char** name, int isExists
 
 }
 
-SqlError extractDropTableNames(char*** tableNames, const char** argv, int argc)
+SqlError extractDropTableNames(char*** tableNames, int * size ,const char** argv, int argc, int isExists)
 {
     
+    dropTableState state = DROP_EXPECT_VALUE;
+
+    int startPos = 5 ? isExists : 3;
+
+    for (int i = startPos; i < argc; i++)
+    {
+        
+        const char* token = argv[i];
+
+        switch (state)
+        {
+        case DROP_EXPECT_VALUE:
+
+            if (strcmp(token, ',') == 0)
+            {
+                
+            }
+       
+
+        }
+    }
+
+
 
 
 }

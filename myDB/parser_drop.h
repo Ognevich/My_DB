@@ -5,6 +5,6 @@
 int ifExistsUsed(const char  ** argv, int argc);
 void extractObjName(const char ** argv, int argc, const char ** name, int isExists);
 
-SqlError extractDropTableNames(char *** tableNames, const char ** argv, int argc);
+SqlError extractDropTableNames(char *** tableNames, int* size,  const char ** argv, int argc, int isExists);
 
 #endif
