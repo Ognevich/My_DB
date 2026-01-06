@@ -120,3 +120,14 @@ int registerTableInDatabase(AppContext* app, Table* table) {
     app->currentDatabase->tableCount++;
     return 1;
 }
+
+void freeDatabaseByName(AppContext* app, const char* name)
+{
+    for (int i = 0; i < app->databasesSize; i++)
+    {
+        if (strcmp(app->databases[i]->name, name) == 0)
+        {
+            freeDatabase(app->databases[i]);
+        }
+    }
+}

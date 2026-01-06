@@ -36,4 +36,6 @@ int         registerDatabase(AppContext *app, Database* db);
 
 int         registerTableInDatabase(AppContext* app, Table* table);
 
+void		freeDatabaseByName(AppContext* app, const char* name);
+
 #endif

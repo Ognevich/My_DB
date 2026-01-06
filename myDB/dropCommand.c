@@ -3,11 +3,12 @@
 #include "parser.h"
 #include "commandValidators.h"
 #include "File_Utils.h"
+#include <string.h>
 
 void dropCommand(AppContext* app, char** argv, int argc)
 {
 	if (argc < 3) {
-		printf("Error: insufficient number of parameters");
+		printf("Error: insufficient number of parameters\n");
 		return;
 	}
 
@@ -52,7 +53,14 @@ int dropDatabaseCommand(AppContext* app, char* name, int ifExists)
 	if (!removeDirRecursive(dbPath))
 	{
 		printf("Error: failed to remove directory\n");
+		return 0;
 	}
 
+	if (app->currentDatabase && strcmp(app->currentDatabase->name, name) == 0)
+		app->currentDatabase = NULL;
 
+	freeDatabaseByName(app, name);
+	app->databasesSize--;
+
+	return 1;
 }

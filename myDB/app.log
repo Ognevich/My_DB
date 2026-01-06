@@ -40,3 +40,5 @@
 [15:49:18] [ERROR] Usage: USE <database_name>
 [13:51:54] [ERROR] Unknown object type: IF
 [13:51:58] [ERROR] Unknown object type: IF
+[13:03:28] [ERROR] Usage: CREATE DATABASE|TABLE <name> [IF NOT EXISTS]
+[13:04:14] [ERROR] Usage: SHOW TABLE
