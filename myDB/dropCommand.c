@@ -16,6 +16,8 @@ void dropCommand(AppContext* app, char** argv, int argc)
 	char* objectType = argv[2];
 	char* name = NULL;
 
+
+
 	extractObjName(argv, argc, &name, ifExists);
 
 	if (!name)
@@ -31,7 +33,8 @@ void dropCommand(AppContext* app, char** argv, int argc)
 	}
 	else if (strcasecmp(argv[1], "TABLE") == 0)
 	{
-
+		if (!dropTableCommand(app, argv, argc, ifExists))
+			return;
 	}
 	else
 	{
@@ -63,4 +66,14 @@ int dropDatabaseCommand(AppContext* app, char* name, int ifExists)
 	app->databasesSize--;
 
 	return 1;
+}
+
+int dropTableCommand(AppContext* app, const char** argv, int argc, int isExists)
+{
+	
+	char** tableNames = NULL;
+
+	SqlError err = extractDropTableNames(&tableNames,argv, argc);
+
+
 }

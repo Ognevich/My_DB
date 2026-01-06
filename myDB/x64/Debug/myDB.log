@@ -1,4 +1,6 @@
-﻿  dropCommand.c
+﻿  parser_drop.c
+D:\my_projects\C\myDB\myDB\parser_drop.c(17,13): warning C4013: '_stricmp' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\parser_drop.c(50,1): warning C4716: 'extractDropTableNames': must return a value
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

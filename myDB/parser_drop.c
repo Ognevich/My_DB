@@ -1,6 +1,13 @@
 #include "parser_drop.h"
 #include "config.h"
 #include <stdlib.h>
+#include "parse_util.h"
+#include "commandValidators.h"
+
+typedef enum {
+    DROP_EXPECT_COMMA,
+    DROP_EXPECT_VALUE
+} dropTableState;
 
 int ifExistsUsed(const char** argv, int argc)
 {
@@ -20,13 +27,24 @@ void extractObjName(const char** argv, int argc, const char** name, int isExists
 {
     *name = NULL;
     
-    if (isExists && argc <= 5)
+    if (isExists && argc >= 5)
     {
         *name = argv[4];
     }
-    else if (!isExists && argc <= 3)
+    else if (!isExists && argc >= 3)
     {
         *name = argv[2];
     }
+
+    if (*name && (isReservedWord(*name) || hasForbiddenSymbol(*name))) {
+        *name = NULL;
+    }
+
+}
+
+SqlError extractDropTableNames(char*** tableNames, const char** argv, int argc)
+{
+    
+
 
 }
