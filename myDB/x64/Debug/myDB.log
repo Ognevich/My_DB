@@ -8,8 +8,9 @@ D:\my_projects\C\myDB\myDB\createCommand.c(55,3): warning C4033: 'createDatabase
   dropCommand.c
   parser_create.c
   parser_drop.c
-D:\my_projects\C\myDB\myDB\parser_drop.c(63,31): warning C4047: 'function': 'const char *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\parser_drop.c(63,31): warning C4024: 'strcmp': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\parser_drop.c(68,31): warning C4047: 'function': 'const char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\parser_drop.c(68,31): warning C4024: 'strcmp': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\parser_drop.c(94,39): warning C4090: 'function': different 'const' qualifiers
   parser_insert.c
 D:\my_projects\C\myDB\myDB\parser_insert.c(133,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\parser_insert.c(251,93): warning C4028: formal parameter 4 different from declaration
@@ -45,8 +46,8 @@ D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': 
 D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
-D:\my_projects\C\myDB\myDB\parser_drop.c(75,1): warning C4716: 'extractDropTableNames': must return a value
-D:\my_projects\C\myDB\myDB\dropCommand.c(80,1): warning C4716: 'dropTableCommand': must return a value
+D:\my_projects\C\myDB\myDB\parser_drop.c(109,1): warning C4715: 'extractDropTableNames': not all control paths return a value
+D:\my_projects\C\myDB\myDB\dropCommand.c(82,1): warning C4716: 'dropTableCommand': must return a value
 D:\my_projects\C\myDB\myDB\createCommand.c(58,1): warning C4715: 'createDatabaseCommand': not all control paths return a value
   Compiling...
   tokenizer.c
