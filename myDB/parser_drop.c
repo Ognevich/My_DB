@@ -7,7 +7,7 @@
 #include <string.h>
 
 typedef enum {
-    DROP_EXPECT_COMMA_OR_END,
+    DROP_EXPECT_COMMA,
     DROP_EXPECT_VALUE
 } dropTableState;
 
@@ -49,7 +49,7 @@ SqlError extractDropTableNames(char*** tableNames, int * size ,const char** argv
     
     dropTableState state = DROP_EXPECT_VALUE;
 
-    int startPos = 5 ? isExists : 3;
+    int startPos = isExists ? 4 : 2;
 
     int maxSize = 2;
     int currentSize = 0;
@@ -65,7 +65,7 @@ SqlError extractDropTableNames(char*** tableNames, int * size ,const char** argv
         {
         case DROP_EXPECT_VALUE:
 
-            if (strcmp(token, ',') == 0)
+            if (strcmp(token, ",") == 0)
             {
                 freeCharArr(extractedTableNames, currentSize);
                 return SQL_ERR_SYNTAX;
@@ -95,15 +95,23 @@ SqlError extractDropTableNames(char*** tableNames, int * size ,const char** argv
 
             currentSize++;
 
-            state = DROP_EXPECT_COMMA_OR_END;
+            state = DROP_EXPECT_COMMA;
             break;
 
-        case DROP_EXPECT_COMMA_OR_END:
+        case DROP_EXPECT_COMMA:
+            if (strcmp(token, ",") != 0)
+            {
+                freeCharArr(extractedTableNames, currentSize);
+                return SQL_ERR_SYNTAX;
+            }
+
+            state = DROP_EXPECT_VALUE;
             break;
+
         }
     }
 
-
-
-
+    *tableNames = extractedTableNames;
+    *size = currentSize;
+    return SQL_OK;
 }

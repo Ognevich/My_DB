@@ -4,6 +4,7 @@
 #include "commandValidators.h"
 #include "File_Utils.h"
 #include <string.h>
+#include "util.h"
 
 void dropCommand(AppContext* app, char** argv, int argc)
 {
@@ -71,12 +72,16 @@ int dropDatabaseCommand(AppContext* app, char* name, int ifExists)
 int dropTableCommand(AppContext* app, const char** argv, int argc, int isExists)
 {
 	
+	if(!checkDatabaseConnection(app))
+		return;
+
 	char** tableNames = NULL;
 	int tableSize = 0;
 
 	SqlError err = extractDropTableNames(&tableNames, &tableSize ,argv, argc, isExists);
 
+	printError(err);
 
-
+	freeCharArr(tableNames, tableSize);
 
 }
