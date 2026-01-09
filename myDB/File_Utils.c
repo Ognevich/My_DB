@@ -543,6 +543,16 @@ int removeDirRecursive(const char* path)
 #endif
 }
 
+int removeFile(const char* path)
+{
+	if (remove(path) == 0)
+	{
+		return 1; 
+	}
+
+	printf("File does not exist or permission denied\n");
+	return 0;
+}
 void increaseMeta(const char* dbname)
 {
 	char filePath[DEFAULT_BUFF_SIZE];

@@ -56,10 +56,10 @@ Table* findTable(Database* db, const char* tableName)
     return NULL;
 }
 
-void deleteTable(Database* db, const char* tableName) {
+int deleteTable(Database* db, const char* tableName) {
     if (!db || !tableName) {
         fprintf(stderr, "deleteTable: invalid arguments\n");
-        return;
+        return 0;
     }
 
     int index = -1;
@@ -73,7 +73,7 @@ void deleteTable(Database* db, const char* tableName) {
 
     if (index == -1) {
         fprintf(stderr, "deleteTable: table '%s' not found\n", tableName);
-        return;
+        return 0;
     }
 
     freeTable(db->tables[index]);
@@ -96,6 +96,7 @@ void deleteTable(Database* db, const char* tableName) {
     }
 
     printf("Table '%s' deleted successfully\n", tableName);
+    return 1;
 
 }
 

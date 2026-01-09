@@ -73,7 +73,7 @@ int dropTableCommand(AppContext* app, const char** argv, int argc, int isExists)
 {
 	
 	if(!checkDatabaseConnection(app))
-		return;
+		return 0;
 
 	char** tableNames = NULL;
 	int tableSize = 0;
@@ -82,6 +82,31 @@ int dropTableCommand(AppContext* app, const char** argv, int argc, int isExists)
 
 	printError(err);
 
-	freeCharArr(tableNames, tableSize);
+	for (int i = 0; i < tableSize; i++)
+	{
+		const char* name = tableNames[i];
 
+		if (isTableExists(app->currentDatabase, name))
+		{
+			char path[DEFAULT_BUFF_SIZE * 2];
+			snprintf(path, sizeof(path), "%s/%s/%s.tbl", DB_ROOT, app->currentDatabase->name, name);
+
+			if (!removeFile(path))
+				return 0;
+
+			if (!deleteTable(app->currentDatabase, name))
+				return 0;
+
+		}
+		else
+		{
+			printf("Error: table %s does not exists\n", tableNames[i]);
+			return 0;
+		}
+	}
+		
+
+
+	freeCharArr(tableNames, tableSize);
+	return 1;
 }

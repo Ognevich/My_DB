@@ -42,3 +42,4 @@
 [13:51:58] [ERROR] Unknown object type: IF
 [13:03:28] [ERROR] Usage: CREATE DATABASE|TABLE <name> [IF NOT EXISTS]
 [13:04:14] [ERROR] Usage: SHOW TABLE
+[16:57:04] [ERROR] Unknown object type: databse

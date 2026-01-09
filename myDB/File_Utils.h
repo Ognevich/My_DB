@@ -40,5 +40,6 @@ int		saveTableToFile(Table* table, AppContext* app, const char* name, const char
 int		appendTableRowsToFile(Field* fields, int size, const char * dbName, const char * tableName);
 
 int		removeDirRecursive(const char* path);
+int		removeFile(const char* path);
 
 #endif
