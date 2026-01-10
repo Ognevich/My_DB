@@ -111,6 +111,9 @@
     <ClCompile Include="parser_drop.c">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="astNode.c">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="parser_drop.h">
       <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="astNode.h">
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

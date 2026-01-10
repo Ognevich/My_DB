@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="app.c" />
+    <ClCompile Include="astNode.c" />
     <ClCompile Include="commandValidators.c" />
     <ClCompile Include="createCommand.c" />
     <ClCompile Include="database.c" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h" />
+    <ClInclude Include="astNode.h" />
     <ClInclude Include="commandHandler.h" />
     <ClInclude Include="commandValidators.h" />
     <ClInclude Include="config.h" />
