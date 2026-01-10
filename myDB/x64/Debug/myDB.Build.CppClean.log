@@ -13,6 +13,7 @@ d:\my_projects\c\mydb\mydb\x64\debug\parse_util.obj
 d:\my_projects\c\mydb\mydb\x64\debug\parser_select.obj
 d:\my_projects\c\mydb\mydb\x64\debug\parser_keywords.obj
 d:\my_projects\c\mydb\mydb\x64\debug\parser_insert.obj
+d:\my_projects\c\mydb\mydb\x64\debug\parser_drop.obj
 d:\my_projects\c\mydb\mydb\x64\debug\parser_create.obj
 d:\my_projects\c\mydb\mydb\x64\debug\dropcommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\database.obj
@@ -23,6 +24,14 @@ d:\my_projects\c\mydb\mydb\x64\debug\util.obj
 d:\my_projects\c\mydb\mydb\x64\debug\usecommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\unusecommand.obj
 d:\my_projects\c\mydb\mydb\x64\debug\tokenizer.obj
+d:\my_projects\c\mydb\x64\debug\mydb.exe
+d:\my_projects\c\mydb\x64\debug\mydb.pdb
+d:\my_projects\c\mydb\mydb\x64\debug\mydb.ilk
 d:\my_projects\c\mydb\mydb\x64\debug\mydb.tlog\cl.command.1.tlog
+d:\my_projects\c\mydb\mydb\x64\debug\mydb.tlog\cl.items.tlog
 d:\my_projects\c\mydb\mydb\x64\debug\mydb.tlog\cl.read.1.tlog
 d:\my_projects\c\mydb\mydb\x64\debug\mydb.tlog\cl.write.1.tlog
+d:\my_projects\c\mydb\mydb\x64\debug\mydb.tlog\link.command.1.tlog
+d:\my_projects\c\mydb\mydb\x64\debug\mydb.tlog\link.read.1.tlog
+d:\my_projects\c\mydb\mydb\x64\debug\mydb.tlog\link.secondary.1.tlog
+d:\my_projects\c\mydb\mydb\x64\debug\mydb.tlog\link.write.1.tlog

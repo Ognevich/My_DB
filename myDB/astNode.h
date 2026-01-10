@@ -11,6 +11,21 @@ typedef enum {
     AST_CONDITION,
     AST_AND,
     AST_OR
-} aspNodeType;
+} astNodeType;
+
+typedef struct astNode
+{
+    astNodeType type;
+    struct astNode* left;
+    struct astNode* right;
+    char* table;
+    char* column;
+    char* value;
+    int op;
+}astNode;
+
+astNode* createAstNode(astNodeType  type);
+void freeAstNode(astNode* node);
+
 
 #endif;
