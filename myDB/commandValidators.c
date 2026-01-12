@@ -146,8 +146,13 @@ int validateSelectAst(AppContext* app, astNode* ast)
         return 0;
     }
 
-    if (ast->left && ast->left->type == AST_COLUMN && strcmp(ast->left->column, "*") == 0)
+    if (ast->left &&
+        ast->left->type == AST_COLUMN &&
+        ast->left->column &&                
+        strcmp(ast->left->column, "*") == 0)
+    {
         return 1;
+    }
 
     for (astNode* col = ast->left; col; col = col->right) {
         if (col->type != AST_COLUMN) {

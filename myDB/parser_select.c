@@ -125,7 +125,7 @@ astNode* parseSelect(const char** argv, int argc, SqlError* error)
 
     * error = extractSelectList(argv, argc, &selectArray, &selectArraySize);
 
-    if (error != SQL_OK)
+    if (*error != SQL_OK)
         return select;
 
     select->left = buildColumnList(argv, argc);
