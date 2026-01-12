@@ -41,10 +41,9 @@ D:\my_projects\C\myDB\myDB\insertCommand.c(156,26): warning C4133: 'function': i
 D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
+D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
-D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
-D:\my_projects\C\myDB\myDB\parser_select.c(121,1): warning C4716: 'parseSelect': must return a value
 D:\my_projects\C\myDB\myDB\createCommand.c(58,1): warning C4715: 'createDatabaseCommand': not all control paths return a value
   Compiling...
   table.c
@@ -58,8 +57,8 @@ D:\my_projects\C\myDB\myDB\util.c(33,13): warning C4133: 'initializing': incompa
 D:\my_projects\C\myDB\myDB\util.c(68,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\util.c(123,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 D:\my_projects\C\myDB\myDB\util.c(132,19): warning C5286: implicit conversion from enum type 'sqlValuesType' to enum type 'FieldType'; use an explicit cast to silence this warning
-D:\my_projects\C\myDB\myDB\util.c(250,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\my_projects\C\myDB\myDB\util.c(291,19): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(251,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(292,19): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,

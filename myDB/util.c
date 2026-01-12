@@ -163,6 +163,7 @@ const char* sqlErrorToString(SqlError err) {
     case SQL_ERR_FORBIDDEN_SYMBOL: return "Forbidden symbol found";
     case SQL_ERR_MISSING_PAREN: return "Missing parenthesis";
     case SQL_ERR_INVALID_ARGUMENT: return "Invalid argument";
+    case SQL_TABLE_NOT_FOUND: return "Table not found";
     default: return "Unknown error";
     }
 }

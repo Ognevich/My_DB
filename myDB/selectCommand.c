@@ -3,6 +3,8 @@
 #include "commandValidators.h"
 #include "util.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 void selectCommand(AppContext* app, const char** argv, int argc)
 {
@@ -51,4 +53,30 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 
 	freeTwoDimArray(&selectArray, selectArraySize);
 
+}
+
+void executeSelect(AppContext* app, astNode* ast)
+{
+	Table* table = findTable(app->currentDatabase, ast->table);
+
+	if (!ast->left && ast->type == AST_COLUMN && strcmp(ast->left->column, "*") == 0)
+	{
+		printTable(table);
+		return;
+	}
+
+	int count = 0; 
+
+	for (astNode* c = ast->left; c; ast->right)
+		count++;
+
+	char** columns = malloc(sizeof(char * ) * count);
+
+	int i = 0;
+	
+	for (astNode* c = ast->left; c; ast->right)
+		columns[i++] = c->column;
+
+	printSelectedColumns(table, columns, count);
+	free(columns);
 }

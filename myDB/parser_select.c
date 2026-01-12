@@ -4,6 +4,7 @@
 #include "parse_util.h"
 #include <string.h>
 #include "config.h"
+#include "util.h"
 
 typedef enum {
     SELECT_EXPECT_COLUMN,
@@ -115,7 +116,29 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
     return 0;
 }
 
-astNode* parseSelect(AppContext* app, const char** argv, int argc)
+astNode* parseSelect(const char** argv, int argc, SqlError* error)
 {
+    astNode* select = createAstNode(AST_SELECT);
 
+    int selectArraySize = 0;
+    char** selectArray = NULL;
+
+    * error = extractSelectList(argv, argc, &selectArray, &selectArraySize);
+
+    if (error != SQL_OK)
+        return select;
+
+    select->left = buildColumnList(argv, argc);
+
+    char tableName[TABLE_NAME_SIZE];
+    if (!extractTableName(argv, argc, tableName, TABLE_NAME_SIZE))
+    {
+        *error = SQL_TABLE_NOT_FOUND;
+        return select;
+    }
+
+    select->table = _strdup(tableName);
+
+    freeTwoDimArray(&selectArray, selectArraySize);
+    return select;
 }

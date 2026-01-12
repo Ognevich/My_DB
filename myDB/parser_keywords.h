@@ -11,6 +11,7 @@ typedef enum {
     SQL_ERR_FORBIDDEN_SYMBOL,
     SQL_ERR_MISSING_PAREN,
     SQL_ERR_INVALID_ARGUMENT,
+    SQL_TABLE_NOT_FOUND
 } SqlError;
 
 typedef enum {

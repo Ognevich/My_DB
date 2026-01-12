@@ -7,6 +7,6 @@
 SqlError	extractSelectList(const char** argv, int argc, char *** outList ,int* listArgs);
 int			extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize);
 
-astNode*	parseSelect(AppContext*app, const char ** argv, int argc);
+astNode*	parseSelect(const char ** argv, int argc, SqlError* error);
 
 #endif

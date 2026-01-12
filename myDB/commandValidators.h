@@ -1,6 +1,7 @@
 #ifndef _COMMAND_VALIDATORS_H_
 #define _COMMAND_VALIDATORS_H_
 #include "programState.h"
+#include "astNode.h"
 
 int checkDatabaseConnection(AppContext* app);
 int checkTableExists(AppContext* app, const char* name, int ifNotExists);
@@ -11,8 +12,11 @@ int checkCreateTableArguments(const char *** argv, int argc);
 
 int checkUseCommandValidation(AppContext* app, int argc);
 int checkUnuseCommandValidation(AppContext* app, int argc);
+
 int checkSelectCommandValidation(AppContext* app, int argc);
 int checkSelectCommandArgsValidation(const char ** argv, int argc);
+int validateSelectAst(AppContext* app, astNode* ast);
+
 int checkInsertCommandValidation(AppContext* app, const char ** argv,int argc);
 int checkInsertColumnValidation(char ** extractedColumns, int ColumnsSize, Table * table );
 

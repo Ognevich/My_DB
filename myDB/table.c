@@ -323,6 +323,16 @@ int isColumnsExists(const char** selectArray, int selectArraySize, Table* table,
     return 1; 
 }
 
+int isColumnExists(Table* table, const char* column)
+{
+    for (int i = 0; i < table->columnCount; i++)
+    {
+        if (strcmp(table->columns[i].name, column) == 0)
+            return 1;
+    }
+    return 0;
+}
+
 int findTableColumnIndex(Table* table, const char* colName)
 {
     for (int i = 0; i < table->columnCount; i++) {

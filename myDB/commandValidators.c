@@ -133,6 +133,40 @@ int checkSelectCommandArgsValidation(const char** argv, int argc)
     return 1;
 }
 
+int validateSelectAst(AppContext* app, astNode* ast)
+{
+    if (!ast || ast->type != AST_SELECT)
+        return 0;
+
+    Table* table = findTable(app->currentDatabase, ast->table);
+
+    if (!table)
+    {
+        printf("Error: Table %s doesn't exist\n", ast->table);
+        return 0;
+    }
+
+    if (ast->left && ast->left->type == AST_COLUMN && strcmp(ast->left->column, "*") == 0)
+        return 1;
+
+    for (astNode* col = ast->left; col; col = col->right) {
+        if (col->type != AST_COLUMN) {
+            printf("Internal AST error\n");
+            return 0;
+        }
+        
+        if (!isColumnExists(table, col->column))
+        {
+            printf("Error: Column %s doesn't exist\n", col->column);
+            return 0;
+        }
+    
+    }
+
+    return 1;
+
+}
+
 int checkInsertCommandValidation(AppContext* app, const char** argv, int argc)
 {
     if (argc < 7) {
