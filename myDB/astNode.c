@@ -1,20 +1,35 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "astNode.h"
 #include "parse_util.h"
 #include <stdlib.h>
 
 astNode* createAstNode(astNodeType  type)
 {
-	astNode* node = safe_malloc(sizeof(astNode*));
-
+	astNode* node = calloc(1,sizeof(astNode*));
 	node->type = type;
-	node->left = NULL;
-	node->right = NULL;
-	node->table = NULL;
-	node->column = NULL;
-	node->value = NULL;
-	node->op = 0;
 
 	return node;
+}
+
+astNode* buildColumnList(const char** argv, int argc)
+{
+	astNode* head = NULL;
+	astNode* current = NULL;
+
+	for (int i = 0; i < argc; i++)
+	{
+		astNode* node = createAstNode(AST_COLUMN);
+		if (!node) return NULL;
+
+		if (!head)
+			head = node;
+		else
+			current->right = node;
+
+		current = node;
+
+	}
+	return head;
 }
 
 void freeAstNode(astNode* node)

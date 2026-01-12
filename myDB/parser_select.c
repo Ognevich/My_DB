@@ -114,3 +114,8 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
 
     return 0;
 }
+
+astNode* parseSelect(AppContext* app, const char** argv, int argc)
+{
+
+}

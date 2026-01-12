@@ -9,6 +9,7 @@ typedef enum {
     AST_UPDATE,
     AST_WHERE,
     AST_CONDITION,
+    AST_COLUMN,
     AST_AND,
     AST_OR
 } astNodeType;
@@ -25,6 +26,7 @@ typedef struct astNode
 }astNode;
 
 astNode* createAstNode(astNodeType  type);
+astNode* buildColumnList(const char** argv, int argc);
 void freeAstNode(astNode* node);
 
 
