@@ -12,7 +12,7 @@ typedef enum {
     SELECT_END,
 }extractSelectArgsState;
 
-SqlError extractSelectList(const char** argv, int argc, char*** outList, int* listArgs)
+static SqlError extractSelectList(const char** argv, int argc, char*** outList, int* listArgs)
 {
     if (!argv || argc < 2 || !outList || !listArgs)
         return SQL_ERR_INVALID_ARGUMENT;
@@ -96,7 +96,7 @@ SqlError extractSelectList(const char** argv, int argc, char*** outList, int* li
 }
 
 
-int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize)
+static int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSize)
 {
     int foundFrom = 0;
 

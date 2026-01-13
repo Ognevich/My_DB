@@ -6,6 +6,7 @@
 #include "parser.h"
 #include <stdlib.h>
 #include "File_Utils.h"
+#include "astNode.h"
 
 typedef enum {
     INSERT_STATE_START,
@@ -19,6 +20,10 @@ typedef enum {
 void insertCommand(AppContext* app, const char** argv, int argc)
 {
     if (checkInsertCommandValidation(app, argv, argc) <= 0)
+        return;
+
+    astNode* node = createAstNode(AST_INSERT);
+    if (!node)
         return;
 
     Table* table = findTable(app->currentDatabase, argv[2]);
@@ -45,8 +50,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
         case INSERT_STATE_COLUMNS:
         {
-            SqlError err = extractColumnsToInsert(
-                argv, argc, ++index, &extractedColumns, &columnsSize);
+            SqlError err = extractColumnsToInsert(argv, argc, ++index, &extractedColumns, &columnsSize);
             printError(err);
 
             if (!checkInsertColumnValidation(extractedColumns, columnsSize, table)) {
