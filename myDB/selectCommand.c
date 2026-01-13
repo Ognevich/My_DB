@@ -35,26 +35,30 @@ void selectCommand(AppContext* app, const char** argv, int argc)
 
 void executeSelect(AppContext* app, astNode* ast)
 {
-	Table* table = findTable(app->currentDatabase, ast->table);
+    Table* table = findTable(app->currentDatabase, ast->table);
+    if (!table)
+        return;
 
-	if (!ast->left && ast->type == AST_COLUMN && strcmp(ast->left->column, "*") == 0)
-	{
-		printTable(table);
-		return;
-	}
+    if (ast->left &&
+        ast->left->type == AST_COLUMN &&
+        strcmp(ast->left->column, "*") == 0)
+    {
+        printTable(table);
+        return;
+    }
 
-	int count = 0; 
+    int count = 0;
+    for (astNode* c = ast->left; c; c = c->right)
+        count++;
 
-	for (astNode* c = ast->left; c; ast->right)
-		count++;
+    char** columns = malloc(sizeof(char*) * count);
+    if (!columns)
+        return;
 
-	char** columns = malloc(sizeof(char * ) * count);
+    int i = 0;
+    for (astNode* c = ast->left; c; c = c->right)
+        columns[i++] = c->column;
 
-	int i = 0;
-	
-	for (astNode* c = ast->left; c; ast->right)
-		columns[i++] = c->column;
-
-	printSelectedColumns(table, columns, count);
-	free(columns);
+    printSelectedColumns(table, columns, count);
+    free(columns);
 }

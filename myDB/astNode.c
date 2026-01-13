@@ -2,34 +2,42 @@
 #include "astNode.h"
 #include "parse_util.h"
 #include <stdlib.h>
+#include <string.h>
 
 astNode* createAstNode(astNodeType  type)
 {
-	astNode* node = calloc(1,sizeof(astNode*));
-	node->type = type;
+	astNode* node = calloc(1,sizeof(astNode));
 
+	if (!node)
+		return NULL;
+
+	node->type = type;
 	return node;
 }
 
-astNode* buildColumnList(const char** argv, int argc)
+astNode* buildColumnList(char** columns, int count)
 {
-	astNode* head = NULL;
-	astNode* current = NULL;
+    astNode* head = NULL;
+    astNode* current = NULL;
 
-	for (int i = 0; i < argc; i++)
-	{
-		astNode* node = createAstNode(AST_COLUMN);
-		if (!node) return NULL;
+    for (int i = 0; i < count; i++) {
+        astNode* node = createAstNode(AST_COLUMN);
+        if (!node) {
+            freeAstNode(head);
+            return NULL;
+        }
 
-		if (!head)
-			head = node;
-		else
-			current->right = node;
+        node->column = _strdup(columns[i]);
 
-		current = node;
+        if (!head)
+            head = node;
+        else
+            current->right = node;
 
-	}
-	return head;
+        current = node;
+    }
+
+    return head;
 }
 
 void freeAstNode(astNode* node)

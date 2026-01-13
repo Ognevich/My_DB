@@ -118,23 +118,31 @@ int extractTableName(const char** argv, int argc, char* outBuffer, size_t bufSiz
 
 astNode* parseSelect(const char** argv, int argc, SqlError* error)
 {
+    *error = SQL_OK;
+
     astNode* select = createAstNode(AST_SELECT);
+    if (!select) {
+        *error = SQL_ERR_MEMORY;
+        return NULL;
+    }
 
     int selectArraySize = 0;
     char** selectArray = NULL;
 
-    * error = extractSelectList(argv, argc, &selectArray, &selectArraySize);
+    *error = extractSelectList(argv, argc, &selectArray, &selectArraySize);
+    if (*error != SQL_OK) {
+        freeAstNode(select);
+        return NULL;
+    }
 
-    if (*error != SQL_OK)
-        return select;
-
-    select->left = buildColumnList(argv, argc);
+    select->left = buildColumnList(selectArray, selectArraySize);
 
     char tableName[TABLE_NAME_SIZE];
-    if (!extractTableName(argv, argc, tableName, TABLE_NAME_SIZE))
-    {
+    if (!extractTableName(argv, argc, tableName, TABLE_NAME_SIZE)) {
         *error = SQL_TABLE_NOT_FOUND;
-        return select;
+        freeTwoDimArray(&selectArray, selectArraySize);
+        freeAstNode(select);
+        return NULL;
     }
 
     select->table = _strdup(tableName);
