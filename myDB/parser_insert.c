@@ -101,6 +101,28 @@ SqlError extractColumnsToInsert(const char** argv, int argc, int startPos, char*
     return SQL_OK;
 }
 
+SqlError parseInsertValues(astNode* node, const char** argv, int argc)
+{
+    const parsedValue*** extractedValues = NULL;
+    int valuesSize = 0;
+
+
+    if (extractedValues)
+        freeParsedValues(extractedValues, valuesSize);
+}
+
+SqlError parseInsertColumns(astNode* node, const char** argv, int argc)
+{
+    const char** extractedColumns = NULL;
+    int columnsSize = 0;
+
+
+
+
+    if (extractedColumns)
+        freeTwoDimArray((void***)&extractedColumns, columnsSize);
+}
+
 int isColumninExtractedValues(const char* name, char** columns, int size)
 {
     for (int i = 0; i < size; i++) {

@@ -28,12 +28,6 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
     Table* table = findTable(app->currentDatabase, argv[2]);
 
-    const char** extractedColumns = NULL;
-    const parsedValue*** extractedValues = NULL;
-
-    int columnsSize = 0;
-    int valuesSize = 0;
-    int columnCount = 0;
 
     int index = 3;
     InsertState state = INSERT_STATE_START;
@@ -82,7 +76,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
         case INSERT_STATE_VALUES:
         {
-            columnCount = columnsSize ? columnsSize : table->columnCount;
+            int columnCount = columnsSize ? columnsSize : table->columnCount;
 
             SqlError err = extractedValuesToInsert(
                 argv, argc, index,
@@ -152,12 +146,6 @@ void insertCommand(AppContext* app, const char** argv, int argc)
             state = INSERT_STATE_END;
         }
     }
-
-    if (extractedColumns)
-        freeTwoDimArray((void***)&extractedColumns, columnsSize);
-
-    if (extractedValues)
-        freeParsedValues(extractedValues, valuesSize);
 }
 
 
