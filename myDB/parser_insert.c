@@ -23,7 +23,7 @@ typedef enum {
     INSERT_VALUESARGS_EXPECT_COMMA,
 }extractValuesArgsState;
 
-SqlError extractColumnsToInsert(const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize)
+static SqlError extractColumnsToInsert(const char** argv, int argc, int startPos, char*** outColumn, int* columnsSize)
 {
     if (!argv || !outColumn || !columnsSize || startPos >= argc)
         return SQL_OK;
@@ -127,17 +127,23 @@ SqlError parseInsertColumns(astNode* node, Table * t,const char** argv, int argc
     }
 
     if (!checkInsertColumnValidation(extractedColumns, columnsSize, t)) {
+        freeTwoDimArray(&extractedColumns, columnsSize);
         *state = INSERT_STATE_END;
         return SQL_ERR_DEFAULT;
     }
 
-    if (!extractedColumns || columnsSize > t->columnCount) {
-        printf("ERROR: wrong columns\n");
+    if (columnsSize <= 0 || columnsSize > t->columnCount) {
+        freeTwoDimArray(&extractedColumns, columnsSize);
         *state = INSERT_STATE_END;
         return SQL_ERR_DEFAULT;
     }
 
-
+    node->left = buildColumnList(extractedColumns, columnsSize);
+    if (!node->left) {
+        freeTwoDimArray((void***)&extractedColumns, columnsSize);
+        *state = INSERT_STATE_END;
+        return SQL_ERR_MEMORY;
+    }
 
     freeTwoDimArray((void***)&extractedColumns, columnsSize);
 
@@ -294,7 +300,9 @@ static int parseRow(const char** argv, int argc, int* index, parsedValue *** out
     return 0;
 }
 
-SqlError extractedValuesToInsert(const char** argv, int argc, int startPos,parsedValue **** outValues,int* valuesSize, int columnCount)
+static SqlError extractedValuesToInsert(const char** argv, 
+    int argc, int startPos,parsedValue **** outValues,
+    int* valuesSize, int columnCount)
 {
     *valuesSize = 0;
     if (!argv || startPos >= argc)

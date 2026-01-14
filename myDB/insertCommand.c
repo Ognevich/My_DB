@@ -15,6 +15,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         return;
 
     astNode* node = createAstNode(AST_INSERT);
+    node->table = argv[2];
     if (!node)
         return;
 
@@ -59,6 +60,9 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
         case INSERT_STATE_VALUES:
         {
+
+            SqlError err = parseInsertValues();
+
             int columnCount = columnsSize ? columnsSize : table->columnCount;
 
             SqlError err = extractedValuesToInsert(

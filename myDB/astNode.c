@@ -40,6 +40,33 @@ astNode* buildColumnList(char** columns, int count)
     return head;
 }
 
+astNode* buildValuesList(const char** values, int size)
+{
+    astNode* head = NULL;
+    astNode* current = NULL;
+
+    for (int i = 0; i < size; i++)
+    {
+        astNode* node = createAstNode(AST_VALUE);
+
+        if (!node)
+        {
+            freeAstNode(node);
+            return NULL;
+        }
+
+        node->value = _strdup(values[i]);
+
+        if (!head)
+            head = node;
+        else 
+            head->right = node;
+        
+        current = node;
+    }
+    return head;
+}
+
 void freeAstNode(astNode* node)
 {
 	if (!node) return;
