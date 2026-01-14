@@ -67,6 +67,30 @@ astNode* buildValuesList(const char** values, int size)
     return head;
 }
 
+int astListLenght(astNode* node)
+{
+    
+    int count = 0;
+
+    while (node)
+    {
+        count++;
+        node = node->right;
+    }
+    return count;
+}
+
+astNode* astListAt(astNode* node, int index)
+{
+    for (int i = 0; node && i < index; i++)
+    {
+        node = node->right;
+    }
+    return node;
+}
+
+
+
 void freeAstNode(astNode* node)
 {
 	if (!node) return;

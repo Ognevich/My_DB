@@ -8,6 +8,15 @@
 #include "File_Utils.h"
 #include "astNode.h"
 
+typedef enum {
+    INSERT_STATE_START,
+    INSERT_STATE_COLUMNS,
+    INSERT_STATE_EXPECT_VALUES,
+    INSERT_STATE_VALUES,
+    INSERT_STATE_EXECUTE,
+    INSERT_STATE_END
+} InsertState;
+
 
 void insertCommand(AppContext* app, const char** argv, int argc)
 {
@@ -41,9 +50,13 @@ void insertCommand(AppContext* app, const char** argv, int argc)
             index++;
             SqlError err = parseInsertColumns(node,table, argv, argc, &state, &index);
 
-            if (state == INSERT_STATE_END)
-                break;
+            if (err != SQL_OK)
+            {
+                printError(err);
+                state = INSERT_STATE_END;
+            }
 
+            state = INSERT_STATE_EXPECT_VALUES;
             break;
         }
 

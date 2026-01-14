@@ -113,7 +113,7 @@ SqlError parseInsertValues(astNode* node, const char** argv, int argc)
         freeParsedValues(extractedValues, valuesSize);;
 }
 
-SqlError parseInsertColumns(astNode* node, Table * t,const char** argv, int argc, InsertState * state, int * index)
+SqlError parseInsertColumns(astNode* node, Table * t,const char** argv, int argc, int * index)
 {
     const char** extractedColumns = NULL;
     int columnsSize = 0;
@@ -121,34 +121,27 @@ SqlError parseInsertColumns(astNode* node, Table * t,const char** argv, int argc
     SqlError err = extractColumnsToInsert(argv, argc, *index, &extractedColumns, &columnsSize);
     
     if (err)
-    {
-        freeTwoDimArray(&extractedColumns, columnsSize);
         return err;
-    }
 
     if (!checkInsertColumnValidation(extractedColumns, columnsSize, t)) {
         freeTwoDimArray(&extractedColumns, columnsSize);
-        *state = INSERT_STATE_END;
         return SQL_ERR_DEFAULT;
     }
 
     if (columnsSize <= 0 || columnsSize > t->columnCount) {
         freeTwoDimArray(&extractedColumns, columnsSize);
-        *state = INSERT_STATE_END;
         return SQL_ERR_DEFAULT;
     }
 
     node->left = buildColumnList(extractedColumns, columnsSize);
+    freeTwoDimArray((void***)&extractedColumns, columnsSize);
+
     if (!node->left) {
-        freeTwoDimArray((void***)&extractedColumns, columnsSize);
-        *state = INSERT_STATE_END;
         return SQL_ERR_MEMORY;
     }
 
-    freeTwoDimArray((void***)&extractedColumns, columnsSize);
 
-    *index = *index + columnsSize + (columnsSize - 1) + 1;
-    *state = INSERT_STATE_EXPECT_VALUES;
+    *index += columnsSize * 2;
     return SQL_OK;
 
 }

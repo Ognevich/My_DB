@@ -31,6 +31,9 @@ astNode* createAstNode(astNodeType  type);
 astNode* buildColumnList(const char** columns, int size);
 astNode* buildValuesList(const char** values, int size);
 
+int astListLenght(astNode * node);
+astNode* astListAt(astNode* node, int index);
+
 void freeAstNode(astNode* node);
 
 

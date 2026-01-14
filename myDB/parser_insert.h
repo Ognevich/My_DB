@@ -4,17 +4,8 @@
 #include "astNode.h"
 #include "insertCommand.h"
 
-typedef enum {
-    INSERT_STATE_START,
-    INSERT_STATE_COLUMNS,
-    INSERT_STATE_EXPECT_VALUES,
-    INSERT_STATE_VALUES,
-    INSERT_STATE_EXECUTE,
-    INSERT_STATE_END
-} InsertState;
-
 SqlError parseInsertValues(astNode * node, const char ** argv, int argc);
-SqlError parseInsertColumns(astNode* node, Table* t, const char** argv, int argc, InsertState* state, int* startPos);
+SqlError parseInsertColumns(astNode* node, Table* t, const char** argv, int argc, int* startPos);
 
 int	     isColumninExtractedValues(const char* name, char ** columns,int size);
 

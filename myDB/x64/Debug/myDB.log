@@ -13,8 +13,8 @@ D:\my_projects\C\myDB\myDB\createCommand.c(55,3): warning C4033: 'createDatabase
 D:\my_projects\C\myDB\myDB\parser_drop.c(94,39): warning C4090: 'function': different 'const' qualifiers
   parser_insert.c
 D:\my_projects\C\myDB\myDB\parser_insert.c(113,26): warning C4133: 'function': incompatible types - from 'const parsedValue ***' to 'char ***'
-D:\my_projects\C\myDB\myDB\parser_insert.c(185,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\my_projects\C\myDB\myDB\parser_insert.c(336,36): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parser_insert.c(178,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\parser_insert.c(329,36): warning C4090: 'function': different 'const' qualifiers
   parser_keywords.c
 D:\my_projects\C\myDB\myDB\parser_keywords.c(13,13): warning C4013: '_stricmp' undefined; assuming extern returning int
   parser_select.c
@@ -32,38 +32,40 @@ D:\my_projects\C\myDB\myDB\File_Utils.c(178,3): warning C4033: 'scanDatabase' mu
 D:\my_projects\C\myDB\myDB\File_Utils.c(422,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 D:\my_projects\C\myDB\myDB\File_Utils.c(456,3): warning C4033: 'saveTableToFile' must return a value
   insertCommand.c
-D:\my_projects\C\myDB\myDB\insertCommand.c(18,17): warning C4090: '=': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\insertCommand.c(64,28): error C2198: 'SqlError parseInsertValues(astNode *,const char **,int)': too few arguments for call
-D:\my_projects\C\myDB\myDB\insertCommand.c(66,31): error C2065: 'columnsSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(66,45): error C2065: 'columnsSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(68,22): error C2374: 'err': redefinition; multiple initialization
-      D:\my_projects\C\myDB\myDB\insertCommand.c(64,22):
+D:\my_projects\C\myDB\myDB\insertCommand.c(27,17): warning C4090: '=': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\insertCommand.c(51,71): warning C4133: 'function': incompatible types - from 'InsertState *' to 'int *'
+D:\my_projects\C\myDB\myDB\insertCommand.c(51,79): error C2197: 'SqlError parseInsertColumns(astNode *,Table *,const char **,int,int *)': too many arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(77,28): error C2198: 'SqlError parseInsertValues(astNode *,const char **,int)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(79,31): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(79,45): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(81,22): error C2374: 'err': redefinition; multiple initialization
+      D:\my_projects\C\myDB\myDB\insertCommand.c(77,22):
       see declaration of 'err'
   
-D:\my_projects\C\myDB\myDB\insertCommand.c(68,28): warning C4013: 'extractedValuesToInsert' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\insertCommand.c(70,18): error C2065: 'extractedValues': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(70,36): error C2065: 'valuesSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(73,18): error C2065: 'extractedValues': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(83,31): error C2065: 'extractedValues': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(83,31): warning C4047: 'function': 'parsedValue ***' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\insertCommand.c(83,31): warning C4024: 'printInsertValues': different types for formal and actual parameter 1
-D:\my_projects\C\myDB\myDB\insertCommand.c(83,48): error C2065: 'valuesSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(85,33): error C2065: 'valuesSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(90,21): error C2065: 'columnsSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(94,61): error C2065: 'extractedValues': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(94,76): error C2109: subscript requires array or pointer type
-D:\my_projects\C\myDB\myDB\insertCommand.c(94,84): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
-D:\my_projects\C\myDB\myDB\insertCommand.c(94,84): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
-D:\my_projects\C\myDB\myDB\insertCommand.c(94,30): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
-D:\my_projects\C\myDB\myDB\insertCommand.c(102,41): error C2065: 'columnsSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(103,68): error C2065: 'extractedColumns': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(103,84): error C2109: subscript requires array or pointer type
-D:\my_projects\C\myDB\myDB\insertCommand.c(103,40): error C2198: 'int findTableColumnIndex(Table *,const char *)': too few arguments for call
-D:\my_projects\C\myDB\myDB\insertCommand.c(110,68): error C2065: 'extractedValues': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(110,83): error C2109: subscript requires array or pointer type
-D:\my_projects\C\myDB\myDB\insertCommand.c(110,91): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
-D:\my_projects\C\myDB\myDB\insertCommand.c(110,91): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
-D:\my_projects\C\myDB\myDB\insertCommand.c(110,30): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(81,28): warning C4013: 'extractedValuesToInsert' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\insertCommand.c(83,18): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(83,36): error C2065: 'valuesSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(86,18): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(96,31): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(96,31): warning C4047: 'function': 'parsedValue ***' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\insertCommand.c(96,31): warning C4024: 'printInsertValues': different types for formal and actual parameter 1
+D:\my_projects\C\myDB\myDB\insertCommand.c(96,48): error C2065: 'valuesSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(98,33): error C2065: 'valuesSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(103,21): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(107,61): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(107,76): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(107,84): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
+D:\my_projects\C\myDB\myDB\insertCommand.c(107,84): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\insertCommand.c(107,30): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(115,41): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(116,68): error C2065: 'extractedColumns': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(116,84): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(116,40): error C2198: 'int findTableColumnIndex(Table *,const char *)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(123,68): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(123,83): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(123,91): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
+D:\my_projects\C\myDB\myDB\insertCommand.c(123,91): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\insertCommand.c(123,30): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
   logger.c
   main.c
   programState.c
