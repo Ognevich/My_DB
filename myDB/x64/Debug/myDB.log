@@ -1,23 +1,90 @@
 ﻿  app.c
+  astNode.c
+  commandValidators.c
 D:\my_projects\C\myDB\myDB\app.c(88,27): warning C4013: 'isspace' undefined; assuming extern returning int
 D:\my_projects\C\myDB\myDB\app.c(87,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  commandValidators.c
+D:\my_projects\C\myDB\myDB\astNode.c(18,33): warning C4028: formal parameter 1 different from declaration
   createCommand.c
 D:\my_projects\C\myDB\myDB\createCommand.c(55,3): warning C4033: 'createDatabaseCommand' must return a value
+  database.c
   dropCommand.c
-  insertCommand.c
-D:\my_projects\C\myDB\myDB\insertCommand.c(89,17): warning C4133: 'function': incompatible types - from 'const parsedValue ****' to 'char ****'
-D:\my_projects\C\myDB\myDB\insertCommand.c(160,26): warning C4133: 'function': incompatible types - from 'const parsedValue ***' to 'char ***'
+  parser_create.c
+  parser_drop.c
+D:\my_projects\C\myDB\myDB\parser_drop.c(94,39): warning C4090: 'function': different 'const' qualifiers
   parser_insert.c
-D:\my_projects\C\myDB\myDB\parser_insert.c(133,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\my_projects\C\myDB\myDB\parser_insert.c(251,93): warning C4028: formal parameter 4 different from declaration
-D:\my_projects\C\myDB\myDB\parser_insert.c(282,36): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parser_insert.c(113,26): warning C4133: 'function': incompatible types - from 'const parsedValue ***' to 'char ***'
+D:\my_projects\C\myDB\myDB\parser_insert.c(179,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\parser_insert.c(297,93): warning C4028: formal parameter 4 different from declaration
+D:\my_projects\C\myDB\myDB\parser_insert.c(328,36): warning C4090: 'function': different 'const' qualifiers
+  parser_keywords.c
+D:\my_projects\C\myDB\myDB\parser_keywords.c(13,13): warning C4013: '_stricmp' undefined; assuming extern returning int
   parser_select.c
+  parse_util.c
+D:\my_projects\C\myDB\myDB\parse_util.c(17,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(18,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(25,19): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(34,47): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(67,45): warning C4090: 'function': different 'const' qualifiers
+  specialCommnad.c
+  File_Utils.c
+D:\my_projects\C\myDB\myDB\File_Utils.c(159,30): warning C4047: 'function': 'const char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(159,30): warning C4024: 'fopen': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\File_Utils.c(178,3): warning C4033: 'scanDatabase' must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(422,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\my_projects\C\myDB\myDB\File_Utils.c(456,3): warning C4033: 'saveTableToFile' must return a value
+  insertCommand.c
+D:\my_projects\C\myDB\myDB\insertCommand.c(62,31): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(62,45): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(66,18): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(66,17): warning C4047: 'function': 'char ****' differs in levels of indirection from 'int *'
+D:\my_projects\C\myDB\myDB\insertCommand.c(66,17): warning C4024: 'extractedValuesToInsert': different types for formal and actual parameter 4
+D:\my_projects\C\myDB\myDB\insertCommand.c(66,36): error C2065: 'valuesSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(69,18): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(79,31): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(79,31): warning C4047: 'function': 'parsedValue ***' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\insertCommand.c(79,31): warning C4024: 'printInsertValues': different types for formal and actual parameter 1
+D:\my_projects\C\myDB\myDB\insertCommand.c(79,48): error C2065: 'valuesSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(81,33): error C2065: 'valuesSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(86,21): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(90,61): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(90,76): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(90,84): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
+D:\my_projects\C\myDB\myDB\insertCommand.c(90,84): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\insertCommand.c(90,30): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(98,41): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(99,68): error C2065: 'extractedColumns': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(99,84): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(99,40): error C2198: 'int findTableColumnIndex(Table *,const char *)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(106,68): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(106,83): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(106,91): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
+D:\my_projects\C\myDB\myDB\insertCommand.c(106,91): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\insertCommand.c(106,30): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
+  logger.c
+  main.c
   programState.c
   selectCommand.c
-  specialCommnad.c
+  showCommand.c
+D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
+D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
+D:\my_projects\C\myDB\myDB\parser_insert.c(114,1): warning C4716: 'parseInsertValues': must return a value
 D:\my_projects\C\myDB\myDB\createCommand.c(58,1): warning C4715: 'createDatabaseCommand': not all control paths return a value
-  myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
+  Compiling...
+  table.c
+  tokenizer.c
+D:\my_projects\C\myDB\myDB\tokenizer.c(16,13): warning C4013: 'isspace' undefined; assuming extern returning int
+D:\my_projects\C\myDB\myDB\tokenizer.c(39,24): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+  unuseCommand.c
+  useCommand.c
+  util.c
+D:\my_projects\C\myDB\myDB\util.c(33,13): warning C4133: 'initializing': incompatible types - from 'void ***' to 'char ***'
+D:\my_projects\C\myDB\myDB\util.c(68,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(123,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(132,19): warning C5286: implicit conversion from enum type 'sqlValuesType' to enum type 'FieldType'; use an explicit cast to silence this warning
+D:\my_projects\C\myDB\myDB\util.c(252,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(293,19): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...

@@ -139,7 +139,7 @@ astNode* parseSelect(const char** argv, int argc, SqlError* error)
 
     char tableName[TABLE_NAME_SIZE];
     if (!extractTableName(argv, argc, tableName, TABLE_NAME_SIZE)) {
-        *error = SQL_TABLE_NOT_FOUND;
+        *error = SQL_ERR_TABLE_NOT_FOUND;
         freeTwoDimArray(&selectArray, selectArraySize);
         freeAstNode(select);
         return NULL;

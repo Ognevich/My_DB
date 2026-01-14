@@ -8,14 +8,6 @@
 #include "File_Utils.h"
 #include "astNode.h"
 
-typedef enum {
-    INSERT_STATE_START,
-    INSERT_STATE_COLUMNS,
-    INSERT_STATE_EXPECT_VALUES,
-    INSERT_STATE_VALUES,
-    INSERT_STATE_EXECUTE,
-    INSERT_STATE_END
-} InsertState;
 
 void insertCommand(AppContext* app, const char** argv, int argc)
 {
@@ -29,14 +21,15 @@ void insertCommand(AppContext* app, const char** argv, int argc)
     Table* table = findTable(app->currentDatabase, argv[2]);
 
 
-    int index = 3;
     InsertState state = INSERT_STATE_START;
+    int index = 3;
 
     while (state != INSERT_STATE_END)
     {
         switch (state)
         {
         case INSERT_STATE_START:
+           
             state = (index < argc && strcmp(argv[index], "(") == 0)
                 ? INSERT_STATE_COLUMNS
                 : INSERT_STATE_EXPECT_VALUES;
@@ -44,22 +37,12 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
         case INSERT_STATE_COLUMNS:
         {
-            SqlError err = extractColumnsToInsert(argv, argc, ++index, &extractedColumns, &columnsSize);
-            printError(err);
+            index++;
+            SqlError err = parseInsertColumns(node,table, argv, argc, &state, &index);
 
-            if (!checkInsertColumnValidation(extractedColumns, columnsSize, table)) {
-                state = INSERT_STATE_END;
+            if (state == INSERT_STATE_END)
                 break;
-            }
 
-            if (!extractedColumns || columnsSize > table->columnCount) {
-                printf("ERROR: wrong columns\n");
-                state = INSERT_STATE_END;
-                break;
-            }
-
-            index = index + columnsSize + (columnsSize - 1) + 1;
-            state = INSERT_STATE_EXPECT_VALUES;
             break;
         }
 

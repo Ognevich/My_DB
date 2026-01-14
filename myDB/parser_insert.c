@@ -4,7 +4,7 @@
 #include "parse_util.h"
 #include <string.h>
 #include <stdlib.h>
-
+#include "commandValidators.h"
 
 typedef enum {
     INSERT_COLUMNS_EXPECT_COLUMN,
@@ -107,20 +107,44 @@ SqlError parseInsertValues(astNode* node, const char** argv, int argc)
     int valuesSize = 0;
 
 
+
+
     if (extractedValues)
-        freeParsedValues(extractedValues, valuesSize);
+        freeParsedValues(extractedValues, valuesSize);;
 }
 
-SqlError parseInsertColumns(astNode* node, const char** argv, int argc)
+SqlError parseInsertColumns(astNode* node, Table * t,const char** argv, int argc, InsertState * state, int * index)
 {
     const char** extractedColumns = NULL;
     int columnsSize = 0;
 
+    SqlError err = extractColumnsToInsert(argv, argc, *index, &extractedColumns, &columnsSize);
+    
+    if (err)
+    {
+        freeTwoDimArray(&extractedColumns, columnsSize);
+        return err;
+    }
+
+    if (!checkInsertColumnValidation(extractedColumns, columnsSize, t)) {
+        *state = INSERT_STATE_END;
+        return SQL_ERR_DEFAULT;
+    }
+
+    if (!extractedColumns || columnsSize > t->columnCount) {
+        printf("ERROR: wrong columns\n");
+        *state = INSERT_STATE_END;
+        return SQL_ERR_DEFAULT;
+    }
 
 
 
-    if (extractedColumns)
-        freeTwoDimArray((void***)&extractedColumns, columnsSize);
+    freeTwoDimArray((void***)&extractedColumns, columnsSize);
+
+    *index = *index + columnsSize + (columnsSize - 1) + 1;
+    *state = INSERT_STATE_EXPECT_VALUES;
+    return SQL_OK;
+
 }
 
 int isColumninExtractedValues(const char* name, char** columns, int size)
