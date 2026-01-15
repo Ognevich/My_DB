@@ -48,12 +48,13 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         case INSERT_STATE_COLUMNS:
         {
             index++;
-            SqlError err = parseInsertColumns(node,table, argv, argc, &state, &index);
+            SqlError err = parseInsertColumns(node,table, argv, argc,&index);
 
             if (err != SQL_OK)
             {
                 printError(err);
                 state = INSERT_STATE_END;
+                break;
             }
 
             state = INSERT_STATE_EXPECT_VALUES;
@@ -74,16 +75,11 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         case INSERT_STATE_VALUES:
         {
 
-            SqlError err = parseInsertValues();
+            SqlError err = parseInsertValues(node,table ,argv, argc, index);
 
-            int columnCount = columnsSize ? columnsSize : table->columnCount;
-
-            SqlError err = extractedValuesToInsert(
-                argv, argc, index,
-                &extractedValues, &valuesSize, columnCount);
-            printError(err);
-
-            if (!extractedValues) {
+            if (err)
+            {
+                printError(err);
                 state = INSERT_STATE_END;
                 break;
             }

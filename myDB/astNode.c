@@ -40,33 +40,48 @@ astNode* buildColumnList(char** columns, int count)
     return head;
 }
 
-astNode* buildValuesList(const char** values, int size)
+astNode* buildValuesList(const char*** values, int rows, int cols)
 {
-    astNode* head = NULL;
-    astNode* current = NULL;
+    astNode* rowsHead = NULL;
+    astNode* rowsCur = NULL;
 
-    for (int i = 0; i < size; i++)
-    {
-        astNode* node = createAstNode(AST_VALUE);
+    for (int i = 0; i < rows; i++) {
 
-        if (!node)
-        {
-            freeAstNode(node);
+        astNode* row = createAstNode(AST_ROW);
+        if (!row) {
+            freeAstNode(rowsHead);
             return NULL;
         }
 
-        node->value = _strdup(values[i]);
+        astNode* valCur = NULL;
 
-        if (!head)
-            head = node;
-        else 
-            head->right = node;
-        
-        current = node;
+        for (int j = 0; j < cols; j++) {
+            astNode* v = createAstNode(AST_VALUE);
+            if (!v) {
+                freeAstNode(rowsHead);
+                return NULL;
+            }
+
+            v->value = _strdup(values[i][j]);
+
+            if (!row->left)
+                row->left = v;
+            else
+                valCur->right = v;
+
+            valCur = v;
+        }
+
+        if (!rowsHead)
+            rowsHead = row;
+        else
+            rowsCur->right = row;
+
+        rowsCur = row;
     }
-    return head;
-}
 
+    return rowsHead;
+}
 int astListLenght(astNode* node)
 {
     

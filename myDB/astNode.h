@@ -7,6 +7,7 @@ typedef enum {
     AST_DELETE,
     AST_DROP,
     AST_UPDATE,
+    AST_ROW,
     AST_COLUMN,
     AST_VALUE,
     AST_WHERE,
@@ -29,7 +30,7 @@ typedef struct astNode
 astNode* createAstNode(astNodeType  type);
 
 astNode* buildColumnList(const char** columns, int size);
-astNode* buildValuesList(const char** values, int size);
+astNode* buildValuesList(const char*** values, int rows, int cols);
 
 int astListLenght(astNode * node);
 astNode* astListAt(astNode* node, int index);

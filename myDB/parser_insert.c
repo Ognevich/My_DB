@@ -101,16 +101,30 @@ static SqlError extractColumnsToInsert(const char** argv, int argc, int startPos
     return SQL_OK;
 }
 
-SqlError parseInsertValues(astNode* node, const char** argv, int argc)
+SqlError parseInsertValues(astNode* node,Table * table, const char** argv, int argc, int startPos)
 {
-    const parsedValue*** extractedValues = NULL;
+    parsedValue*** extractedValues = NULL;
     int valuesSize = 0;
 
+    int colSize = astListLenght(node->left);
+    int columnSize = colSize ? colSize : table->columnCount;
+
+    SqlError err = extractedValuesToInsert( argv, argc, startPos, &extractedValues, &valuesSize, columnSize);
+
+    if (err)
+    {
+        freeThreeDimArray(&extractedValues, valuesSize);
+        return err;
+    }
 
 
+    node->right = buildValuesList(extractedValues, valuesSize, columnSize);
+    freeParsedValues(extractedValues, valuesSize);
 
-    if (extractedValues)
-        freeParsedValues(extractedValues, valuesSize);;
+    if (!node->right)
+        return SQL_ERR_MEMORY;
+
+    return SQL_OK;
 }
 
 SqlError parseInsertColumns(astNode* node, Table * t,const char** argv, int argc, int * index)
