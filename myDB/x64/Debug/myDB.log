@@ -1,7 +1,7 @@
 ﻿  app.c
+  astNode.c
 D:\my_projects\C\myDB\myDB\app.c(88,27): warning C4013: 'isspace' undefined; assuming extern returning int
 D:\my_projects\C\myDB\myDB\app.c(87,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  astNode.c
 D:\my_projects\C\myDB\myDB\astNode.c(18,33): warning C4028: formal parameter 1 different from declaration
   commandValidators.c
   createCommand.c
@@ -34,6 +34,18 @@ D:\my_projects\C\myDB\myDB\File_Utils.c(178,3): warning C4033: 'scanDatabase' mu
 D:\my_projects\C\myDB\myDB\File_Utils.c(422,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 D:\my_projects\C\myDB\myDB\File_Utils.c(456,3): warning C4033: 'saveTableToFile' must return a value
   insertCommand.c
+D:\my_projects\C\myDB\myDB\insertCommand.h(8,45): error C2143: syntax error: missing ')' before '*'
+  (compiling source file 'insertCommand.c')
+  
+D:\my_projects\C\myDB\myDB\insertCommand.h(8,37): error C2081: 'astNode': name in formal parameter list illegal
+  (compiling source file 'insertCommand.c')
+  
+D:\my_projects\C\myDB\myDB\insertCommand.h(8,45): error C2143: syntax error: missing '{' before '*'
+  (compiling source file 'insertCommand.c')
+  
+D:\my_projects\C\myDB\myDB\insertCommand.h(8,51): error C2059: syntax error: ')'
+  (compiling source file 'insertCommand.c')
+  
 D:\my_projects\C\myDB\myDB\insertCommand.c(27,17): warning C4090: '=': different 'const' qualifiers
 D:\my_projects\C\myDB\myDB\insertCommand.c(92,31): error C2065: 'extractedValues': undeclared identifier
 D:\my_projects\C\myDB\myDB\insertCommand.c(92,31): warning C4047: 'function': 'parsedValue ***' differs in levels of indirection from 'int'
@@ -63,8 +75,8 @@ D:\my_projects\C\myDB\myDB\insertCommand.c(119,30): error C2198: 'int parsedValu
 D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
-D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
 D:\my_projects\C\myDB\myDB\createCommand.c(58,1): warning C4715: 'createDatabaseCommand': not all control paths return a value
   Compiling...
