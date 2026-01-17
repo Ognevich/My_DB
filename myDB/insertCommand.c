@@ -89,54 +89,6 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         }
 
         case INSERT_STATE_EXECUTE:
-            printInsertValues(extractedValues, valuesSize);
-
-            for (int i = 0; i < valuesSize; i++) {
-
-                Field* fields = safe_malloc(sizeof(Field) * table->columnCount);
-                memset(fields, 0, sizeof(Field) * table->columnCount);
-
-                if (columnsSize == 0) {
-                    for (int k = 0; k < table->columnCount; k++) {
-                        FieldType columnType = table->columns[k].type;
-                        
-                        if (!parsedValueToField(&fields[k], extractedValues[i][k], columnType)) 
-                        {
-                            printf("Error: invalid data types\n");
-                            return;
-                        }
-                    }
-                }
-                else {
-                    for (int k = 0; k < columnsSize; k++) {
-                        int colindex = findTableColumnIndex(table, extractedColumns[k]);
-                        if (colindex == -1) {
-                            printf("ERROR: column not found\n");
-                            break;
-                        }
-                        FieldType columnType = table->columns[colindex].type;
-
-                        if (!parsedValueToField(&fields[colindex], extractedValues[i][k], columnType))
-                        {
-                            printf("Error: invalid data types\n");
-                            return;
-                        }
-                    }
-                }
-
-                insertRow(table, fields);
-                
-                if (!appendTableRowsToFile(fields, table->columnCount, app->currentDatabase->name, table->name))
-                {
-                    printf("Error: file not found\n");
-                    return;
-                }
-
-                free(fields);
-
-            }
-            state = INSERT_STATE_END;
-            break;
 
         default:
             state = INSERT_STATE_END;
@@ -146,7 +98,52 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
 void insertExecute(AppContext* app, astNode* node)
 {
+    for (int i = 0; i < valuesSize; i++) {
 
+        Field* fields = safe_malloc(sizeof(Field) * table->columnCount);
+        memset(fields, 0, sizeof(Field) * table->columnCount);
+
+        if (columnsSize == 0) {
+            for (int k = 0; k < table->columnCount; k++) {
+                FieldType columnType = table->columns[k].type;
+
+                if (!parsedValueToField(&fields[k], extractedValues[i][k], columnType))
+                {
+                    printf("Error: invalid data types\n");
+                    return;
+                }
+            }
+        }
+        else {
+            for (int k = 0; k < columnsSize; k++) {
+                int colindex = findTableColumnIndex(table, extractedColumns[k]);
+                if (colindex == -1) {
+                    printf("ERROR: column not found\n");
+                    break;
+                }
+                FieldType columnType = table->columns[colindex].type;
+
+                if (!parsedValueToField(&fields[colindex], extractedValues[i][k], columnType))
+                {
+                    printf("Error: invalid data types\n");
+                    return;
+                }
+            }
+        }
+
+        insertRow(table, fields);
+
+        if (!appendTableRowsToFile(fields, table->columnCount, app->currentDatabase->name, table->name))
+        {
+            printf("Error: file not found\n");
+            return;
+        }
+
+        free(fields);
+
+    }
+    state = INSERT_STATE_END;
+    break;
 }
 
 

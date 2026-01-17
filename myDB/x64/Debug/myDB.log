@@ -47,26 +47,49 @@ D:\my_projects\C\myDB\myDB\insertCommand.h(8,51): error C2059: syntax error: ')'
   (compiling source file 'insertCommand.c')
   
 D:\my_projects\C\myDB\myDB\insertCommand.c(27,17): warning C4090: '=': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\insertCommand.c(92,31): error C2065: 'extractedValues': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(92,31): warning C4047: 'function': 'parsedValue ***' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\insertCommand.c(92,31): warning C4024: 'printInsertValues': different types for formal and actual parameter 1
-D:\my_projects\C\myDB\myDB\insertCommand.c(92,48): error C2065: 'valuesSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(94,33): error C2065: 'valuesSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(99,21): error C2065: 'columnsSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(103,61): error C2065: 'extractedValues': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(103,76): error C2109: subscript requires array or pointer type
-D:\my_projects\C\myDB\myDB\insertCommand.c(103,84): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
-D:\my_projects\C\myDB\myDB\insertCommand.c(103,84): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
-D:\my_projects\C\myDB\myDB\insertCommand.c(103,30): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
-D:\my_projects\C\myDB\myDB\insertCommand.c(111,41): error C2065: 'columnsSize': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(112,68): error C2065: 'extractedColumns': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(112,84): error C2109: subscript requires array or pointer type
-D:\my_projects\C\myDB\myDB\insertCommand.c(112,40): error C2198: 'int findTableColumnIndex(Table *,const char *)': too few arguments for call
-D:\my_projects\C\myDB\myDB\insertCommand.c(119,68): error C2065: 'extractedValues': undeclared identifier
-D:\my_projects\C\myDB\myDB\insertCommand.c(119,83): error C2109: subscript requires array or pointer type
-D:\my_projects\C\myDB\myDB\insertCommand.c(119,91): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
-D:\my_projects\C\myDB\myDB\insertCommand.c(119,91): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
-D:\my_projects\C\myDB\myDB\insertCommand.c(119,30): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(101,25): error C2065: 'valuesSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(103,53): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(103,60): error C2223: left of '->columnCount' must point to struct/union
+D:\my_projects\C\myDB\myDB\insertCommand.c(103,25): error C2198: 'void *safe_malloc(size_t)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(104,43): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(104,50): error C2223: left of '->columnCount' must point to struct/union
+D:\my_projects\C\myDB\myDB\insertCommand.c(104,9): error C2198: 'void *memset(void *,int,size_t)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(106,13): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(107,33): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(107,40): error C2223: left of '->columnCount' must point to struct/union
+D:\my_projects\C\myDB\myDB\insertCommand.c(108,40): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(108,47): error C2223: left of '->columns' must point to struct/union
+D:\my_projects\C\myDB\myDB\insertCommand.c(110,53): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(110,68): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(110,76): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
+D:\my_projects\C\myDB\myDB\insertCommand.c(110,76): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\insertCommand.c(110,22): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(118,33): error C2065: 'columnsSize': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(119,53): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(119,53): warning C4047: 'function': 'Table *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\insertCommand.c(119,53): warning C4024: 'findTableColumnIndex': different types for formal and actual parameter 1
+D:\my_projects\C\myDB\myDB\insertCommand.c(119,60): error C2065: 'extractedColumns': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(119,76): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(119,32): error C2198: 'int findTableColumnIndex(Table *,const char *)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(124,40): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(124,47): error C2223: left of '->columns' must point to struct/union
+D:\my_projects\C\myDB\myDB\insertCommand.c(126,60): error C2065: 'extractedValues': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(126,75): error C2109: subscript requires array or pointer type
+D:\my_projects\C\myDB\myDB\insertCommand.c(126,83): error C2440: 'function': cannot convert from 'FieldType' to 'const parsedValue *'
+D:\my_projects\C\myDB\myDB\insertCommand.c(126,83): warning C4024: 'parsedValueToField': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\insertCommand.c(126,22): error C2198: 'int parsedValueToField(Field *,const parsedValue *,const FieldType)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(134,19): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(134,19): warning C4047: 'function': 'Table *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\insertCommand.c(134,19): warning C4024: 'insertRow': different types for formal and actual parameter 1
+D:\my_projects\C\myDB\myDB\insertCommand.c(136,44): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(136,51): error C2223: left of '->columnCount' must point to struct/union
+D:\my_projects\C\myDB\myDB\insertCommand.c(136,84): warning C4047: 'function': 'int' differs in levels of indirection from 'char [50]'
+D:\my_projects\C\myDB\myDB\insertCommand.c(136,84): warning C4024: 'appendTableRowsToFile': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\insertCommand.c(136,92): error C2065: 'table': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(136,99): error C2223: left of '->name' must point to struct/union
+D:\my_projects\C\myDB\myDB\insertCommand.c(136,14): error C2198: 'int appendTableRowsToFile(Field *,int,const char *,const char *)': too few arguments for call
+D:\my_projects\C\myDB\myDB\insertCommand.c(145,5): error C2065: 'state': undeclared identifier
+D:\my_projects\C\myDB\myDB\insertCommand.c(146,5): error C2043: illegal break
   logger.c
   main.c
   programState.c
@@ -75,8 +98,8 @@ D:\my_projects\C\myDB\myDB\insertCommand.c(119,30): error C2198: 'int parsedValu
 D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
-D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
 D:\my_projects\C\myDB\myDB\createCommand.c(58,1): warning C4715: 'createDatabaseCommand': not all control paths return a value
   Compiling...
