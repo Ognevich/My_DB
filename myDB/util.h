@@ -2,6 +2,7 @@
 #define _UTIL_H_
 #include "table.h"
 #include "parser_keywords.h"
+#include "astNode.h"
 
 int			increaseTwoDimCharArray(char*** array, int size);
 void		freeTwoDimArray(void*** array, int rows);
@@ -14,7 +15,7 @@ void		printLine(int size, char symbol);
 int			defineColumnSize(FieldType type);
 
 FieldType	StrToField(char * filedType);
-int			parsedValueToField(Field * f, const parsedValue * parsedValue, const FieldType columnType);
+int			astToField(Field * f, astNode * node, const FieldType columnType);
 void		sqlValuesTypeToFieldType(const sqlValuesType sType, FieldType * fType);
 
 const char* sqlErrorToString(SqlError error);

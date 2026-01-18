@@ -3,6 +3,7 @@
 
 
 #include "programState.h"
+#include "astNode.h"
 
 void	insertCommand(AppContext* app, const char** argv, int argc);
 int		insertExecute(AppContext* app, astNode * node, Table * table);

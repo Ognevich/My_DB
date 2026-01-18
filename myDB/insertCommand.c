@@ -84,8 +84,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         }
         case INSERT_STATE_EXECUTE:
 
-            if (!insertExecute(app, node, table))
-                state = INSERT_STATE_END;
+            insertExecute(app, node, table);
 
             state = INSERT_STATE_END;
             break;
@@ -96,46 +95,71 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
             freeAstNode(node);
             break;
-        default:
-            state = INSERT_STATE_END;
         }
     }
 }
 
 int insertExecute(AppContext* app, astNode* node, Table* table)
 {
-
-    int columnsSize = astListLenght(node->left);
-    int valuesSize = astListLenght(node->right);
+    int columnsSize = astListLenght(node->left);  
+    int valuesSize = astListLenght(node->right);  
 
     for (int i = 0; i < valuesSize; i++) {
 
         Field* fields = safe_malloc(sizeof(Field) * table->columnCount);
         memset(fields, 0, sizeof(Field) * table->columnCount);
 
-        if (columnsSize) {
-            for (int k = 0; k < table->columnCount; k++) {
-                FieldType columnType = table->columns[k].type;
+        if (columnsSize == 0) {
 
-                if (!parsedValueToField(&fields[k], astLinkedListAt(node->right,i,k), columnType))
-                {
+            int rowValues = astListLenght(astListAt(node->right, i)->left);
+            if (rowValues != table->columnCount) {
+                printf("ERROR: column count mismatch\n");
+                free(fields);
+                return 0;
+            }
+
+            for (int k = 0; k < table->columnCount; k++) {
+                astNode* v = astLinkedListAt(node->right, i, k);
+                if (!v) {
+                    free(fields);
+                    return 0;
+                }
+
+                if (!astToField(&fields[k], v, table->columns[k].type)) {
                     printf("Error: invalid data types\n");
+                    free(fields);
                     return 0;
                 }
             }
         }
         else {
+            int rowValues = astListLenght(astListAt(node->right, i)->left);
+            if (rowValues != columnsSize) {
+                printf("ERROR: values count does not match columns\n");
+                free(fields);
+                return 0;
+            }
+
             for (int k = 0; k < columnsSize; k++) {
-                int colindex = findTableColumnIndex(table, astListAt(node->left,k));
+
+                int colindex = findTableColumnIndex(table,astListAt(node->left, k)->column);
+
                 if (colindex == -1) {
                     printf("ERROR: column not found\n");
+                    free(fields);
                     return 0;
                 }
-                FieldType columnType = table->columns[colindex].type;
 
-                if (!parsedValueToField(&fields[colindex], astLinkedListAt(node->right, i, k), columnType))
-                {
+                astNode* v = astLinkedListAt(node->right, i, k);
+                if (!v) {
+                    free(fields);
+                    return 0;
+                }
+
+                if (!astToField(&fields[colindex], v,
+                    table->columns[colindex].type)) {
                     printf("Error: invalid data types\n");
+                    free(fields);
                     return 0;
                 }
             }
@@ -143,15 +167,19 @@ int insertExecute(AppContext* app, astNode* node, Table* table)
 
         insertRow(table, fields);
 
-        if (!appendTableRowsToFile(fields, table->columnCount, app->currentDatabase->name, table->name))
-        {
-            printf("Error: file not found\n");
+        if (!appendTableRowsToFile(fields, table->columnCount,
+            app->currentDatabase->name,
+            table->name)) {
+            printf("Error: file error\n");
+            free(fields);
             return 0;
         }
 
         free(fields);
-        return 1;
     }
+
+    return 1;
 }
+
 
 

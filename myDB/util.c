@@ -104,34 +104,50 @@ FieldType StrToField(char* filedType)
     return FIELD_NONE;
 }
 
-int parsedValueToField(Field* f, const parsedValue* pv, const FieldType columnType)
+int astToField(Field* f, astNode* node, FieldType columnType)
 {
+    if (!f || !node)
+        return 0;
+
     memset(f, 0, sizeof(Field));
 
-    sqlValuesTypeToFieldType(pv->type, &f->type);
-    
-    if (f->type != columnType) {
+    if (node->valueType == SQL_TYPE_NULL) {
+        f->type = FIELD_NONE;
+        return 1;
+    }
+
+    sqlValuesTypeToFieldType(node->valueType, &f->type);
+
+    if (f->type != columnType)
+        return 0;
+
+    char* end = NULL;
+
+    switch (node->valueType)
+    {
+    case SQL_TYPE_INT: {
+        long v = strtol(node->value, &end, 10);
+        if (!node->value || *end != '\0') return 0;
+        f->iVal = (int)v;
+        break;
+    }
+
+    case SQL_TYPE_FLOAT: {
+        double v = strtod(node->value, &end);
+        if (!node->value || *end != '\0') return 0;
+        f->fVal = (float)v;
+        break;
+    }
+
+    case SQL_TYPE_STRING:
+        snprintf(f->sVal, sizeof(f->sVal), "%s",
+            node->value ? node->value : "");
+        break;
+
+    default:
         return 0;
     }
 
-    switch (pv->type)
-    {
-    case SQL_TYPE_INT:
-        f->iVal = atoi(pv->raw);
-        break;
-    case SQL_TYPE_FLOAT:
-        f->fVal = atof(pv->raw);
-        break;
-    case SQL_TYPE_STRING:
-        printf("DEBUG raw ptr=%p raw='%s'\n",(void*)pv->raw,pv->raw ? pv->raw : "NULL");
-        strncpy(f->sVal, pv->raw, sizeof(f->sVal) - 1);
-        f->sVal[sizeof(f->sVal) - 1] = '\0';
-        break;
-
-    case SQL_TYPE_NULL:
-        f->type = SQL_TYPE_NULL;
-        break;
-    }
     return 1;
 }
 

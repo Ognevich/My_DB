@@ -63,7 +63,8 @@ astNode* buildValuesList(const parsedValue*** values, int rows, int cols)
                 return NULL;
             }
 
-            v->value = _strdup(values[i][j]);
+            v->value = _strdup(values[i][j]->raw);
+            v->valueType = values[i][j]->type;
 
             if (!row->left)
                 row->left = v;
