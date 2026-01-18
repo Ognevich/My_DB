@@ -5,6 +5,6 @@
 #include "programState.h"
 
 void	insertCommand(AppContext* app, const char** argv, int argc);
-void	insertExecute(AppContext* app, astNode * node);
+int		insertExecute(AppContext* app, astNode * node, Table * table);
 
 #endif

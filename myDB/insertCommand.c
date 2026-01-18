@@ -25,11 +25,9 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
     astNode* node = createAstNode(AST_INSERT);
     node->table = argv[2];
-    if (!node)
-        return;
 
     Table* table = findTable(app->currentDatabase, argv[2]);
-
+    SqlError insError = SQL_OK;
 
     InsertState state = INSERT_STATE_START;
     int index = 3;
@@ -48,11 +46,10 @@ void insertCommand(AppContext* app, const char** argv, int argc)
         case INSERT_STATE_COLUMNS:
         {
             index++;
-            SqlError err = parseInsertColumns(node,table, argv, argc,&index);
+            insError = parseInsertColumns(node,table, argv, argc,&index);
 
-            if (err != SQL_OK)
+            if (insError != SQL_OK)
             {
-                printError(err);
                 state = INSERT_STATE_END;
                 break;
             }
@@ -63,7 +60,7 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
         case INSERT_STATE_EXPECT_VALUES:
             if (index >= argc || strcasecmp(argv[index], "VALUES") != 0) {
-                printf("ERROR: missing VALUES\n");
+                insError = SQL_ERR_SYNTAX;
                 state = INSERT_STATE_END;
                 break;
             }
@@ -74,12 +71,10 @@ void insertCommand(AppContext* app, const char** argv, int argc)
 
         case INSERT_STATE_VALUES:
         {
+            insError = parseInsertValues(node,table ,argv, argc, index);
 
-            SqlError err = parseInsertValues(node,table ,argv, argc, index);
-
-            if (err)
+            if (insError)
             {
-                printError(err);
                 state = INSERT_STATE_END;
                 break;
             }
@@ -87,46 +82,61 @@ void insertCommand(AppContext* app, const char** argv, int argc)
             state = INSERT_STATE_EXECUTE;
             break;
         }
-
         case INSERT_STATE_EXECUTE:
 
+            if (!insertExecute(app, node, table))
+                state = INSERT_STATE_END;
+
+            state = INSERT_STATE_END;
+            break;
+        case INSERT_STATE_END:
+
+            if (insError != SQL_OK)
+                printError(insError);
+
+            freeAstNode(node);
+            break;
         default:
             state = INSERT_STATE_END;
         }
     }
 }
 
-void insertExecute(AppContext* app, astNode* node)
+int insertExecute(AppContext* app, astNode* node, Table* table)
 {
+
+    int columnsSize = astListLenght(node->left);
+    int valuesSize = astListLenght(node->right);
+
     for (int i = 0; i < valuesSize; i++) {
 
         Field* fields = safe_malloc(sizeof(Field) * table->columnCount);
         memset(fields, 0, sizeof(Field) * table->columnCount);
 
-        if (columnsSize == 0) {
+        if (columnsSize) {
             for (int k = 0; k < table->columnCount; k++) {
                 FieldType columnType = table->columns[k].type;
 
-                if (!parsedValueToField(&fields[k], extractedValues[i][k], columnType))
+                if (!parsedValueToField(&fields[k], astLinkedListAt(node->right,i,k), columnType))
                 {
                     printf("Error: invalid data types\n");
-                    return;
+                    return 0;
                 }
             }
         }
         else {
             for (int k = 0; k < columnsSize; k++) {
-                int colindex = findTableColumnIndex(table, extractedColumns[k]);
+                int colindex = findTableColumnIndex(table, astListAt(node->left,k));
                 if (colindex == -1) {
                     printf("ERROR: column not found\n");
-                    break;
+                    return 0;
                 }
                 FieldType columnType = table->columns[colindex].type;
 
-                if (!parsedValueToField(&fields[colindex], extractedValues[i][k], columnType))
+                if (!parsedValueToField(&fields[colindex], astLinkedListAt(node->right, i, k), columnType))
                 {
                     printf("Error: invalid data types\n");
-                    return;
+                    return 0;
                 }
             }
         }
@@ -136,14 +146,12 @@ void insertExecute(AppContext* app, astNode* node)
         if (!appendTableRowsToFile(fields, table->columnCount, app->currentDatabase->name, table->name))
         {
             printf("Error: file not found\n");
-            return;
+            return 0;
         }
 
         free(fields);
-
+        return 1;
     }
-    state = INSERT_STATE_END;
-    break;
 }
 
 

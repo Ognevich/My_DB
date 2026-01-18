@@ -12,6 +12,7 @@ astNode* createAstNode(astNodeType  type)
 		return NULL;
 
 	node->type = type;
+    node->valueType = SQL_TYPE_NULL;
 	return node;
 }
 
@@ -40,7 +41,7 @@ astNode* buildColumnList(char** columns, int count)
     return head;
 }
 
-astNode* buildValuesList(const char*** values, int rows, int cols)
+astNode* buildValuesList(const parsedValue*** values, int rows, int cols)
 {
     astNode* rowsHead = NULL;
     astNode* rowsCur = NULL;
@@ -84,7 +85,6 @@ astNode* buildValuesList(const char*** values, int rows, int cols)
 }
 int astListLenght(astNode* node)
 {
-    
     int count = 0;
 
     while (node)
@@ -102,6 +102,29 @@ astNode* astListAt(astNode* node, int index)
         node = node->right;
     }
     return node;
+}
+
+astNode* astLinkedListAt(astNode* rowsHead, int row, int col)
+{
+    if (!rowsHead || row < 0 || col < 0)
+        return NULL;
+
+    astNode* curRow = rowsHead;
+
+    for (int i = 0; i < row && curRow; i++) {
+        curRow = curRow->right;
+    }
+
+    if (!curRow)
+        return NULL;
+
+    astNode* curVal = curRow->left;
+
+    for (int j = 0; j < col && curVal; j++) {
+        curVal = curVal->right;
+    }
+
+    return curVal;
 }
 
 

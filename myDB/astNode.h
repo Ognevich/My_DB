@@ -1,5 +1,6 @@
 #ifndef _AST_NODE_H_
 #define _AST_NODE_H_
+#include "parser_keywords.h"
 
 typedef enum {
     AST_SELECT = 0,
@@ -24,16 +25,18 @@ typedef struct astNode
     char* table;
     char* column;
     char* value;
+    sqlValuesType valueType;
     int op;
 }astNode;
 
 astNode* createAstNode(astNodeType  type);
 
 astNode* buildColumnList(const char** columns, int size);
-astNode* buildValuesList(const char*** values, int rows, int cols);
+astNode* buildValuesList(const parsedValue*** values, int rows, int cols);
 
 int astListLenght(astNode * node);
 astNode* astListAt(astNode* node, int index);
+astNode* astLinkedListAt(astNode* node, int row, int col);
 
 void freeAstNode(astNode* node);
 
