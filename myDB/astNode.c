@@ -84,6 +84,10 @@ astNode* buildValuesList(const parsedValue*** values, int rows, int cols)
 
     return rowsHead;
 }
+astNode* buildCreateTableColumnsList(const char*** columns, int size)
+{
+    
+}
 int astListLenght(astNode* node)
 {
     int count = 0;

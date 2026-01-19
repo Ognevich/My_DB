@@ -162,3 +162,17 @@ SqlError extractInnerArgs(const char** argv, int argc, char**** outResult, int* 
 
     return SQL_OK;
 }
+
+astNode* parseCreateDatabae(const char** argv, int argc, int ifNotExists)
+{
+    astNode* node = createAstNode(AST_CREATE_DATABASE);
+
+
+
+    return node;
+}
+
+astNode* parseCreateTable(char** argv, int argc, int ifNotExists)
+{
+    
+}

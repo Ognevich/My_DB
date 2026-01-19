@@ -5,9 +5,8 @@
 typedef enum {
     AST_SELECT = 0,
     AST_INSERT,
-    AST_DELETE,
-    AST_DROP,
-    AST_UPDATE,
+    AST_CREATE_TABLE,
+    AST_CREATE_DATABASE,
     AST_ROW,
     AST_COLUMN,
     AST_VALUE,
@@ -33,6 +32,7 @@ astNode* createAstNode(astNodeType  type);
 
 astNode* buildColumnList(const char** columns, int size);
 astNode* buildValuesList(const parsedValue*** values, int rows, int cols);
+astNode* buildCreateTableColumnsList(const char*** columns, int size);
 
 int astListLenght(astNode * node);
 astNode* astListAt(astNode* node, int index);
