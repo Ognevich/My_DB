@@ -12,6 +12,7 @@ typedef enum {
     AST_VALUE,
     AST_WHERE,
     AST_CONDITION,
+    AST_TYPE,
     AST_AND,
     AST_OR
 } astNodeType;

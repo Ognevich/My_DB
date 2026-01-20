@@ -84,10 +84,32 @@ astNode* buildValuesList(const parsedValue*** values, int rows, int cols)
 
     return rowsHead;
 }
+
 astNode* buildCreateTableColumnsList(const char*** columns, int size)
 {
-    
+    astNode* head = NULL;
+    astNode* cur = NULL;
+
+    for (int i = 0; i < size; i++)
+    {
+        astNode* col = createAstNode(AST_COLUMN);
+        astNode* type = createAstNode(AST_TYPE);
+
+        col->column = _strdup(columns[i][0]);
+        type = _strdup(columns[i][1]);
+
+        col->left = type;
+
+        if (!head)
+            head = col;
+        else
+            cur->right = col;
+        cur = col;
+
+    }
+    return head;
 }
+
 int astListLenght(astNode* node)
 {
     int count = 0;
