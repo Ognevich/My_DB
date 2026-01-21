@@ -88,7 +88,7 @@ int processCreateTableCommand(AppContext* app, char** argv, int argc)
 }
 
 int createTableCommand(AppContext* app, astNode * node) {
-	if (!checkDatabaseConnection(app)) return;
+	if (!checkDatabaseConnection(app)) return 0;
 
 	int check = checkTableExists(app, node->table, node->op);
 	if (check <= 0) return 0;

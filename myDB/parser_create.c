@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "parser_create.h"
 #include "parse_util.h"
 #include "parser_keywords.h"
@@ -5,6 +6,7 @@
 #include "util.h"
 #include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef enum {
     CREATE_EXPECT_OPEN_BRACKET,
@@ -32,19 +34,25 @@ int isIfNotExistsUsed(char** argv, int argSize)
     return 0;
 }
 
-static void extractName(char** argv, int argc, char** name, int ifNotExists) {
+static void extractName(char** argv, int argc, char** name, int ifNotExists)
+{
     *name = NULL;
+    const char* src = NULL;
 
     if (ifNotExists && argc >= 6) {
-        *name = argv[5];
+        src = argv[5];
     }
     else if (!ifNotExists && argc >= 3) {
-        *name = argv[2];
+        src = argv[2];
     }
 
-    if (*name && (isReservedWord(*name) || hasForbiddenSymbol(*name))) {
-        *name = NULL;
-    }
+    if (!src)
+        return;
+
+    if (isReservedWord(src) || hasForbiddenSymbol(src))
+        return;
+
+    *name = _strdup(src); 
 }
 
 
@@ -220,6 +228,6 @@ astNode* parseCreateTable(char** argv, int argc, SqlError * error)
 
 
 
-    freeThreeDimArray(&columns, size);
+    //freeThreeDimArray(&columns, size);
     return node;
 }
