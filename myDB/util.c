@@ -172,16 +172,18 @@ void sqlValuesTypeToFieldType(const sqlValuesType sType, FieldType * fType)
 
 const char* sqlErrorToString(SqlError err) {
     switch (err) {
-    case SQL_OK:                    return "No error";
-    case SQL_ERR_SYNTAX:            return "Syntax error";
-    case SQL_ERR_MEMORY:            return "Memory allocation error";
-    case SQL_ERR_RESERVED_WORD:     return "Identifier is a reserved word";
-    case SQL_ERR_FORBIDDEN_SYMBOL:  return "Forbidden symbol found";
-    case SQL_ERR_MISSING_PAREN:     return "Missing parenthesis";
-    case SQL_ERR_INVALID_ARGUMENT:  return "Invalid argument";
-    case SQL_ERR_TABLE_NOT_FOUND:   return "Table not found";
-    case SQL_ERR_DEFAULT:           return "Something went wrong";
-    default:                        return "Unknown error";
+    case SQL_OK:                            return "No error";
+    case SQL_ERR_SYNTAX:                    return "Syntax error";
+    case SQL_ERR_MEMORY:                    return "Memory allocation error";
+    case SQL_ERR_RESERVED_WORD:             return "Identifier is a reserved word";
+    case SQL_ERR_FORBIDDEN_SYMBOL:          return "Forbidden symbol found";
+    case SQL_ERR_MISSING_PAREN:             return "Missing parenthesis";
+    case SQL_ERR_INVALID_ARGUMENT:          return "Invalid argument";
+    case SQL_ERR_TABLE_NOT_FOUND:           return "Table not found";
+    case SQL_ERR_INCORRECT_TABLE_NAME:      return "Incorrect table name";
+    case SQL_ERR_INCORRECT_DATABASE_NAME:    return "Incorrect database name";
+    case SQL_ERR_DEFAULT:                   return "Something went wrong";
+    default:                                return "Unknown error";
     }
 }
 

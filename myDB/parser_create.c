@@ -2,6 +2,7 @@
 #include "parse_util.h"
 #include "parser_keywords.h"
 #include "commandValidators.h"
+#include "util.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -31,7 +32,7 @@ int isIfNotExistsUsed(char** argv, int argSize)
     return 0;
 }
 
-void extractName(char** argv, int argc, char** name, int ifNotExists) {
+static void extractName(char** argv, int argc, char** name, int ifNotExists) {
     *name = NULL;
 
     if (ifNotExists && argc >= 6) {
@@ -61,7 +62,7 @@ int isBracketsExists(const char** argv, int argc, int ifNotExists)
     return 1;
 }
 
-SqlError extractInnerArgs(const char** argv, int argc, char**** outResult, int* innerArgs)
+static SqlError extractInnerArgs(const char** argv, int argc, char**** outResult, int* innerArgs)
 {
     if (!argv || argc <= 0 || !outResult || !innerArgs)
         return SQL_ERR_INVALID_ARGUMENT;
@@ -163,16 +164,62 @@ SqlError extractInnerArgs(const char** argv, int argc, char**** outResult, int* 
     return SQL_OK;
 }
 
-astNode* parseCreateDatabae(const char** argv, int argc, int ifNotExists)
+astNode* parseCreateDatabase(const char** argv, int argc, SqlError * error)
 {
     astNode* node = createAstNode(AST_CREATE_DATABASE);
+    char* name = NULL;
 
+    node->op = isIfNotExistsUsed(argv, argc);
+    
+    extractName(argv, argc, &name, node->op);
+    if (!name)
+    {
+        *error = SQL_ERR_INCORRECT_DATABASE_NAME;
+        return node;
+    }
 
+    node->value = _strdup(name);
 
     return node;
 }
 
-astNode* parseCreateTable(char** argv, int argc, int ifNotExists)
+astNode* parseCreateTable(char** argv, int argc, SqlError * error)
 {
     
+    astNode* node = createAstNode(AST_CREATE_TABLE);
+    node->op = isIfNotExistsUsed(argv, argc);
+    extractName(argv, argc, &node->table, node->op);
+    if (!node->table)
+    {
+        *error = SQL_ERR_INCORRECT_TABLE_NAME;
+        return node;
+    }
+
+    if (!isBracketsExists(argv, argc, node->op)) {
+        *error = SQL_ERR_MISSING_PAREN;
+        return node;
+    }
+
+    int size = 0;
+    const char*** columns = NULL;
+
+    *error = extractInnerArgs(argv, argc, &columns, &size);
+    if (*error != SQL_OK)
+    {
+        freeThreeDimArray(&columns, size);
+        return node;
+    }
+
+    if (checkCreateTableArguments(columns, size) <= 0)
+    {
+        *error = SQL_ERR_INVALID_ARGUMENT;
+        return node;
+    }
+
+    node->left = buildCreateTableColumnsList(columns, size);
+
+
+
+    freeThreeDimArray(&columns, size);
+    return node;
 }

@@ -96,7 +96,7 @@ astNode* buildCreateTableColumnsList(const char*** columns, int size)
         astNode* type = createAstNode(AST_TYPE);
 
         col->column = _strdup(columns[i][0]);
-        type = _strdup(columns[i][1]);
+        type->value = _strdup(columns[i][1]);
 
         col->left = type;
 

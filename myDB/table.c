@@ -32,19 +32,32 @@ Table* initNewTable(const char* name) {
     return table;
 }
 
-int fillTableColumns(Table* table, char*** innerArgs, int innerSize) {
-    for (int i = 0; i < innerSize; i++) {
-        char* columnName = innerArgs[i][0];
-        FieldType type = StrToField(innerArgs[i][1]);
+int fillTableColumns(Table* table, astNode * node) {
+    astNode* cur = node;
 
+    while (cur)
+    {
+        if (cur->type != AST_COLUMN || !cur->left || cur->left->type != AST_TYPE) {
+            printf("Error: Invalid column definition\n");
+            return 0;
+        }
+
+        char* columnName = cur->column;
+        char* typeStr = cur->left->value;
+
+        FieldType type = StrToField(typeStr);
         if (type == FIELD_NONE) {
-            printf("Error: Incorrect data type '%s'\n", innerArgs[i][1]);
+            printf("Error: Incorrect data type '%s'\n", typeStr);
             return 0;
         }
 
         int columnSize = defineColumnSize(type);
+
         addColumn(table, columnName, type, columnSize);
+
+        cur = cur->right;
     }
+
     return 1;
 
 }

@@ -1,14 +1,28 @@
-﻿  app.c
-  astNode.c
+﻿  File_Utils.c
+  app.c
+D:\my_projects\C\myDB\myDB\File_Utils.c(159,30): warning C4047: 'function': 'const char *' differs in levels of indirection from 'int'
+D:\my_projects\C\myDB\myDB\File_Utils.c(159,30): warning C4024: 'fopen': different types for formal and actual parameter 2
+D:\my_projects\C\myDB\myDB\File_Utils.c(178,3): warning C4033: 'scanDatabase' must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(422,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\my_projects\C\myDB\myDB\File_Utils.c(456,3): warning C4033: 'saveTableToFile' must return a value
 D:\my_projects\C\myDB\myDB\app.c(88,27): warning C4013: 'isspace' undefined; assuming extern returning int
 D:\my_projects\C\myDB\myDB\app.c(87,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  astNode.c
 D:\my_projects\C\myDB\myDB\astNode.c(19,33): warning C4028: formal parameter 1 different from declaration
-D:\my_projects\C\myDB\myDB\astNode.c(99,14): warning C4133: '=': incompatible types - from 'char *' to 'astNode *'
   commandValidators.c
   createCommand.c
-D:\my_projects\C\myDB\myDB\createCommand.c(55,3): warning C4033: 'createDatabaseCommand' must return a value
+D:\my_projects\C\myDB\myDB\createCommand.c(91,37): warning C4033: 'createTableCommand' must return a value
   database.c
   dropCommand.c
+  insertCommand.c
+D:\my_projects\C\myDB\myDB\insertCommand.c(27,17): warning C4090: '=': different 'const' qualifiers
+  main.c
+  parse_util.c
+D:\my_projects\C\myDB\myDB\parse_util.c(17,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(18,14): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(25,19): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(34,47): warning C4090: 'function': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\parse_util.c(67,45): warning C4090: 'function': different 'const' qualifiers
   parser_create.c
   parser_drop.c
 D:\my_projects\C\myDB\myDB\parser_drop.c(94,39): warning C4090: 'function': different 'const' qualifiers
@@ -20,36 +34,19 @@ D:\my_projects\C\myDB\myDB\parser_insert.c(343,36): warning C4090: 'function': d
   parser_keywords.c
 D:\my_projects\C\myDB\myDB\parser_keywords.c(13,13): warning C4013: '_stricmp' undefined; assuming extern returning int
   parser_select.c
-  parse_util.c
-D:\my_projects\C\myDB\myDB\parse_util.c(17,14): warning C4090: 'function': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\parse_util.c(18,14): warning C4090: 'function': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\parse_util.c(25,19): warning C4090: 'function': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\parse_util.c(34,47): warning C4090: 'function': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\parse_util.c(67,45): warning C4090: 'function': different 'const' qualifiers
-  specialCommnad.c
-  File_Utils.c
-D:\my_projects\C\myDB\myDB\File_Utils.c(159,30): warning C4047: 'function': 'const char *' differs in levels of indirection from 'int'
-D:\my_projects\C\myDB\myDB\File_Utils.c(159,30): warning C4024: 'fopen': different types for formal and actual parameter 2
-D:\my_projects\C\myDB\myDB\File_Utils.c(178,3): warning C4033: 'scanDatabase' must return a value
-D:\my_projects\C\myDB\myDB\File_Utils.c(422,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\my_projects\C\myDB\myDB\File_Utils.c(456,3): warning C4033: 'saveTableToFile' must return a value
-  insertCommand.c
-D:\my_projects\C\myDB\myDB\insertCommand.c(27,17): warning C4090: '=': different 'const' qualifiers
-  logger.c
-  main.c
   programState.c
   selectCommand.c
   showCommand.c
 D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
-D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
-D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
-D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
-D:\my_projects\C\myDB\myDB\parser_create.c(178,1): warning C4716: 'parseCreateTable': must return a value
-D:\my_projects\C\myDB\myDB\createCommand.c(58,1): warning C4715: 'createDatabaseCommand': not all control paths return a value
-  Compiling...
+  specialCommnad.c
   table.c
+  Generating Code...
+D:\my_projects\C\myDB\myDB\createCommand.c(110,1): warning C4715: 'createTableCommand': not all control paths return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
+  Compiling...
   tokenizer.c
 D:\my_projects\C\myDB\myDB\tokenizer.c(16,13): warning C4013: 'isspace' undefined; assuming extern returning int
 D:\my_projects\C\myDB\myDB\tokenizer.c(39,24): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
@@ -58,8 +55,8 @@ D:\my_projects\C\myDB\myDB\tokenizer.c(39,24): warning C4267: '+=': conversion f
   util.c
 D:\my_projects\C\myDB\myDB\util.c(33,13): warning C4133: 'initializing': incompatible types - from 'void ***' to 'char ***'
 D:\my_projects\C\myDB\myDB\util.c(68,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\my_projects\C\myDB\myDB\util.c(268,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\my_projects\C\myDB\myDB\util.c(309,19): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(270,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\my_projects\C\myDB\myDB\util.c(311,19): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
   myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
   'pwsh.exe' is not recognized as an internal or external command,

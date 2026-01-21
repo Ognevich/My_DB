@@ -4,6 +4,7 @@
 #include "table.h"
 #include "database.h"
 #include "programState.h"
+#include "astNode.h"
 #define DB_ROOT "./data"
 
 int		IfFileOpen(FILE * file);
@@ -36,7 +37,7 @@ int		readColumns(FILE* file, Table* table);
 int		readColumnTypes(FILE* file, Table* table);
 int		readRow(FILE* file, Table* table);
 
-int		saveTableToFile(Table* table, AppContext* app, const char* name, const char*** args, int size);
+int		saveTableToFile(Table* table, AppContext* app, const char* name);
 int		appendTableRowsToFile(Field* fields, int size, const char * dbName, const char * tableName);
 
 int		removeDirRecursive(const char* path);

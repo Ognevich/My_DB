@@ -4,12 +4,10 @@
 #include "astNode.h"
 
 int			isIfNotExistsUsed(char** argv, int argSize);
-void		extractName(char** argv, int argc,char ** name, int ifNotExists);
 int			isBracketsExists(const char** argv, int argc, int ifNotExists);
-SqlError	extractInnerArgs(const char** argv, int argc, char**** outResult, int* innerArgs);
 
-astNode*	parseCreateDatabae(const char** argv, int argc, int ifNotExists);
-astNode*	parseCreateTable(char** argv, int argc, int ifNotExists);
+astNode*	parseCreateDatabase(const char** argv, int argc, SqlError* error);
+astNode*	parseCreateTable(char** argv, int argc, SqlError * error);
 
 #endif
 

@@ -19,83 +19,92 @@ void createCommand(AppContext* app, char** argv, int argc)
 	}
 
 	const char* objectType = argv[1];
-	int ifNotExists = isIfNotExistsUsed(argv, argc);
-	char* name = NULL;
-	extractName(argv, argc, &name,ifNotExists);
-
-
-	if (name == NULL) {
-		printf("Error: Invalid CREATE syntax\n");
-		return;
-	}
 
 	if (strcasecmp(objectType, "DATABASE") == 0) {
-		if (!createDatabaseCommand(app, name, ifNotExists))
+		if (!createDatabaseCommand(app, argv, argc))
 			return;
 	}
 	else if (strcasecmp(objectType, "TABLE") == 0) {
-		processCreateTableCommand(app, argv, argc, name, ifNotExists);
+		if (!processCreateTableCommand(app, argv, argc))
+			return;
 	}
 	else {
-		logMessage(LOG_ERROR, "Unknown object type: %s", objectType);
+		printf("Unknown object type: %s", objectType);
 	}
 }
-int createDatabaseCommand(AppContext* app, const char* name, int ifNotExists)
+int createDatabaseCommand(AppContext* app, const char** argv, const int argc)
 {
-	if (checkDatabaseExists(app, name, ifNotExists) <= 0) {
-		printf("Database %s already exists\n", name);
+	SqlError error = SQL_OK;
+	astNode* node = parseCreateDatabase(argv, argc, &error);
+	if (error)
+	{
+		printError(error);
+		freeAstNode(node);
+		return 0;
+	}
+
+	if (checkDatabaseExists(app, node->value, node->op) <= 0) {
+		printf("Database %s already exists\n", node->value);
+		freeAstNode(node);
 		return 0;
 	}
 	
-	Database* db = createDatabase(name, 1);
+	Database* db = createDatabase(node->value, 1);
 	if (!db)
+	{
+		freeAstNode(node);
 		return 0;
+	}
 
 	if (!registerDatabase(app, db))
-		return;
+	{
+		freeAstNode(node);
+		return 0;
+	}
 
+	freeAstNode(node);
 	return 1;
 }
 
-void processCreateTableCommand(AppContext* app, char** argv, int argc, const char* name, int ifNotExists)
+int processCreateTableCommand(AppContext* app, char** argv, int argc)
 {
-	if (!isBracketsExists(argv, argc, ifNotExists)) {
-		printf("Error: Incorrect brackets type\n");
-		return;
+	SqlError error = SQL_OK;
+	astNode* node = parseCreateTable(argv, argc, &error);
+	if (error)
+	{
+		printError(error);
+		freeAstNode(node);
+		return 0;
+	}
+	
+	if (!createTableCommand(app, node))
+	{
+		freeAstNode(node);
+		return 0;
 	}
 
-	int innerArgs = 0;
-	const char*** innerBracketsArgv = NULL;
-
-	SqlError err = extractInnerArgs(argv,argc, &innerBracketsArgv,&innerArgs);
-	printError(err);
-
-	if (checkCreateTableArguments(innerBracketsArgv, innerArgs) <= 0) 
-		return;
-	
-	createTableCommand(app, name, innerBracketsArgv,innerArgs,ifNotExists);
-
-	freeThreeDimArray(&innerBracketsArgv, innerArgs);
+	freeAstNode(node);
+	return 1;
 }
 
-void createTableCommand(AppContext* app, const char* name, char*** innerArgs, int innerSize, int ifNotExists) {
+int createTableCommand(AppContext* app, astNode * node) {
 	if (!checkDatabaseConnection(app)) return;
 
-	int check = checkTableExists(app, name, ifNotExists);
-	if (check <= 0) return;
+	int check = checkTableExists(app, node->table, node->op);
+	if (check <= 0) return 0;
 
-	Table* table = initNewTable(name);
-	if (!table) return;
+	Table* table = initNewTable(node->table);
+	if (!table) return 0;
 
-	if (!fillTableColumns(table, innerArgs, innerSize)) {
+	if (!fillTableColumns(table, node->left)) {
 		free(table);
-		return;
+		return 0;
 	}
 
-	saveTableToFile(table, app ,name, innerArgs, innerSize);
+	saveTableToFile(table, app ,node->table);
 
-	if (!registerTableInDatabase(app, table)) return;
+	if (!registerTableInDatabase(app, table)) return 0;
 
 	printf("Table '%s' created successfully.\n", table->name);
-
+	return 1;
 }

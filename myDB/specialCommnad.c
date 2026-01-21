@@ -52,7 +52,7 @@ void dutCommand(AppContext* app, const char** argv, int argc)
 
     const char** table[] = { col1, col2 };
 
-    saveTableToFile(tb,app,tb->name, (const char***)table, 2);
+    saveTableToFile(tb,app,tb->name);
 
     addTable(db, tb);
 

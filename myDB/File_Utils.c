@@ -440,7 +440,7 @@ int readRow(FILE* file, Table* table)
 	return 1;
 }
 
-int saveTableToFile(Table* table, AppContext* app, const char* name, const char*** args, int size)
+int saveTableToFile(Table* table, AppContext* app, const char* name)
 {
 	char tablePath[DEFAULT_BUFF_SIZE];
 	snprintf(tablePath, sizeof(tablePath), "%s/%s/%s.tbl", DB_ROOT, app->currentDatabase->name, name);

@@ -2,6 +2,7 @@
 #ifndef _TABLE_H_
 #define _TABLE_H_
 #include "config.h"
+#include "astNode.h"
 
 typedef enum 
 { 
@@ -48,7 +49,7 @@ Table*	createTable(const char* name);
 Table*	initNewTable(const char* name);
 
 void	addColumn(Table* table, const char* name, FieldType type, int size);
-int		fillTableColumns(Table* table, char*** innerArgs, int innerSize);
+int		fillTableColumns(Table* table, astNode* node);
 
 void	insertRow(Table* table, Field* fields);
 void	deleteRow(Table* table, int rowIndex);
