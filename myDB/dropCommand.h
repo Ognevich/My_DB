@@ -3,7 +3,7 @@
 #include "programState.h"
 
 void	dropCommand(AppContext* app, char** argv, int argc);
-int		dropDatabaseCommand(AppContext* app, char* name, int ifExists);
-int		dropTableCommand(AppContext* app, const char** argv, int argc, int isExists);
+int		dropDatabaseCommand(AppContext* app, const char** argv, int argc);
+int		dropTableCommand(AppContext* app, const char** argv, int argc);
 
 #endif

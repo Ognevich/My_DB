@@ -6,6 +6,7 @@
 #include <string.h>
 #include "util.h"
 
+
 void dropCommand(AppContext* app, char** argv, int argc)
 {
 	if (argc < 3) {
@@ -13,39 +14,34 @@ void dropCommand(AppContext* app, char** argv, int argc)
 		return;
 	}
 
-	int ifExists = ifExistsUsed(argv, argc);
-	char* objectType = argv[2];
-	char* name = NULL;
-
-
-
-	extractObjName(argv, argc, &name, ifExists);
-
-	if (!name)
-	{
-		printf("Error: Invalid DROP syntax\n");
-		return;
-	}
-
 	if (strcasecmp(argv[1], "DATABASE") == 0)
 	{
-		if (!dropDatabaseCommand(app, name, ifExists))
+		if (!dropDatabaseCommand(app, argv, argc))
 			return;
 	}
 	else if (strcasecmp(argv[1], "TABLE") == 0)
 	{
-		if (!dropTableCommand(app, argv, argc, ifExists))
+		if (!dropTableCommand(app, argv, argc))
 			return;
 	}
 	else
 	{
-		printf("Unknown object type: %s\n", objectType);
+		printf("Unknown object type: %s\n", argv[2]);
 	}
 
 }
 
-int dropDatabaseCommand(AppContext* app, char* name, int ifExists)
+int dropDatabaseCommand(AppContext* app, const char** argv, int argc)
 {
+	char* name = NULL;
+	int ifExists = ifExistsUsed(argv, argc);
+
+	extractObjName(argv, argc, &name, ifExists);
+	if (!name)
+	{
+		printf("Error: Invalid DROP syntax\n");
+		return 0;
+	}
 
 	if (!checkDatabaseNotExists(app, name, ifExists))
 		return 0;
@@ -69,7 +65,7 @@ int dropDatabaseCommand(AppContext* app, char* name, int ifExists)
 	return 1;
 }
 
-int dropTableCommand(AppContext* app, const char** argv, int argc, int isExists)
+int dropTableCommand(AppContext* app, const char** argv, int argc)
 {
 	
 	if(!checkDatabaseConnection(app))

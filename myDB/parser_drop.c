@@ -28,18 +28,19 @@ int ifExistsUsed(const char** argv, int argc)
 void extractObjName(const char** argv, int argc, const char** name, int isExists)
 {
     *name = NULL;
-    
+    char* temp = NULL;
+
     if (isExists && argc >= 5)
     {
-        *name = argv[4];
+        temp = argv[4];
     }
     else if (!isExists && argc >= 3)
     {
-        *name = argv[2];
+        temp = argv[2];
     }
 
-    if (*name && (isReservedWord(*name) || hasForbiddenSymbol(*name))) {
-        *name = NULL;
+    if (temp && (isReservedWord(temp) || hasForbiddenSymbol(temp))) {
+        *name = _strdup(temp);
     }
 
 }
@@ -114,4 +115,12 @@ SqlError extractDropTableNames(char*** tableNames, int * size ,const char** argv
     *tableNames = extractedTableNames;
     *size = currentSize;
     return SQL_OK;
+}
+
+astNode* parseDropTable(const char** argv, const argc, SqlError* error)
+{
+    astNode* node = createAstNode(AST_DROP);
+
+
+    return node;
 }

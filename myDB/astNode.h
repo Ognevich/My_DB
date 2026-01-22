@@ -7,6 +7,7 @@ typedef enum {
     AST_INSERT,
     AST_CREATE_TABLE,
     AST_CREATE_DATABASE,
+    AST_DROP,
     AST_ROW,
     AST_COLUMN,
     AST_VALUE,
