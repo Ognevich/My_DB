@@ -39,7 +39,7 @@ void extractObjName(const char** argv, int argc, const char** name, int isExists
         temp = argv[2];
     }
 
-    if (temp && (isReservedWord(temp) || hasForbiddenSymbol(temp))) {
+    if (temp && (!isReservedWord(temp) || !hasForbiddenSymbol(temp))) {
         *name = _strdup(temp);
     }
 
@@ -121,6 +121,23 @@ astNode* parseDropTable(const char** argv, const argc, SqlError* error)
 {
     astNode* node = createAstNode(AST_DROP);
 
+    char** tables = NULL;
+    int size = 0;
+
+    node->op = ifExistsUsed(argv, argc);
+
+    *error = extractDropTableNames(&tables, &size, argv, argc, node->op);
+    if (*error != SQL_OK)
+    {
+        freeCharArr(tables, size);
+        return node;
+    }
+
+
+    node->left = buildColumnList(tables, size);
+
+
+    freeCharArr(tables, size);
 
     return node;
 }

@@ -131,8 +131,8 @@ astNode* parseSelect(const char** argv, int argc, SqlError* error)
 
     *error = extractSelectList(argv, argc, &selectArray, &selectArraySize);
     if (*error != SQL_OK) {
-        freeAstNode(select);
-        return NULL;
+        freeTwoDimArray(&selectArray, selectArraySize);
+        return select;
     }
 
     select->left = buildColumnList(selectArray, selectArraySize);
@@ -141,8 +141,7 @@ astNode* parseSelect(const char** argv, int argc, SqlError* error)
     if (!extractTableName(argv, argc, tableName, TABLE_NAME_SIZE)) {
         *error = SQL_ERR_TABLE_NOT_FOUND;
         freeTwoDimArray(&selectArray, selectArraySize);
-        freeAstNode(select);
-        return NULL;
+        return select;
     }
 
     select->table = _strdup(tableName);

@@ -71,38 +71,63 @@ int dropTableCommand(AppContext* app, const char** argv, int argc)
 	if(!checkDatabaseConnection(app))
 		return 0;
 
-	char** tableNames = NULL;
-	int tableSize = 0;
 
-	SqlError err = extractDropTableNames(&tableNames, &tableSize ,argv, argc, isExists);
+	SqlError error = SQL_OK;
+	astNode* node = parseDropTable(argv, argc, &error);
 
-	printError(err);
-
-	for (int i = 0; i < tableSize; i++)
+	if (error != SQL_OK)
 	{
-		const char* name = tableNames[i];
+		freeAstNode(node);
+		printError(error);
+		return 0;
+	}
+
+	if (!executeDropTable(app, node))
+	{
+		freeAstNode(node);
+		return 0;
+	}
+		
+	return 1;
+}
+
+int executeDropTable(AppContext* app, astNode* node)
+{
+	if (!node || !node->left)
+		return 0; 
+
+	int len = astListLenght(node->left);
+	for (int i = 0; i < len; i++)
+	{
+		astNode* tableNode = astListAt(node->left, i);
+		if (!tableNode)
+			continue; 
+
+		const char* name = tableNode->column;
+		if (!name)
+			continue;
 
 		if (isTableExists(app->currentDatabase, name))
 		{
 			char path[DEFAULT_BUFF_SIZE * 2];
-			snprintf(path, sizeof(path), "%s/%s/%s.tbl", DB_ROOT, app->currentDatabase->name, name);
+			snprintf(path, sizeof(path), "%s/%s/%s.tbl",
+				DB_ROOT, app->currentDatabase->name, name);
 
 			if (!removeFile(path))
+			{
+				printf("Error: failed to remove file for table %s\n", name);
 				return 0;
+			}
 
 			if (!deleteTable(app->currentDatabase, name))
 				return 0;
-
 		}
 		else
 		{
-			printf("Error: table %s does not exists\n", tableNames[i]);
+			printf("Error: table %s does not exist\n", name); 
 			return 0;
 		}
 	}
-		
 
-
-	freeCharArr(tableNames, tableSize);
 	return 1;
 }

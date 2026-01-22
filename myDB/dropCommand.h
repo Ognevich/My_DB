@@ -5,5 +5,7 @@
 void	dropCommand(AppContext* app, char** argv, int argc);
 int		dropDatabaseCommand(AppContext* app, const char** argv, int argc);
 int		dropTableCommand(AppContext* app, const char** argv, int argc);
+int		executeDropTable(AppContext * app, astNode * node);
+
 
 #endif
