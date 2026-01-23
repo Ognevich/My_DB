@@ -26,8 +26,9 @@ typedef struct astNode
     char* table;
     char* column;
     char* value;
+    char op;
     sqlValuesType valueType;
-    int op;
+    int ifexists;
 }astNode;
 
 astNode* createAstNode(astNodeType  type);

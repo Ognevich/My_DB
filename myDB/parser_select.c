@@ -116,6 +116,44 @@ static int extractTableName(const char** argv, int argc, char* outBuffer, size_t
     return 0;
 }
 
+int findFromIndex(const char** argv, int argc)
+{
+    for (int i = 0; i < argc; i++)
+    {
+        if (strcasecmp(argv[i], "from") == 0)
+            return i;
+    }
+    return -1;
+}
+
+int findWhereIndex(const char** argv, int argc)
+{
+    int index = findFromIndex(argv, argc);
+    if (index == -1)
+        return -1;
+
+    for (int i = index + 2; i < argc; i++)
+    {
+        if (strcasecmp(argv[i], "where") == 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+astNode* parseWhere(const char** argv, int argc, int index, SqlError* error)
+{
+    if (index + 3 >= argc) {
+        *error = SQL_ERR_SYNTAX;
+        return NULL;
+    }
+
+    astNode* node = createAstNode(AST_WHERE);
+
+    return node;
+}
+
 astNode* parseSelect(const char** argv, int argc, SqlError* error)
 {
     *error = SQL_OK;
@@ -130,6 +168,7 @@ astNode* parseSelect(const char** argv, int argc, SqlError* error)
     char** selectArray = NULL;
 
     *error = extractSelectList(argv, argc, &selectArray, &selectArraySize);
+
     if (*error != SQL_OK) {
         freeTwoDimArray(&selectArray, selectArraySize);
         return select;
@@ -145,6 +184,18 @@ astNode* parseSelect(const char** argv, int argc, SqlError* error)
     }
 
     select->table = _strdup(tableName);
+
+    int whereIndex = findWhereIndex(argv, argc);
+    if (whereIndex != -1)
+    {
+        select->right = parseWhere(argv, argc, whereIndex, error);
+        if (*error != SQL_OK)
+        {
+            freeTwoDimArray(&selectArray, selectArraySize);
+            return select;
+        }
+
+    }
 
     freeTwoDimArray(&selectArray, selectArraySize);
     return select;

@@ -43,7 +43,7 @@ int createDatabaseCommand(AppContext* app, const char** argv, const int argc)
 		return 0;
 	}
 
-	if (checkDatabaseExists(app, node->value, node->op) <= 0) {
+	if (checkDatabaseExists(app, node->value, node->ifexists) <= 0) {
 		printf("Database %s already exists\n", node->value);
 		freeAstNode(node);
 		return 0;
@@ -90,7 +90,7 @@ int processCreateTableCommand(AppContext* app, char** argv, int argc)
 int createTableCommand(AppContext* app, astNode * node) {
 	if (!checkDatabaseConnection(app)) return 0;
 
-	int check = checkTableExists(app, node->table, node->op);
+	int check = checkTableExists(app, node->table, node->ifexists);
 	if (check <= 0) return 0;
 
 	Table* table = initNewTable(node->table);

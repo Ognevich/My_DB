@@ -2,7 +2,7 @@
 #include "config.h"
 
 const char* reservedWords[] = {
-    "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE", "DROP"
+    "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "WHERE"
 };
 
 const int reservedWordsCount = sizeof(reservedWords) / sizeof(reservedWords[0]);

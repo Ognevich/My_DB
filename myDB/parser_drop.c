@@ -124,9 +124,9 @@ astNode* parseDropTable(const char** argv, const argc, SqlError* error)
     char** tables = NULL;
     int size = 0;
 
-    node->op = ifExistsUsed(argv, argc);
+    node->ifexists = ifExistsUsed(argv, argc);
 
-    *error = extractDropTableNames(&tables, &size, argv, argc, node->op);
+    *error = extractDropTableNames(&tables, &size, argv, argc, node->ifexists);
     if (*error != SQL_OK)
     {
         freeCharArr(tables, size);

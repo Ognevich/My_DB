@@ -177,9 +177,9 @@ astNode* parseCreateDatabase(const char** argv, int argc, SqlError * error)
     astNode* node = createAstNode(AST_CREATE_DATABASE);
     char* name = NULL;
 
-    node->op = isIfNotExistsUsed(argv, argc);
+    node->ifexists = isIfNotExistsUsed(argv, argc);
     
-    extractName(argv, argc, &name, node->op);
+    extractName(argv, argc, &name, node->ifexists);
     if (!name)
     {
         *error = SQL_ERR_INCORRECT_DATABASE_NAME;
@@ -195,15 +195,15 @@ astNode* parseCreateTable(char** argv, int argc, SqlError * error)
 {
     
     astNode* node = createAstNode(AST_CREATE_TABLE);
-    node->op = isIfNotExistsUsed(argv, argc);
-    extractName(argv, argc, &node->table, node->op);
+    node->ifexists = isIfNotExistsUsed(argv, argc);
+    extractName(argv, argc, &node->table, node->ifexists);
     if (!node->table)
     {
         *error = SQL_ERR_INCORRECT_TABLE_NAME;
         return node;
     }
 
-    if (!isBracketsExists(argv, argc, node->op)) {
+    if (!isBracketsExists(argv, argc, node->ifexists)) {
         *error = SQL_ERR_MISSING_PAREN;
         return node;
     }
