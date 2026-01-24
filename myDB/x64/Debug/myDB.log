@@ -3,6 +3,7 @@ D:\my_projects\C\myDB\myDB\app.c(88,27): warning C4013: 'isspace' undefined; ass
 D:\my_projects\C\myDB\myDB\app.c(87,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   astNode.c
 D:\my_projects\C\myDB\myDB\astNode.c(19,33): warning C4028: formal parameter 1 different from declaration
+D:\my_projects\C\myDB\myDB\astNode.c(168,14): warning C4047: '=': 'char' differs in levels of indirection from 'char *'
   commandValidators.c
   createCommand.c
   database.c
@@ -44,8 +45,9 @@ D:\my_projects\C\myDB\myDB\showCommand.c(33,23): warning C4267: 'initializing': 
 D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
 D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
-D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
+D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
+D:\my_projects\C\myDB\myDB\parser_select.c(167,1): warning C4715: 'parseWhere': not all control paths return a value
   Compiling...
   table.c
   tokenizer.c

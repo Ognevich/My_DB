@@ -154,6 +154,24 @@ astNode* astLinkedListAt(astNode* rowsHead, int row, int col)
     return curVal;
 }
 
+astNode* parseCondition(const char** argv, int pos, SqlError* error)
+{
+    if (!argv[pos] || !argv[pos + 1] || !argv[pos + 2])
+    {
+        *error = SQL_ERR_SYNTAX;
+        return NULL;
+    }
+
+    astNode* node = createAstNode(AST_CONDITION);
+
+    node->column =  _strdup(argv[pos]);
+    node->op =      _strdup(argv[pos+1]);
+    node->value =   _strdup(argv[pos+2]);
+
+    return node;
+
+}
+
 
 
 void freeAstNode(astNode* node)

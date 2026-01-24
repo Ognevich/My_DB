@@ -144,14 +144,26 @@ int findWhereIndex(const char** argv, int argc)
 
 astNode* parseWhere(const char** argv, int argc, int index, SqlError* error)
 {
-    if (index + 3 >= argc) {
-        *error = SQL_ERR_SYNTAX;
+    *error = SQL_OK;
+    
+    int pos = index + 1;
+
+    astNode* left = parseCondition(argv, pos, error);
+    if (*error != SQL_OK)
         return NULL;
+
+    pos += 3;
+
+    if (pos >= argc)
+        return left;
+
+    if (strcasecmp(argv[pos], "and") == 0 ||
+        strcasecmp(argv[pos], "or") == 0)
+    {
+        astNodeType type = strcasecmp(argv[pos], "and") == 0 ? AST_AND : AST_OR;
+
     }
 
-    astNode* node = createAstNode(AST_WHERE);
-
-    return node;
 }
 
 astNode* parseSelect(const char** argv, int argc, SqlError* error)

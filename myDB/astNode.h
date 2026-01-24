@@ -37,11 +37,13 @@ astNode* buildColumnList(const char** columns, int size);
 astNode* buildValuesList(const parsedValue*** values, int rows, int cols);
 astNode* buildCreateTableColumnsList(const char*** columns, int size);
 
-int astListLenght(astNode * node);
+int      astListLenght(astNode * node);
 astNode* astListAt(astNode* node, int index);
 astNode* astLinkedListAt(astNode* node, int row, int col);
 
-void freeAstNode(astNode* node);
+astNode* parseCondition(const char ** argv, int pos, SqlError * error);
+
+void     freeAstNode(astNode* node);
 
 
 #endif;
