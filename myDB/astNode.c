@@ -165,13 +165,16 @@ astNode* parseCondition(const char** argv, int pos, SqlError* error)
     astNode* node = createAstNode(AST_CONDITION);
 
     node->column =  _strdup(argv[pos]);
-    node->op =      _strdup(argv[pos+1]);
+
+    node->opType = parseOperator(argv[pos + 1], error);
+    if (*error != SQL_OK)
+        return NULL;
+
     node->value =   _strdup(argv[pos+2]);
 
     return node;
 
 }
-
 
 
 void freeAstNode(astNode* node)

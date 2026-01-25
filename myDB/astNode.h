@@ -27,6 +27,7 @@ typedef struct astNode
     char* column;
     char* value;
     char op;
+    OP_TYPE opType;
     sqlValuesType valueType;
     int ifexists;
 }astNode;

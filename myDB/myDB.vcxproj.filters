@@ -158,9 +158,6 @@
     <ClInclude Include="createCommand.h">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="commandValidators.h">
-      <Filter>Source Files\Engine\CommandHandler</Filter>
-    </ClInclude>
     <ClInclude Include="selectCommand.h">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClInclude>
@@ -195,6 +192,9 @@
       <Filter>Source Files\Parser</Filter>
     </ClInclude>
     <ClInclude Include="astNode.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="commandValidators.h">
       <Filter>Source Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>

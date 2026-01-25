@@ -1,9 +1,8 @@
 ﻿  app.c
+  astNode.c
 D:\my_projects\C\myDB\myDB\app.c(88,27): warning C4013: 'isspace' undefined; assuming extern returning int
 D:\my_projects\C\myDB\myDB\app.c(87,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  astNode.c
 D:\my_projects\C\myDB\myDB\astNode.c(19,33): warning C4028: formal parameter 1 different from declaration
-D:\my_projects\C\myDB\myDB\astNode.c(168,14): warning C4047: '=': 'char' differs in levels of indirection from 'char *'
   commandValidators.c
   createCommand.c
   database.c
@@ -19,7 +18,6 @@ D:\my_projects\C\myDB\myDB\parser_insert.c(122,22): warning C4133: 'function': i
 D:\my_projects\C\myDB\myDB\parser_insert.c(192,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\parser_insert.c(343,36): warning C4090: 'function': different 'const' qualifiers
   parser_keywords.c
-D:\my_projects\C\myDB\myDB\parser_keywords.c(13,13): warning C4013: '_stricmp' undefined; assuming extern returning int
   parser_select.c
   parse_util.c
 D:\my_projects\C\myDB\myDB\parse_util.c(17,14): warning C4090: 'function': different 'const' qualifiers
@@ -47,7 +45,6 @@ D:\my_projects\C\myDB\myDB\showCommand.c(59,23): warning C4267: 'initializing': 
 D:\my_projects\C\myDB\myDB\File_Utils.c(162,1): warning C4716: 'readDataFromFile': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(222,1): warning C4716: 'scanDatabase': must return a value
 D:\my_projects\C\myDB\myDB\File_Utils.c(464,1): warning C4715: 'saveTableToFile': not all control paths return a value
-D:\my_projects\C\myDB\myDB\parser_select.c(167,1): warning C4715: 'parseWhere': not all control paths return a value
   Compiling...
   table.c
   tokenizer.c
@@ -61,6 +58,6 @@ D:\my_projects\C\myDB\myDB\util.c(68,22): warning C4267: 'initializing': convers
 D:\my_projects\C\myDB\myDB\util.c(270,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\my_projects\C\myDB\myDB\util.c(311,19): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
-  myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
+parser_keywords.obj : error LNK2001: unresolved external symbol reservedWordsCount
+parse_util.obj : error LNK2001: unresolved external symbol reservedWordsCount
+D:\my_projects\C\myDB\x64\Debug\myDB.exe : fatal error LNK1120: 1 unresolved externals

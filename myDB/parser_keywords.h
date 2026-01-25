@@ -24,6 +24,21 @@ typedef enum {
     SQL_TYPE_NULL
 } sqlValuesType;
 
+typedef enum {
+    OP_LT,
+    OP_GT,
+    OP_LE,
+    OP_GE,
+    OP_EQ,
+    OP_NE,
+    OP_INVALID
+}OP_TYPE;
+
+typedef struct {
+    const char* text;
+    OP_TYPE type;
+} OperatorMap;
+
 typedef struct {
     const char* raw;
     sqlValuesType type;
@@ -33,7 +48,10 @@ typedef struct {
 extern const char* reservedWords[];
 extern const int reservedWordsCount;
 
-int isReservedWord(const char* word);
+extern OperatorMap operators[];
+extern const int operatorsSize;
 
+int isReservedWord(const char* word);
+OP_TYPE parseOperator(const char* op, SqlError* error);
 #endif
 
