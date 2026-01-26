@@ -150,6 +150,7 @@
     <ClCompile Include="unuseCommand.c" />
     <ClCompile Include="useCommand.c" />
     <ClCompile Include="util.c" />
+    <ClCompile Include="whereCommand.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="unuseCommand.h" />
     <ClInclude Include="useCommand.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="whereCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

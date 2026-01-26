@@ -112,7 +112,10 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="parse_util.c">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="whereCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +198,10 @@
       <Filter>Source Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="commandValidators.h">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\CommandHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="whereCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

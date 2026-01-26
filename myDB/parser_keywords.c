@@ -17,6 +17,7 @@ OperatorMap operators[] = {
 };
 
 const int operatorsSize = sizeof(operators) / sizeof(operators[0]);
+const int reservedWordsCount = sizeof(reservedWords) / sizeof(reservedWords[0]);
 
 int isReservedWord(const char* word)
 {
