@@ -86,6 +86,38 @@ void addColumn(Table* table, const char* name, FieldType type, int size) {
     table->columnCount++;
 }
 
+void printRow(Table* table, int row)
+{
+    for (int i = 0; i < table->columnCount; i++)
+    {
+
+        int colIndex = findTableColumnIndex(table, table->columns[i].name);
+        if (colIndex == -1)
+            continue;
+
+        Field* field = &table->rows[row].fields[colIndex];
+        switch (field->type)
+        {
+        case FIELD_INT:
+            printf("%d", field->iVal);
+            break;
+        case FIELD_FLOAT:
+            printf("%.2f", field->iVal);
+            break;
+        case FIELD_CHAR:
+            printf("%s", field->sVal);
+            break;
+        default:
+            printf("%s", "NULL");
+            break;
+        }
+
+        if (i != table->columnCount - 1)
+            printf("\t");
+    }
+    printf("\n");
+}
+
 void insertRow(Table* table, Field* fields) {
     if (!table) {
         fprintf(stderr, "Table pointer is NULL\n");

@@ -51,6 +51,7 @@ Table*	initNewTable(const char* name);
 void	addColumn(Table* table, const char* name, FieldType type, int size);
 int		fillTableColumns(Table* table, astNode* node);
 
+void	printRow(Table* table, int row);
 void	insertRow(Table* table, Field* fields);
 void	deleteRow(Table* table, int rowIndex);
 void	updateRow(Table* table, int rowIndex, Field* newValues);

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "whereCommand.h"
 
 void selectCommand(AppContext* app, const char** argv, int argc)
 {
@@ -39,17 +40,25 @@ void executeSelect(AppContext* app, astNode* node)
     if (!table)
         return;
 
-    if (node->right && node->right->type == AST_CONDITION)
-    {
-
-    }
-
     if (node->left &&
         node->left->type == AST_COLUMN &&
         strcmp(node->left->column, "*") == 0)
     {
-        printTable(table);
-        return;
+        if (node->right)
+        {
+            for (int i = 0; i < table->rowCount; i++)
+            {
+                    if (!evalWhere(node->right, table, i))
+                        continue;
+                printRow(table, i);
+            }
+            return;
+        }
+        else
+        {
+            printTable(table);
+            return;
+        }
     }
 
     int count = 0;

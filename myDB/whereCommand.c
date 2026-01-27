@@ -8,6 +8,19 @@
 
 int evalWhere(astNode* node, Table* table, int row)
 {
+    if (!node)
+        return 1;
+
+    switch (node->type)
+    {
+    case AST_CONDITION:
+        return evalCondition(node, table, row);
+    case AST_AND:
+        return evalWhere(node->left, table, row) && evalWhere(node->right, table, row);
+    case AST_OR:
+        return evalWhere(node->left, table, row) || evalWhere(node->right, table, row);
+    default: return 1;
+    }
 
 }
 
@@ -24,7 +37,7 @@ int evalCondition(astNode* node, Table* table, int row)
     case FIELD_INT:
     {
         int val = atoi(node->value);
-        switch (node->op)
+        switch (node->opType)
         {
         case OP_EQ: return f->iVal == val;
         case OP_GT: return f->iVal > val;
@@ -39,7 +52,7 @@ int evalCondition(astNode* node, Table* table, int row)
     case FIELD_FLOAT:
     {
         float val = atof(node->value);
-        switch (node->op)
+        switch (node->opType)
         {
         case OP_EQ: return fabs(f->fVal - val) < 1e-6;
         case OP_GT: return f->fVal > val;
@@ -53,7 +66,7 @@ int evalCondition(astNode* node, Table* table, int row)
 
     case FIELD_CHAR:
     {
-        switch (node->op)
+        switch (node->opType)
         {
         case OP_EQ: return strcmp(node->value, f->sVal) == 0;
         case OP_NE: return strcmp(node->value, f->sVal) != 0;
