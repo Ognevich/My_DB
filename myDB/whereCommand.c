@@ -1,4 +1,10 @@
+#include "astNode.h"
+#include "table.h"
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
 #include "whereCommand.h"
+
 
 int evalWhere(astNode* node, Table* table, int row)
 {
@@ -7,5 +13,56 @@ int evalWhere(astNode* node, Table* table, int row)
 
 int evalCondition(astNode* node, Table* table, int row)
 {
+    int col = findTableColumnIndex(table, node->column);
+    if (col == -1)
+        return 0;
 
+    Field* f = &table->rows[row].fields[col];
+
+    switch (f->type)
+    {
+    case FIELD_INT:
+    {
+        int val = atoi(node->value);
+        switch (node->op)
+        {
+        case OP_EQ: return f->iVal == val;
+        case OP_GT: return f->iVal > val;
+        case OP_LT: return f->iVal < val;
+        case OP_GE: return f->iVal >= val;
+        case OP_LE: return f->iVal <= val;
+        case OP_NE: return f->iVal != val;
+        default: return 0;
+        }
+    }
+
+    case FIELD_FLOAT:
+    {
+        float val = atof(node->value);
+        switch (node->op)
+        {
+        case OP_EQ: return fabs(f->fVal - val) < 1e-6;
+        case OP_GT: return f->fVal > val;
+        case OP_LT: return f->fVal < val;
+        case OP_GE: return f->fVal >= val;
+        case OP_LE: return f->fVal <= val;
+        case OP_NE: return fabs(f->fVal - val) >= 1e-6;
+        default: return 0;
+        }
+    }
+
+    case FIELD_CHAR:
+    {
+        switch (node->op)
+        {
+        case OP_EQ: return strcmp(node->value, f->sVal) == 0;
+        case OP_NE: return strcmp(node->value, f->sVal) != 0;
+        default: return 0;
+        }
+    }
+
+    case FIELD_NONE:
+    default:
+        return 0;
+    }
 }
