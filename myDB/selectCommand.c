@@ -46,12 +46,7 @@ void executeSelect(AppContext* app, astNode* node)
     {
         if (node->right)
         {
-            for (int i = 0; i < table->rowCount; i++)
-            {
-                    if (!evalWhere(node->right, table, i))
-                        continue;
-                printRow(table, i);
-            }
+            executeSelectWhere(node, table, NULL, 0);
             return;
         }
         else
@@ -73,6 +68,12 @@ void executeSelect(AppContext* app, astNode* node)
     for (astNode* c = node->left; c; c = c->right)
         columns[i++] = c->column;
 
-    printSelectedColumns(table, columns, count);
+    if (node->right)
+    {
+        executeSelectWhere(node, table, columns, count);
+    }
+    else
+        printSelectedColumns(table, columns, count);
+
     free(columns);
 }

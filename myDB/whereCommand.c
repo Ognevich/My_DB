@@ -79,3 +79,16 @@ int evalCondition(astNode* node, Table* table, int row)
         return 0;
     }
 }
+
+void executeSelectWhere(astNode* node, Table* table, const char** columns, const int count)
+{
+    for (int i = 0; i < table->rowCount; i++)
+    {
+        if (!evalWhere(node->right, table, i))
+            continue;
+        if (!columns)
+            printRows(table, i, NULL, 0);
+        else
+            printRows(table, i, columns, count);
+    }
+}

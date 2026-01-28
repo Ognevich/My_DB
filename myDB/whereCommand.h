@@ -6,4 +6,5 @@
 int evalWhere(astNode * node, Table * table, int row);
 int evalCondition(astNode * node, Table * table, int row);
 
+void executeSelectWhere(astNode* node, Table* table, const char** columns, const int count);
 #endif

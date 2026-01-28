@@ -86,9 +86,16 @@ void addColumn(Table* table, const char* name, FieldType type, int size) {
     table->columnCount++;
 }
 
-void printRow(Table* table, int row)
+void printRows(Table* table, int row, const char** columns, int colSize)
 {
-    for (int i = 0; i < table->columnCount; i++)
+    int size = 0;
+    
+    if (!columns)
+        size = table->columnCount;
+    else
+        size = colSize;
+
+    for (int i = 0; i < size; i++)
     {
 
         int colIndex = findTableColumnIndex(table, table->columns[i].name);
@@ -112,7 +119,7 @@ void printRow(Table* table, int row)
             break;
         }
 
-        if (i != table->columnCount - 1)
+        if (i != size - 1)
             printf("\t");
     }
     printf("\n");
