@@ -148,6 +148,7 @@
     <ClCompile Include="table.c" />
     <ClCompile Include="tokenizer.c" />
     <ClCompile Include="unuseCommand.c" />
+    <ClCompile Include="updateCommand.c" />
     <ClCompile Include="useCommand.c" />
     <ClCompile Include="util.c" />
     <ClCompile Include="whereCommand.c" />
@@ -178,6 +179,7 @@
     <ClInclude Include="table.h" />
     <ClInclude Include="tokenizer.h" />
     <ClInclude Include="unuseCommand.h" />
+    <ClInclude Include="updateCommand.h" />
     <ClInclude Include="useCommand.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="whereCommand.h" />

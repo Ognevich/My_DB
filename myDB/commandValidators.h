@@ -20,6 +20,7 @@ int validateSelectAst(AppContext* app, astNode* ast);
 int checkInsertCommandValidation(AppContext* app, const char ** argv,int argc);
 int checkInsertColumnValidation(char ** extractedColumns, int ColumnsSize, Table * table );
 
+int checkUpdateCommandValidation(AppContext* app, const char** argv, const int argc);
 
 int isValidArgs(const char ** args, int argc);
 int hasForbiddenSymbol(const char* word);

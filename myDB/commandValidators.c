@@ -207,6 +207,24 @@ int checkInsertColumnValidation(char** extractedColumns, int ColumnsSize, Table*
     return 1;
 }
 
+int checkUpdateCommandValidation(AppContext* app, const char** argv, const int argc)
+{
+    if (argc < 2)
+    {
+        printf("Error: insufficient number of parameters\n");
+        return 0;
+    }
+
+    if (!checkDatabaseConnection(app))
+        return 0;
+
+    if (checkTableExists(app, argv[2], 1) == 1) {
+        printf("Table %s don't exists\n", argv[2]);
+        return 0;
+    }
+    return 1;
+}
+
 int isValidArgs(const char** args, int argc)
 {
     for (int i = 0; i < argc; i++) {

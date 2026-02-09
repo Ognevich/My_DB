@@ -117,6 +117,9 @@
     <ClCompile Include="whereCommand.c">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="updateCommand.c">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -201,6 +204,9 @@
       <Filter>Source Files\Engine\CommandHandler</Filter>
     </ClInclude>
     <ClInclude Include="whereCommand.h">
+      <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="updateCommand.h">
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClInclude>
   </ItemGroup>

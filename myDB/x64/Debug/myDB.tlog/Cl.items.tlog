@@ -21,6 +21,7 @@ D:\my_projects\C\myDB\myDB\showCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\sh
 D:\my_projects\C\myDB\myDB\table.c;D:\my_projects\C\myDB\myDB\x64\Debug\table.obj
 D:\my_projects\C\myDB\myDB\tokenizer.c;D:\my_projects\C\myDB\myDB\x64\Debug\tokenizer.obj
 D:\my_projects\C\myDB\myDB\unuseCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\unuseCommand.obj
+D:\my_projects\C\myDB\myDB\updateCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\updateCommand.obj
 D:\my_projects\C\myDB\myDB\useCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\useCommand.obj
 D:\my_projects\C\myDB\myDB\util.c;D:\my_projects\C\myDB\myDB\x64\Debug\util.obj
 D:\my_projects\C\myDB\myDB\whereCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\whereCommand.obj
