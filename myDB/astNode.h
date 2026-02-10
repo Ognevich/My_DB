@@ -5,6 +5,8 @@
 typedef enum {
     AST_SELECT = 0,
     AST_INSERT,
+    AST_UPDATE,
+    AST_SET,
     AST_CREATE_TABLE,
     AST_CREATE_DATABASE,
     AST_DROP,

@@ -4,7 +4,7 @@
 #include "config.h"
 
 const char* reservedWords[] = {
-    "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "WHERE"
+    "CREATE", "DATABASE", "TABLE", "IF", "NOT", "EXISTS", "SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "WHERE", "SET"
 };
 
 OperatorMap operators[] = {

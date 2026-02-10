@@ -6,6 +6,7 @@
 #include "parse_util.h"
 #include "parser_keywords.h"
 #include "parser_drop.h"
+#include "parser_set.h"
 #include "tokenizer.h"
 
 #endif
