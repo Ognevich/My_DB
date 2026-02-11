@@ -9,7 +9,10 @@ D:\my_projects\C\myDB\myDB\parser_drop.c;D:\my_projects\C\myDB\myDB\x64\Debug\pa
 D:\my_projects\C\myDB\myDB\parser_insert.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser_insert.obj
 D:\my_projects\C\myDB\myDB\parser_keywords.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser_keywords.obj
 D:\my_projects\C\myDB\myDB\parser_select.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser_select.obj
+D:\my_projects\C\myDB\myDB\parser_set.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser_set.obj
+D:\my_projects\C\myDB\myDB\parser_where.c;D:\my_projects\C\myDB\myDB\x64\Debug\parser_where.obj
 D:\my_projects\C\myDB\myDB\parse_util.c;D:\my_projects\C\myDB\myDB\x64\Debug\parse_util.obj
+D:\my_projects\C\myDB\myDB\setCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\setCommand.obj
 D:\my_projects\C\myDB\myDB\specialCommnad.c;D:\my_projects\C\myDB\myDB\x64\Debug\specialCommnad.obj
 D:\my_projects\C\myDB\myDB\File_Utils.c;D:\my_projects\C\myDB\myDB\x64\Debug\File_Utils.obj
 D:\my_projects\C\myDB\myDB\insertCommand.c;D:\my_projects\C\myDB\myDB\x64\Debug\insertCommand.obj

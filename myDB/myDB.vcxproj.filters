@@ -126,6 +126,9 @@
     <ClCompile Include="parser_set.c">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="parser_where.c">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="table.h">
@@ -219,6 +222,9 @@
       <Filter>Source Files\Engine\CommandHandler\Commands</Filter>
     </ClInclude>
     <ClInclude Include="parser_set.h">
+      <Filter>Source Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser_where.h">
       <Filter>Source Files\Parser</Filter>
     </ClInclude>
   </ItemGroup>

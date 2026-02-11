@@ -137,6 +137,7 @@
     <ClCompile Include="parser_keywords.c" />
     <ClCompile Include="parser_select.c" />
     <ClCompile Include="parser_set.c" />
+    <ClCompile Include="parser_where.c" />
     <ClCompile Include="parse_util.c" />
     <ClCompile Include="setCommand.c" />
     <ClCompile Include="specialCommnad.c" />
@@ -170,6 +171,7 @@
     <ClInclude Include="parser_keywords.h" />
     <ClInclude Include="parser_select.h" />
     <ClInclude Include="parser_set.h" />
+    <ClInclude Include="parser_where.h" />
     <ClInclude Include="parse_util.h" />
     <ClInclude Include="setCommand.h" />
     <ClInclude Include="specialCommnad.h" />

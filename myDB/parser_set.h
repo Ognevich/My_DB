@@ -3,6 +3,6 @@
 #include "parser_keywords.h"
 #include "astNode.h"
 
-astNode* parse_set_command(const char ** argv, const int argc,int start_pos, SqlError * error);
+astNode* parse_set_command(const char ** argv, const int argc,int * start_pos, SqlError * error);
 
 #endif

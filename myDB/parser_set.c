@@ -56,12 +56,11 @@ static astNode* parseCondition(const char** argv,
     return node;
 }
 
-astNode* parse_set_command(const char** argv, const int argc, int start_pos, SqlError* error)
+astNode* parse_set_command(const char** argv, const int argc, int * start_pos, SqlError* error)
 {
-    SqlError error = SQL_OK;
     setExtractState state = SET_EXPECT_VALUE;
 
-    int pos = start_pos;
+    int pos = *start_pos;
 
     astNode* node = createAstNode(AST_SET);
     astNode* current = NULL;
@@ -96,6 +95,7 @@ astNode* parse_set_command(const char** argv, const int argc, int start_pos, Sql
             }
             else if (strcasecmp(argv[pos], "where") == 0)
             {
+                *start_pos = pos;
                 return node;
             }
             else

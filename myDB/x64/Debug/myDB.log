@@ -1,26 +1,6 @@
-﻿  app.c
-D:\my_projects\C\myDB\myDB\app.c(88,27): warning C4013: 'isspace' undefined; assuming extern returning int
-D:\my_projects\C\myDB\myDB\app.c(87,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  commandValidators.c
-  createCommand.c
-  dropCommand.c
-  parser_set.c
-D:\my_projects\C\myDB\myDB\parser_set.c(17,10): warning C4028: formal parameter 3 different from declaration
-D:\my_projects\C\myDB\myDB\parser_set.c(15,17): warning C4029: declared formal parameter list different from definition
-D:\my_projects\C\myDB\myDB\parser_set.c(42,18): warning C4090: '=': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\parser_set.c(52,17): warning C4090: '=': different 'const' qualifiers
-D:\my_projects\C\myDB\myDB\parser_set.c(61,14): error C2082: redefinition of formal parameter 'error'
-  setCommand.c
-D:\my_projects\C\myDB\myDB\setCommand.c(11,28): warning C4047: 'function': 'const char **' differs in levels of indirection from 'astNode *'
-D:\my_projects\C\myDB\myDB\setCommand.c(11,28): warning C4024: 'parse_set_command': different types for formal and actual parameter 1
-D:\my_projects\C\myDB\myDB\setCommand.c(11,34): warning C4047: 'function': 'const int' differs in levels of indirection from 'const char **'
-D:\my_projects\C\myDB\myDB\setCommand.c(11,34): warning C4024: 'parse_set_command': different types for formal and actual parameter 2
-D:\my_projects\C\myDB\myDB\setCommand.c(11,10): error C2198: 'astNode *parse_set_command(const char **,const int,int,SqlError *)': too few arguments for call
-D:\my_projects\C\myDB\myDB\setCommand.c(11,8): error C2440: '=': cannot convert from 'astNode *' to 'SqlError'
-  specialCommnad.c
-  insertCommand.c
-D:\my_projects\C\myDB\myDB\insertCommand.c(27,17): warning C4090: '=': different 'const' qualifiers
-  selectCommand.c
-  whereCommand.c
-D:\my_projects\C\myDB\myDB\whereCommand.c(54,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+﻿  updateCommand.c
+D:\my_projects\C\myDB\myDB\updateCommand.c(16,14): warning C4090: '=': different 'const' qualifiers
+D:\my_projects\C\myDB\myDB\updateCommand.c(21,7): warning C4013: 'execute_set' undefined; assuming extern returning int
+  myDB.vcxproj -> D:\my_projects\C\myDB\x64\Debug\myDB.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
