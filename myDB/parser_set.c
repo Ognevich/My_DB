@@ -73,7 +73,10 @@ astNode* parse_set_command(const char** argv, const int argc, int * start_pos, S
         {
             astNode* left = parseCondition(argv, argc, &pos, error);
             if (*error != SQL_OK)
-                return node;
+            {
+                freeAstNode(node);
+                return NULL;
+            }
 
             if (node->left == NULL)
                 node->left = left;

@@ -209,7 +209,7 @@ int checkInsertColumnValidation(char** extractedColumns, int ColumnsSize, Table*
 
 int checkUpdateCommandValidation(AppContext* app, const char** argv, const int argc)
 {
-    if (argc < 10)
+    if (argc < 6)
     {
         printf("Error: insufficient number of parameters\n");
         return 0;
@@ -225,7 +225,7 @@ int checkUpdateCommandValidation(AppContext* app, const char** argv, const int a
 
     if (strcasecmp(argv[2], "set") != 0)
     {
-        printf("Error: Missing set argumentn\n");
+        printf("Error: Missing SET argument\n");
         return 0;
     }
 
